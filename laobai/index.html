@@ -168,6 +168,14 @@
     .rp-channel-row .rp-btn { min-height:36px; padding:0 14px; }
     .rp-date-range { display:flex; align-items:center; gap:8px; }
     .rp-date-range .rp-input { width:196px; min-width:0; }
+    .rp-route-table { min-width:2200px; }
+    .rp-route-table th, .rp-route-table td { min-width:120px; }
+    .rp-route-table th:first-child, .rp-route-table td:first-child { min-width:100px; }
+    .rp-route-table th:last-child, .rp-route-table td:last-child { min-width:88px; position:sticky; right:0; background:#fff; }
+    .rp-route-table .rp-input { width:100%; min-width:92px; }
+    .rp-route-table .rp-select { width:100%; min-width:110px; }
+    .rp-route-summary { display:flex; gap:18px; align-items:end; flex-wrap:wrap; background:#fff7e8; border:1px solid #f2dfb5; padding:16px 20px; margin-top:16px; }
+    .rp-route-summary .rp-field { min-width:180px; }
     @media (max-width: 800px) { .rp-side { width:190px; flex-basis:190px; } .rp-content { padding:20px; } }
     @media (max-width: 700px) { .rp-routing-fields { grid-template-columns:1fr; } .rp-routing-fields .rp-field.full { grid-column:auto; } .rp-channel-head, .rp-channel-row { grid-template-columns:1fr 1fr; } .rp-channel-head span:nth-child(3), .rp-channel-head span:nth-child(4) { display:none; } .rp-date-range { flex-wrap:wrap; } .rp-date-range .rp-input { width:100%; } }
   </style>
@@ -177,22 +185,19 @@
       <div class="rp-brand">支付后台管理系统</div>
       <nav class="rp-nav">
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>权限配置</span><span>⌄</span></div></div>
-        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section"><div class="rp-nav-title active"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌃</span></div><div class="rp-subnav"><button type="button" data-page="logs">▤　操作日志</button></div></div>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>订单管理</span><span>⌄</span></div></div>
         <div class="rp-nav-section">
           <div class="rp-nav-title active"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>业务管理</span><span>⌃</span></div>
           <div class="rp-subnav">
             <button type="button" data-page="collection">▤　支付成功率</button>
-            <button type="button" data-page="collection">▤　代收路由</button>
-            <button type="button" data-page="collection">▤　代付路由</button>
             <button type="button" class="active" data-page="collection">▤　代收分流</button>
             <button type="button" data-page="payout">▤　代付分流</button>
             <button type="button" data-page="collection">▤　虚拟币代收路由</button>
             <button type="button" data-page="payout">▤　虚拟币代付路由</button>
-            <button type="button" data-page="logs">▤　分流日志</button>
           </div>
         </div>
-        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section"><div class="rp-nav-title active"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌃</span></div><div class="rp-subnav"><button type="button" data-page="merchantCollection">▤　商户代收路由</button><button type="button" data-page="merchantPayout">▤　商户代付路由</button></div></div>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>报表</span><span>⌄</span></div></div>
       </nav>
     </aside>
@@ -200,6 +205,8 @@
       <div class="rp-tabs">
         <button type="button" class="rp-tab active" data-tab="collection">代收分流　×</button>
         <button type="button" class="rp-tab" data-tab="payout">代付分流　×</button>
+        <button type="button" class="rp-tab" data-tab="merchantCollection">商户代收路由　×</button>
+        <button type="button" class="rp-tab" data-tab="merchantPayout">商户代付路由　×</button>
       </div>
       <section class="rp-content" id="rp-page-content"></section>
     </main>
@@ -216,7 +223,8 @@
       let current = 'collection';
       let seq = 3;
       let logFilters = {start:'', end:'', business:'', type:''};
-      let ruleFilters = {collection:{merchant:'', enabled:''}, payout:{merchant:'', enabled:''}};
+      let ruleFilters = {collection:{merchant:'', enabled:''}, payout:{merchant:'', enabled:''}, merchantCollection:{merchant:'', enabled:''}, merchantPayout:{merchant:'', enabled:''}};
+      const routeSettings = {merchantPayout:{minutes:'30', count:'100'}};
       const data = {
         collection: [
           {id:1, enabled:true, merchant:'india02', lower:'0', upper:'5000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'UPI-01', weight:'100', upper:'100'}]},
@@ -224,6 +232,13 @@
         ],
         payout: [
           {id:3, enabled:true, merchant:'india02', lower:'0', upper:'3000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'Bank-A', weight:'100', upper:'100'}]}
+        ],
+        merchantCollection: [
+          {id:101, enabled:true, merchant:'RummyX', channelName:'CowPay-代收', sort:'9', own:false, min:'100', middle:'0', max:'50000', fee:'0', quota:'0', minCount:'0', minAmount:'0', amountBase:'0', whiteEnabled:false, antiComplaint:false}
+        ],
+        merchantPayout: [
+          {id:201, enabled:true, merchant:'india02', channelName:'StablePay-代付', sort:'1', own:false, min:'200', max:'50000', fee:'0', fixedFee:'0', bankCheck:'0'},
+          {id:202, enabled:true, merchant:'india02', channelName:'BetixPay-代付', sort:'9', own:false, min:'100', max:'5000000', fee:'0', fixedFee:'0', bankCheck:'0'}
         ]
       };
       const logs = [
@@ -238,11 +253,12 @@
         showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
       }
       function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-      function currentTitle() { return current === 'collection' ? '代收分流' : current === 'payout' ? '代付分流' : '分流日志'; }
+      function currentTitle() { return ({collection:'代收分流', payout:'代付分流', merchantCollection:'商户代收路由', merchantPayout:'商户代付路由', logs:'操作日志'})[current]; }
       function now() { return new Date().toLocaleString('zh-CN', {hour12:false}).replace(/\//g, '-'); }
       function formatChannels(channels) { return channels.map(channel => `${channel.name}:${Number(channel.weight || 0).toFixed(2)}%;`).join(''); }
       function formatChangeValue(value) { return Array.isArray(value) ? formatChannels(value) : String(value); }
       function formatRuleConfig(row) { return `商户：${row.merchant}；金额区间：${row.lower}～${row.upper}；支持通道：${formatChannels(row.channels)}`; }
+      function formatRouteConfig(row) { return `商户：${row.merchant}；渠道名称：${row.channelName}；渠道排序：${row.sort}；金额区间：${row.min}～${row.max}`; }
       function recordApi(type, api, params, merchant, result = '成功', response = '{"code":0,"message":"success"}', detail = '操作完成') {
         if (result !== '成功') return;
         logs.unshift({time:now(), operator:'white', type, business:currentTitle(), merchant:merchant || '-', api, params:JSON.stringify(params), response, detail});
@@ -260,8 +276,23 @@
         });
         if (changes.length) recordApi('编辑规则', `/api/routing/${current}/update`, {id:next.id, changes}, next.merchant, '成功', '{"code":0,"message":"success"}', `配置分流规则：${changes.map(change => `${change.field}：${formatChangeValue(change.before)} → ${formatChangeValue(change.after)}`).join('；')}`);
       }
+      function renderMerchantRoute() {
+        const filters = ruleFilters[current];
+        const rows = data[current].filter(row => (!filters.merchant || row.merchant === filters.merchant) && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
+        const isCollection = current === 'merchantCollection';
+        const columns = isCollection ? ['是否启用','商户','渠道名称','渠道排序','自有','最小（含）','普大（不含）','最大（不含）','费率（%）','限额（w）','最少充值次数','最少充值金额','金额基数','白户开关','是否抗投诉','操作'] : ['是否启用','商户','渠道名称','渠道排序','自有','最小（含）','最大（不含）','费率（%）','固费（卢比）','代付银行卡校验','操作'];
+        const input = (name, value) => `<input class="rp-input" data-route-field="${name}" value="${escapeHtml(value)}">`;
+        const body = rows.length ? rows.map(row => { const cells = isCollection ? [
+          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}">`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('middle',row.middle), input('max',row.max), input('fee',row.fee), input('quota',row.quota), input('minCount',row.minCount), input('minAmount',row.minAmount), input('amountBase',row.amountBase), `<button type="button" class="rp-switch ${row.whiteEnabled ? 'on' : ''}" data-action="route-flag" data-field="whiteEnabled" data-id="${row.id}">`, `<button type="button" class="rp-switch ${row.antiComplaint ? 'on' : ''}" data-action="route-flag" data-field="antiComplaint" data-id="${row.id}">`, `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
+        ] : [
+          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}">`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('max',row.max), input('fee',row.fee), input('fixedFee',row.fixedFee), input('bankCheck',row.bankCheck), `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
+        ]; return `<tr data-route-row="${row.id}">${cells.map(cell => `<td>${cell}</td>`).join('')}</tr>`; }).join('') : `<tr class="rp-empty"><td colspan="${columns.length}">暂无数据</td></tr>`;
+        const setting = isCollection ? '' : `<div class="rp-route-summary"><div class="rp-field"><label>时间（分钟）</label>${input('minutes',routeSettings.merchantPayout.minutes)}</div><div class="rp-field"><label>单数</label>${input('count',routeSettings.merchantPayout.count)}</div><button type="button" class="rp-btn" data-action="route-settings-save">更新配置</button></div>`;
+        page.innerHTML = `<div class="rp-heading"><div><h1>${currentTitle()}</h1><p>按商户和启用状态管理商户路由配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-filter"><option value="">全部商户</option><option value="india02" ${filters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${filters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-status-filter"><option value="">全部状态</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>${setting}<div class="rp-table-wrap"><table class="rp-table rp-route-table"><thead><tr>${columns.map(column => `<th>${column}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
+      }
       function render() {
         if (current === 'logs') return renderLogs();
+        if (current === 'merchantCollection' || current === 'merchantPayout') return renderMerchantRoute();
         const filters = ruleFilters[current];
         const rows = data[current].filter(row => (!filters.merchant || row.merchant === filters.merchant) && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
         const merchant = current === 'collection' ? `<th>商户</th>` : '';
@@ -279,8 +310,8 @@
       }
       function renderLogs() {
         const visibleLogs = logs.filter(log => (!logFilters.start || log.time >= logFilters.start.replace('T', ' ')) && (!logFilters.end || log.time <= logFilters.end.replace('T', ' ')) && (!logFilters.business || log.business === logFilters.business) && (!logFilters.type || log.type === logFilters.type));
-        page.innerHTML = `<div class="rp-heading"><div><h1>分流日志</h1><p>汇总代收分流、代付分流的成功操作，便于运营统一查询</p></div></div>
-          <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="查询规则" ${logFilters.type === '查询规则' ? 'selected' : ''}>查询规则</option><option value="新增规则" ${logFilters.type === '新增规则' ? 'selected' : ''}>新增规则</option><option value="编辑规则" ${logFilters.type === '编辑规则' ? 'selected' : ''}>编辑规则</option><option value="启用规则" ${logFilters.type === '启用规则' ? 'selected' : ''}>启用规则</option><option value="停用规则" ${logFilters.type === '停用规则' ? 'selected' : ''}>停用规则</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
+        page.innerHTML = `<div class="rp-heading"><div><h1>操作日志</h1><p>汇总代收分流、代付分流及商户路由的成功操作，便于运营统一查询</p></div></div>
+          <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option><option value="商户代收路由" ${logFilters.business === '商户代收路由' ? 'selected' : ''}>商户代收路由</option><option value="商户代付路由" ${logFilters.business === '商户代付路由' ? 'selected' : ''}>商户代付路由</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="查询规则" ${logFilters.type === '查询规则' ? 'selected' : ''}>查询规则</option><option value="新增规则" ${logFilters.type === '新增规则' ? 'selected' : ''}>新增规则</option><option value="编辑规则" ${logFilters.type === '编辑规则' ? 'selected' : ''}>编辑规则</option><option value="启用规则" ${logFilters.type === '启用规则' ? 'selected' : ''}>启用规则</option><option value="停用规则" ${logFilters.type === '停用规则' ? 'selected' : ''}>停用规则</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
           <div class="rp-table-wrap"><table class="rp-log-table"><thead><tr><th>操作时间</th><th>操作人</th><th>业务类型</th><th>操作类型</th><th>商户</th><th>调整内容</th></tr></thead><tbody>${visibleLogs.length ? visibleLogs.map(log => `<tr><td>${escapeHtml(log.time)}</td><td>${escapeHtml(log.operator)}</td><td>${escapeHtml(log.business)}</td><td>${escapeHtml(log.type)}</td><td>${escapeHtml(log.merchant)}</td><td>${escapeHtml(log.detail)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="6">暂无符合条件的日志</td></tr>'}</tbody></table></div>
           <div class="rp-footer"><span>共 ${visibleLogs.length} 条</span><div class="rp-page"><span>20条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
       }
@@ -299,8 +330,8 @@
         form.querySelector('[data-action="add-channel"]').addEventListener('click', () => { channelEntries.push({name:'', weight:'100', upper:'100'}); renderChannelRows(); });
         form.addEventListener('submit', event => { event.preventDefault(); const fd = new FormData(form); const lower = String(fd.get('lower') || '').trim(); const upper = String(fd.get('upper') || '').trim(); const channels = channelEntries.filter(item => item.name).map(item => ({name:item.name, weight:String(item.weight || '100'), upper:String(item.upper || '100')})); let valid = true; if (!/^\d+(\.\d{1,2})?$/.test(lower) || !/^\d+(\.\d{1,2})?$/.test(upper)) { form.querySelector('[data-error="range"]').classList.add('show'); valid = false; } else { form.querySelector('[data-error="range"]').classList.remove('show'); if (Number(lower) >= Number(upper)) { form.querySelector('[data-error="range2"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="range2"]').classList.remove('show'); } if (!/^\d+$/.test(String(fd.get('minutes') || '')) ) { form.querySelector('[data-error="minutes"]').classList.add('show'); valid = false; } if (!/^\d+$/.test(String(fd.get('records') || '')) ) { form.querySelector('[data-error="records"]').classList.add('show'); valid = false; } if (!channels.length) { form.querySelector('[data-error="channels"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="channels"]').classList.remove('show'); if (!valid) return; const merchant = row ? row.merchant : 'india02'; const action = row ? '编辑规则' : '新增规则'; const id = row ? row.id : seq++; const next = {id, enabled:row ? row.enabled : false, merchant, lower, upper, minutes:String(fd.get('minutes')), records:String(fd.get('records')), uplift:String(fd.get('uplift') || '3'), channels}; if (row) { Object.assign(row, next); recordRuleChanges(previous, next); } else { data[current].push(next); recordApi(action, `/api/routing/${current}/create`, next, merchant, '成功', '{"code":0,"message":"success"}', `新增分流规则：${formatRuleConfig(next)}`); } overlay.innerHTML = ''; render(); showToast(`${action}成功`); });
       }
-      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current && (current === 'logs' ? btn.textContent.includes('分流日志') : btn.textContent.includes(current === 'collection' ? '代收分流' : '代付分流')))); render(); }
-      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; const queryMerchant = ruleFilters[current].merchant || '全部商户'; const queryStatus = ruleFilters[current].enabled === 'on' ? '启用' : ruleFilters[current].enabled === 'off' ? '停用' : '全部状态'; recordApi('查询规则', `/api/routing/${current}/list`, ruleFilters[current], queryMerchant, '成功', '{"code":0,"message":"success"}', `查询分流配置：商户=${queryMerchant}；启用状态=${queryStatus}`); render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; recordApi(`${actionName}规则`, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}分流规则：${formatRuleConfig(row)}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
+      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current)); render(); }
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; const queryMerchant = ruleFilters[current].merchant || '全部商户'; const queryStatus = ruleFilters[current].enabled === 'on' ? '启用' : ruleFilters[current].enabled === 'off' ? '停用' : '全部状态'; recordApi('查询规则', `/api/routing/${current}/list`, ruleFilters[current], queryMerchant, '成功', '{"code":0,"message":"success"}', `查询分流配置：商户=${queryMerchant}；启用状态=${queryStatus}`); render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'route-settings-save') { const previous = {...routeSettings.merchantPayout}; const fields = document.querySelectorAll('[data-route-field]'); fields.forEach(field => { if (field.dataset.routeField in routeSettings.merchantPayout) routeSettings.merchantPayout[field.dataset.routeField] = field.value; }); const changes = Object.keys(routeSettings.merchantPayout).filter(key => previous[key] !== routeSettings.merchantPayout[key]); if (changes.length) recordApi('编辑规则', '/api/merchant-payout-route/settings', {changes}, '全部商户', '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${routeSettings.merchantPayout[key]}`).join('；')}`); renderMerchantRoute(); return showToast('配置更新成功'); } if (action === 'route-save') { const row = data[current].find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-route-field]').forEach(field => { row[field.dataset.routeField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑规则', `/api/routing/${current}/save`, {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); render(); return showToast('保存成功'); } if (action === 'route-flag') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; row[field] = !row[field]; const actionName = row[field] ? '启用' : '停用'; recordApi(`${actionName}规则`, `/api/routing/${current}/save`, {id:row.id, field, enabled:row[field]}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}路由规则：${formatRouteConfig(row)}`); render(); return showToast(`${actionName}成功`); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; const config = current === 'merchantCollection' || current === 'merchantPayout' ? formatRouteConfig(row) : formatRuleConfig(row); recordApi(`${actionName}规则`, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}${current === 'merchantCollection' || current === 'merchantPayout' ? '路由' : '分流'}规则：${config}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
       root.addEventListener('click', event => { const nav = event.target.closest('[data-page]'); if (nav) setCurrent(nav.dataset.page); });
       render();
     })();
