@@ -1,0 +1,306 @@
+<div id="routing-prototype">
+  <style>
+    #routing-prototype { --rp-bg:#f4f6f8; --rp-panel:#fff; --rp-border:#e4e8ee; --rp-text:#263238; --rp-muted:#8a929d; --rp-primary:#2388f2; --rp-sidebar:#353a40; --rp-sidebar-2:#2c3136; --rp-green:#16bf6d; --rp-red:#e05252; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif; color:var(--rp-text); background:var(--rp-bg); min-height:720px; font-size:14px; }
+    #routing-prototype * { box-sizing:border-box; }
+    #routing-prototype button, #routing-prototype select, #routing-prototype input { font:inherit; }
+    #routing-prototype button { cursor:pointer; }
+    .rp-shell { display:flex; min-height:720px; background:var(--rp-bg); }
+    .rp-side { width:220px; flex:0 0 220px; background:var(--rp-sidebar); color:#e9edf2; }
+    .rp-brand { height:64px; padding:21px 26px; font-weight:600; letter-spacing:.2px; background:var(--rp-sidebar-2); }
+    .rp-nav { padding:12px 0; }
+    .rp-nav-section { padding:0 22px; }
+    .rp-nav-title { display:flex; align-items:center; justify-content:space-between; height:48px; color:#dbe0e6; font-size:14px; }
+    .rp-nav-title span:first-child { display:flex; align-items:center; gap:12px; }
+    .rp-grid-icon { width:14px; height:14px; display:inline-grid; grid-template-columns:repeat(2,5px); grid-template-rows:repeat(2,5px); gap:2px; }
+    .rp-grid-icon i { display:block; background:#aab2bc; border-radius:1px; }
+    .rp-nav-title.active { color:#fff; }
+    .rp-nav-title.active .rp-grid-icon i { background:var(--rp-primary); }
+    .rp-subnav { padding:0 0 10px 27px; }
+    .rp-subnav button { display:block; width:100%; border:0; background:transparent; color:#bfc6ce; text-align:left; padding:12px 16px; border-radius:4px 0 0 4px; }
+    .rp-subnav button.active { color:#fff; background:#434a52; border-left:3px solid var(--rp-primary); padding-left:13px; }
+    .rp-main { min-width:0; flex:1; }
+    .rp-tabs { height:48px; background:#fff; border-bottom:1px solid var(--rp-border); display:flex; align-items:stretch; overflow:auto; white-space:nowrap; }
+    .rp-tab { border:0; border-right:1px solid var(--rp-border); background:#f8fafc; color:#9099a4; padding:0 24px; position:relative; }
+    .rp-tab.active { color:var(--rp-primary); background:#fff; }
+    .rp-tab.active:after { content:""; position:absolute; bottom:-1px; left:0; right:0; height:2px; background:var(--rp-primary); }
+    .rp-content { padding:24px 28px 36px; }
+    .rp-heading { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
+    .rp-heading h1 { margin:0; font-size:22px; font-weight:500; }
+    .rp-heading p { margin:7px 0 0; color:var(--rp-muted); }
+    .rp-actions { display:flex; gap:10px; }
+    .rp-btn { min-height:34px; padding:0 16px; border:1px solid transparent; border-radius:4px; color:#fff; background:var(--rp-primary); }
+    .rp-btn.secondary { color:#59636e; background:#fff; border-color:#d8dee7; }
+    .rp-btn.ghost { color:var(--rp-primary); background:#eef6ff; }
+    .rp-btn:disabled { opacity:.55; cursor:not-allowed; }
+    .rp-filter { background:var(--rp-panel); border:1px solid var(--rp-border); padding:18px 20px; display:flex; gap:16px; align-items:end; flex-wrap:wrap; }
+    .rp-field { display:flex; flex-direction:column; gap:7px; min-width:200px; }
+    .rp-field.small { min-width:170px; }
+    .rp-field label { color:#69737e; font-size:13px; }
+    .rp-input, .rp-select { height:36px; border:1px solid #d8dee7; border-radius:4px; background:#fff; color:#36404b; padding:0 11px; outline:none; }
+    .rp-input:focus, .rp-select:focus { border-color:var(--rp-primary); box-shadow:0 0 0 2px rgba(35,136,242,.12); }
+    .rp-table-wrap { margin-top:16px; background:#fff; border:1px solid var(--rp-border); overflow:auto; }
+    .rp-table { border-collapse:collapse; width:100%; min-width:900px; table-layout:fixed; }
+    .rp-table th, .rp-table td { height:46px; border-bottom:1px solid var(--rp-border); border-right:1px solid var(--rp-border); padding:0 14px; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+    .rp-table th { height:42px; color:#78828e; background:#fbfcfd; font-weight:500; }
+    .rp-table th:last-child, .rp-table td:last-child { border-right:0; }
+    .rp-table tr:last-child td { border-bottom:0; }
+    .rp-table th:nth-child(1) { width:90px; text-align:center; }
+    .rp-table th:nth-child(2) { width:150px; }
+    .rp-table th:nth-child(3), .rp-table th:nth-child(4) { width:130px; }
+    .rp-table th:nth-child(5) { width:auto; }
+    .rp-table th:nth-child(6) { width:160px; }
+    .rp-table th:nth-child(7) { width:150px; }
+    .rp-empty { height:320px; text-align:center; color:#a2aab4; }
+    .rp-empty td { height:320px; }
+    .rp-switch { width:38px; height:22px; border:0; border-radius:14px; background:#dfe3e8; position:relative; padding:0; vertical-align:middle; }
+    .rp-switch:after { content:""; width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:2px; left:2px; box-shadow:0 1px 3px rgba(0,0,0,.18); transition:left .16s; }
+    .rp-switch.on { background:var(--rp-green); }
+    .rp-switch.on:after { left:18px; }
+    .rp-table .rp-switch { transform:scale(.86); transform-origin:left center; }
+    .rp-link { color:var(--rp-primary); border:0; background:transparent; padding:4px 5px; }
+    .rp-link.danger { color:var(--rp-red); }
+    .rp-footer { display:flex; justify-content:space-between; align-items:center; padding:14px 0; color:#8b949f; }
+    .rp-page { display:flex; gap:7px; align-items:center; }
+    .rp-page button { width:30px; height:30px; background:#fff; border:1px solid var(--rp-border); color:#67717c; border-radius:3px; }
+    .rp-page button.current { color:#fff; background:var(--rp-primary); border-color:var(--rp-primary); }
+    .rp-toast { position:fixed; top:22px; right:24px; z-index:50; color:#fff; background:#27313a; padding:11px 16px; border-radius:4px; box-shadow:0 8px 20px rgba(0,0,0,.18); opacity:0; transform:translateY(-8px); pointer-events:none; transition:.18s; }
+    .rp-toast.show { opacity:1; transform:translateY(0); }
+    .rp-mask { position:fixed; inset:0; background:rgba(22,29,36,.42); z-index:30; display:flex; justify-content:center; align-items:center; padding:16px; }
+    .rp-modal { width:min(720px, calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow:auto; background:#fff; border-radius:6px; box-shadow:0 16px 48px rgba(0,0,0,.24); }
+    .rp-modal-head { display:flex; justify-content:space-between; align-items:center; padding:19px 22px; border-bottom:1px solid var(--rp-border); }
+    .rp-modal-head h2 { margin:0; font-size:17px; font-weight:500; }
+    .rp-close { border:0; background:transparent; color:#7d8791; font-size:22px; line-height:1; }
+    .rp-modal-body { padding:22px; }
+    .rp-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 20px; }
+    .rp-form-grid .full { grid-column:1 / -1; }
+    .rp-required:before { content:"*"; color:var(--rp-red); margin-right:4px; }
+    .rp-channel-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
+    .rp-channel { display:flex; align-items:center; gap:8px; border:1px solid var(--rp-border); border-radius:4px; padding:9px 10px; color:#58636e; }
+    .rp-channel input { accent-color:var(--rp-primary); }
+    .rp-error { display:none; color:var(--rp-red); font-size:12px; margin-top:6px; }
+    .rp-error.show { display:block; }
+    .rp-modal-foot { display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid var(--rp-border); }
+    .rp-drawer-mask { position:fixed; inset:0; background:rgba(22,29,36,.28); z-index:28; }
+    .rp-drawer { position:fixed; z-index:29; top:0; right:0; height:100vh; width:min(760px, calc(100vw - 24px)); background:#fff; box-shadow:-12px 0 32px rgba(0,0,0,.18); display:flex; flex-direction:column; }
+    .rp-drawer-head { padding:19px 22px; border-bottom:1px solid var(--rp-border); display:flex; justify-content:space-between; align-items:center; }
+    .rp-drawer-head h2 { margin:0; font-size:18px; font-weight:500; }
+    .rp-drawer-body { padding:18px 22px; overflow:auto; }
+    .rp-log-filter { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
+    .rp-log-table { border-collapse:collapse; width:100%; min-width:640px; }
+    .rp-log-table th, .rp-log-table td { text-align:left; padding:11px 9px; border-bottom:1px solid var(--rp-border); vertical-align:top; }
+    .rp-log-table th { color:#77818d; font-weight:500; background:#fbfcfd; }
+    .rp-log-detail { color:#727d88; font-size:12px; line-height:1.55; white-space:normal; }
+    .rp-pill { display:inline-block; padding:3px 8px; border-radius:10px; font-size:12px; }
+    .rp-pill.success { color:#118550; background:#e8f8f0; }
+    .rp-pill.fail { color:#b53b3b; background:#fff0f0; }
+    @media (max-width: 800px) { .rp-side { width:180px; flex-basis:180px; } .rp-content { padding:18px; } .rp-form-grid { grid-template-columns:1fr; } .rp-form-grid .full { grid-column:auto; } .rp-channel-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
+    @media (max-width: 560px) { .rp-side { display:none; } .rp-heading { display:block; } .rp-actions { margin-top:14px; } .rp-channel-list { grid-template-columns:1fr; } }
+
+    /* Local admin component system refinement */
+    #routing-prototype { background:#f5f7fa; color:#1f2937; font-size:14px; }
+    .rp-shell { min-height:760px; }
+    .rp-side { width:224px; flex-basis:224px; background:#30353b; }
+    .rp-brand { height:64px; padding:0 24px; display:flex; align-items:center; background:#292e34; font-size:15px; }
+    .rp-nav { padding:14px 10px; }
+    .rp-nav-section { padding:0; }
+    .rp-nav-title { height:42px; padding:0 14px; border-radius:4px; color:#c8ced6; }
+    .rp-nav-title.active { color:#fff; background:#3b424a; }
+    .rp-nav-title.active .rp-grid-icon i { background:#4c9cf4; }
+    .rp-subnav { padding:4px 0 10px 18px; }
+    .rp-subnav button { min-height:38px; padding:0 14px; border-radius:4px; color:#aeb7c2; font-size:13px; }
+    .rp-subnav button.active { padding-left:11px; color:#fff; background:#3c6f9f; border-left:3px solid #6db5ff; }
+    .rp-tabs { height:50px; background:#fff; }
+    .rp-tab { height:50px; padding:0 22px; background:#f8fafc; color:#7c8793; }
+    .rp-tab.active { color:#1677d2; font-weight:500; }
+    .rp-content { padding:26px 30px 40px; }
+    .rp-heading { margin-bottom:20px; }
+    .rp-heading h1 { color:#1f2937; font-size:24px; letter-spacing:-.2px; }
+    .rp-heading p { color:#8a94a0; font-size:13px; }
+    .rp-actions { gap:8px; }
+    .rp-btn { min-height:36px; padding:0 17px; border-radius:4px; background:#2388f2; box-shadow:0 1px 2px rgba(25,90,160,.12); }
+    .rp-btn.ghost { color:#1677d2; background:#edf6ff; border-color:#d5eaff; box-shadow:none; }
+    .rp-btn.secondary { color:#56616d; background:#fff; border-color:#d8dee7; box-shadow:none; }
+    .rp-filter { gap:18px; align-items:flex-end; padding:20px 22px; border-color:#e1e7ef; box-shadow:0 1px 2px rgba(31,41,55,.02); }
+    .rp-field { min-width:256px; }
+    .rp-field.small { min-width:256px; }
+    .rp-field label { color:#53606d; font-size:13px; }
+    .rp-input, .rp-select { height:36px; border-color:#d7dfe8; color:#344150; }
+    .rp-table-wrap { margin-top:18px; border-color:#e1e7ef; box-shadow:0 1px 2px rgba(31,41,55,.02); }
+    .rp-table { min-width:960px; width:100%; table-layout:auto; }
+    .rp-table th, .rp-table td { overflow:visible; text-overflow:clip; }
+    .rp-table th { height:42px; background:#f8fafc; color:#687482; font-weight:500; }
+    .rp-table td { height:44px; color:#3c4753; }
+    .rp-table th:nth-child(1) { width:110px; min-width:110px; text-align:center; }
+    .rp-table th:nth-child(2) { width:156px; }
+    .rp-table th:nth-child(3), .rp-table th:nth-child(4) { width:140px; }
+    .rp-table th:nth-child(5) { width:auto; }
+    .rp-table th:nth-child(6) { width:136px; }
+    .rp-table th:nth-child(7) { width:144px; }
+    .rp-empty td { height:300px; color:#9aa4af; }
+    .rp-footer { padding:16px 2px; }
+    .rp-link { padding:4px 6px; }
+    .rp-drawer { width:min(800px, calc(100vw - 24px)); }
+    .rp-modal { width:min(760px, calc(100vw - 32px)); }
+    .rp-modal-head, .rp-drawer-head { padding:18px 24px; }
+    .rp-modal-body, .rp-drawer-body { padding:24px; }
+    .rp-modal-foot { padding:16px 24px; }
+    .rp-channel { background:#fbfcfe; }
+    .rp-log-table { min-width:1480px; table-layout:auto; }
+    .rp-log-table th, .rp-log-table td { height:42px; padding:0 12px; vertical-align:middle; white-space:nowrap; overflow:visible; text-overflow:clip; }
+    .rp-log-table th:nth-child(1) { min-width:150px; }
+    .rp-log-table th:nth-child(2) { min-width:90px; }
+    .rp-log-table th:nth-child(3), .rp-log-table th:nth-child(4), .rp-log-table th:nth-child(5) { min-width:100px; }
+    .rp-log-table th:nth-child(6) { min-width:260px; }
+    .rp-log-table th:nth-child(7), .rp-log-table th:nth-child(8) { min-width:280px; }
+    .rp-log-table th:nth-child(9) { min-width:72px; }
+    .rp-log-detail { white-space:nowrap; }
+    .rp-routing-modal { width:min(920px, calc(100vw - 32px)); }
+    .rp-routing-fields { display:grid; grid-template-columns:repeat(2,minmax(0,360px)); gap:22px 28px; align-items:start; }
+    .rp-routing-fields .rp-field { min-width:0; display:grid; grid-template-columns:78px minmax(0,1fr); align-items:center; gap:12px; }
+    .rp-routing-fields .rp-field > label { text-align:right; white-space:nowrap; }
+    .rp-routing-fields .rp-field.full { grid-column:1 / -1; display:block; }
+    .rp-unit-input { display:flex; min-width:0; }
+    .rp-unit-input .rp-input { flex:1; min-width:0; border-radius:4px 0 0 4px; }
+    .rp-unit-input span { width:54px; height:36px; display:flex; align-items:center; justify-content:center; border:1px solid #d7dfe8; border-left:0; border-radius:0 4px 4px 0; color:#8a929d; background:#f7f8fa; }
+    .rp-channel-head, .rp-channel-row { display:grid; grid-template-columns:minmax(180px,1.2fr) minmax(120px,1fr) minmax(150px,1fr) 70px; gap:6px; align-items:center; }
+    .rp-channel-head { margin:0 0 7px; color:#53606d; }
+    .rp-channel-head span:nth-child(2), .rp-channel-head span:nth-child(3) { text-align:center; }
+    .rp-channel-row .rp-btn { min-height:36px; padding:0 14px; }
+    .rp-date-range { display:flex; align-items:center; gap:8px; }
+    .rp-date-range .rp-input { width:196px; min-width:0; }
+    @media (max-width: 800px) { .rp-side { width:190px; flex-basis:190px; } .rp-content { padding:20px; } }
+    @media (max-width: 700px) { .rp-routing-fields { grid-template-columns:1fr; } .rp-routing-fields .rp-field.full { grid-column:auto; } .rp-channel-head, .rp-channel-row { grid-template-columns:1fr 1fr; } .rp-channel-head span:nth-child(3), .rp-channel-head span:nth-child(4) { display:none; } .rp-date-range { flex-wrap:wrap; } .rp-date-range .rp-input { width:100%; } }
+  </style>
+
+  <div class="rp-shell">
+    <aside class="rp-side">
+      <div class="rp-brand">支付后台管理系统</div>
+      <nav class="rp-nav">
+        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>权限配置</span><span>⌄</span></div></div>
+        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>订单管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section">
+          <div class="rp-nav-title active"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>业务管理</span><span>⌃</span></div>
+          <div class="rp-subnav">
+            <button type="button" data-page="collection">▤　支付成功率</button>
+            <button type="button" data-page="collection">▤　代收路由</button>
+            <button type="button" data-page="collection">▤　代付路由</button>
+            <button type="button" class="active" data-page="collection">▤　代收分流</button>
+            <button type="button" data-page="payout">▤　代付分流</button>
+            <button type="button" data-page="collection">▤　虚拟币代收路由</button>
+            <button type="button" data-page="payout">▤　虚拟币代付路由</button>
+            <button type="button" data-page="logs">▤　分流日志</button>
+          </div>
+        </div>
+        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>报表</span><span>⌄</span></div></div>
+      </nav>
+    </aside>
+    <main class="rp-main">
+      <div class="rp-tabs">
+        <button type="button" class="rp-tab active" data-tab="collection">代收分流　×</button>
+        <button type="button" class="rp-tab" data-tab="payout">代付分流　×</button>
+      </div>
+      <section class="rp-content" id="rp-page-content"></section>
+    </main>
+  </div>
+  <div class="rp-toast" id="rp-toast" role="status" aria-live="polite"></div>
+  <div id="rp-overlay"></div>
+
+  <script>
+    (() => {
+      const root = document.getElementById('routing-prototype');
+      const page = document.getElementById('rp-page-content');
+      const overlay = document.getElementById('rp-overlay');
+      const toast = document.getElementById('rp-toast');
+      let current = 'collection';
+      let seq = 3;
+      let logFilters = {start:'', end:'', business:'', type:''};
+      const data = {
+        collection: [
+          {id:1, enabled:true, merchant:'india02', lower:'0', upper:'5000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'UPI-01', weight:'100', upper:'100'}]},
+          {id:2, enabled:false, merchant:'india02', lower:'5000', upper:'10000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'Razorpay', weight:'100', upper:'100'}]}
+        ],
+        payout: [
+          {id:3, enabled:true, merchant:'india02', lower:'0', upper:'3000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'Bank-A', weight:'100', upper:'100'}]}
+        ]
+      };
+      const logs = [
+        {time:'2026-09-08 14:32:10', operator:'white', type:'编辑规则', business:'代收分流', merchant:'india02', api:'/api/routing/collection/update', params:'{"id":1,"lower":0,"upper":5000}', response:'{"code":0,"message":"success"}', detail:'下限（含）：0 → 0；上限（不含）：3000 → 5000', result:'成功'},
+        {time:'2026-09-08 14:28:41', operator:'white', type:'启用规则', business:'代付分流', merchant:'india02', api:'/api/routing/payout/update-status', params:'{"id":3,"enabled":true}', response:'{"code":0,"message":"success"}', detail:'启用分流规则', result:'成功'}
+      ];
+
+      function showToast(message) {
+        toast.textContent = message;
+        toast.classList.add('show');
+        window.clearTimeout(showToast.timer);
+        showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
+      }
+      function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
+      function currentTitle() { return current === 'collection' ? '代收分流' : current === 'payout' ? '代付分流' : '分流日志'; }
+      function now() { return new Date().toLocaleString('zh-CN', {hour12:false}).replace(/\//g, '-'); }
+      function formatChannels(channels) { return channels.map(channel => `${channel.name}:${Number(channel.weight || 0).toFixed(2)}%;`).join(''); }
+      function formatChangeValue(value) { return Array.isArray(value) ? formatChannels(value) : String(value); }
+      function formatRuleConfig(row) { return `商户：${row.merchant}；金额区间：${row.lower}～${row.upper}；支持通道：${formatChannels(row.channels)}`; }
+      function recordApi(type, api, params, merchant, result = '成功', response = '{"code":0,"message":"success"}', detail = '操作完成') {
+        if (result !== '成功') return;
+        logs.unshift({time:now(), operator:'white', type, business:currentTitle(), merchant:merchant || '-', api, params:JSON.stringify(params), response, detail});
+      }
+      function recordRuleChanges(previous, next) {
+        const fields = [
+          ['lower', '下限（含）'], ['upper', '上限（不含）'], ['minutes', '分钟'],
+          ['records', '记录数'], ['uplift', '上浮点数'], ['channels', '渠道配置']
+        ];
+        const changes = [];
+        fields.forEach(([key, label]) => {
+          const before = key === 'channels' ? JSON.stringify(previous[key]) : String(previous[key]);
+          const after = key === 'channels' ? JSON.stringify(next[key]) : String(next[key]);
+          if (before !== after) changes.push({field:label, before:previous[key], after:next[key]});
+        });
+        if (changes.length) recordApi('编辑规则', `/api/routing/${current}/update`, {id:next.id, changes}, next.merchant, '成功', '{"code":0,"message":"success"}', `配置分流规则：${changes.map(change => `${change.field}：${formatChangeValue(change.before)} → ${formatChangeValue(change.after)}`).join('；')}`);
+      }
+      function render() {
+        if (current === 'logs') return renderLogs();
+        const rows = data[current];
+        const merchant = current === 'collection' ? `<th>商户</th>` : '';
+        const body = rows.length ? rows.map(row => `<tr>
+          <td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}"></button></td>
+          ${current === 'collection' ? `<td>${escapeHtml(row.merchant)}</td>` : ''}
+          <td>${escapeHtml(row.lower)}</td><td>${escapeHtml(row.upper)}</td>
+          <td title="${escapeHtml(formatChannels(row.channels))}">${escapeHtml(formatChannels(row.channels))}</td>
+          <td><button type="button" class="rp-link" data-action="edit" data-id="${row.id}">编辑</button></td>
+        </tr>`).join('') : `<tr class="rp-empty"><td colspan="${current === 'collection' ? 6 : 5}">暂无数据</td></tr>`;
+        page.innerHTML = `<div class="rp-heading"><div><h1>${currentTitle()}</h1><p>按商户和启用状态管理金额区间及支持通道</p></div><div class="rp-actions"><button type="button" class="rp-btn" data-action="add">添加</button></div></div>
+          <div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-filter"><option value="">全部商户</option><option value="india02">india02</option><option value="RummyX">RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-status-filter"><option value="">全部状态</option><option value="on">启用</option><option value="off">停用</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
+          <div class="rp-table-wrap"><table class="rp-table"><thead><tr><th>是否启用</th>${merchant}<th>下限（含）</th><th>上限（不含）</th><th>支持通道</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div>
+          <div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
+      }
+      function renderLogs() {
+        const visibleLogs = logs.filter(log => (!logFilters.start || log.time >= logFilters.start.replace('T', ' ')) && (!logFilters.end || log.time <= logFilters.end.replace('T', ' ')) && (!logFilters.business || log.business === logFilters.business) && (!logFilters.type || log.type === logFilters.type));
+        page.innerHTML = `<div class="rp-heading"><div><h1>分流日志</h1><p>汇总代收分流、代付分流的成功操作，便于运营统一查询</p></div></div>
+          <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="新增规则" ${logFilters.type === '新增规则' ? 'selected' : ''}>新增规则</option><option value="编辑规则" ${logFilters.type === '编辑规则' ? 'selected' : ''}>编辑规则</option><option value="启用规则" ${logFilters.type === '启用规则' ? 'selected' : ''}>启用规则</option><option value="停用规则" ${logFilters.type === '停用规则' ? 'selected' : ''}>停用规则</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
+          <div class="rp-table-wrap"><table class="rp-log-table"><thead><tr><th>操作时间</th><th>操作人</th><th>业务类型</th><th>操作类型</th><th>商户</th><th>调整内容</th></tr></thead><tbody>${visibleLogs.length ? visibleLogs.map(log => `<tr><td>${escapeHtml(log.time)}</td><td>${escapeHtml(log.operator)}</td><td>${escapeHtml(log.business)}</td><td>${escapeHtml(log.type)}</td><td>${escapeHtml(log.merchant)}</td><td>${escapeHtml(log.detail)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="6">暂无符合条件的日志</td></tr>'}</tbody></table></div>
+          <div class="rp-footer"><span>共 ${visibleLogs.length} 条</span><div class="rp-page"><span>20条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
+      }
+      function openModal(type, id) {
+        const row = id ? data[current].find(item => item.id === id) : null;
+        const previous = row ? {...row, channels:row.channels.map(channel => ({...channel}))} : null;
+        const channelEntries = row && row.channels.length ? row.channels.map(channel => ({...channel})) : [{name:'', weight:'100', upper:'100'}];
+        overlay.innerHTML = `<div class="rp-mask" data-action="close-modal"><div class="rp-modal rp-routing-modal" role="dialog" aria-modal="true" aria-labelledby="rp-modal-title"><div class="rp-modal-head"><h2 id="rp-modal-title">${type === 'edit' ? '编辑' : '添加'}</h2><button type="button" class="rp-close" data-action="close-modal" aria-label="关闭">×</button></div><form id="rp-rule-form"><div class="rp-modal-body"><div class="rp-routing-fields"><div class="rp-field"><label class="rp-required">下限(含)</label><input class="rp-input" name="lower" inputmode="decimal" value="${row ? escapeHtml(row.lower) : ''}" placeholder="请输入下限"><div class="rp-error" data-error="range">请输入有效金额</div></div><div class="rp-field"><label class="rp-required">上限(不含)</label><input class="rp-input" name="upper" inputmode="decimal" value="${row ? escapeHtml(row.upper) : ''}" placeholder="请输入上限"><div class="rp-error" data-error="range2">上限必须大于下限</div></div><div class="rp-field"><label class="rp-required">分钟</label><input class="rp-input" name="minutes" inputmode="numeric" value="${row ? escapeHtml(row.minutes) : '10'}" placeholder="请输入分钟"><div class="rp-error" data-error="minutes">请输入分钟</div></div><div class="rp-field"><label class="rp-required">记录数</label><input class="rp-input" name="records" inputmode="numeric" value="${row ? escapeHtml(row.records) : '10000'}" placeholder="请输入记录数"><div class="rp-error" data-error="records">请输入记录数</div></div><div class="rp-field"><label class="rp-required">上浮点数</label><div class="rp-unit-input"><input class="rp-input" name="uplift" inputmode="decimal" value="${row ? escapeHtml(row.uplift) : '3'}" placeholder="请输入上浮点数"><span>%</span></div></div><div class="rp-field full"><div class="rp-channel-head"><span>渠道</span><span>权重</span><span>上限</span><span></span></div><div data-channel-list></div><button type="button" class="rp-btn" data-action="add-channel">添加</button><div class="rp-error" data-error="channels">请选择渠道</div></div></div></div><div class="rp-modal-foot"><button type="button" class="rp-btn secondary" data-action="close-modal">取消</button><button type="submit" class="rp-btn">确定</button></div></form></div></div>`;
+        const form = document.getElementById('rp-rule-form');
+        const channelList = form.querySelector('[data-channel-list]');
+        const channelOptions = ['CowPay-代收','UPI-01','Razorpay','Cashfree','Bank-A','UPI-Payout','Wallet-Pay'];
+        function renderChannelRows() { channelList.innerHTML = channelEntries.map((item, index) => `<div class="rp-channel-row" data-channel-index="${index}"><select class="rp-select" name="channel"><option value="">请选择渠道</option>${channelOptions.map(ch => `<option value="${ch}" ${item.name === ch ? 'selected' : ''}>${ch}</option>`).join('')}</select><input class="rp-input" name="weight" inputmode="numeric" value="${escapeHtml(item.weight || '100')}" placeholder="权重"><div class="rp-unit-input"><input class="rp-input" name="channelUpper" inputmode="decimal" value="${escapeHtml(item.upper || '100')}" placeholder="上限"><span>%</span></div><span></span></div>`).join(''); }
+        renderChannelRows();
+        channelList.addEventListener('input', event => { const line = event.target.closest('[data-channel-index]'); if (!line) return; const item = channelEntries[Number(line.dataset.channelIndex)]; if (event.target.name === 'channel') item.name = event.target.value; if (event.target.name === 'weight') item.weight = event.target.value; if (event.target.name === 'channelUpper') item.upper = event.target.value; });
+        channelList.addEventListener('change', event => { const line = event.target.closest('[data-channel-index]'); if (!line) return; const item = channelEntries[Number(line.dataset.channelIndex)]; if (event.target.name === 'channel') item.name = event.target.value; });
+        form.querySelector('[data-action="add-channel"]').addEventListener('click', () => { channelEntries.push({name:'', weight:'100', upper:'100'}); renderChannelRows(); });
+        form.addEventListener('submit', event => { event.preventDefault(); const fd = new FormData(form); const lower = String(fd.get('lower') || '').trim(); const upper = String(fd.get('upper') || '').trim(); const channels = channelEntries.filter(item => item.name).map(item => ({name:item.name, weight:String(item.weight || '100'), upper:String(item.upper || '100')})); let valid = true; if (!/^\d+(\.\d{1,2})?$/.test(lower) || !/^\d+(\.\d{1,2})?$/.test(upper)) { form.querySelector('[data-error="range"]').classList.add('show'); valid = false; } else { form.querySelector('[data-error="range"]').classList.remove('show'); if (Number(lower) >= Number(upper)) { form.querySelector('[data-error="range2"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="range2"]').classList.remove('show'); } if (!/^\d+$/.test(String(fd.get('minutes') || '')) ) { form.querySelector('[data-error="minutes"]').classList.add('show'); valid = false; } if (!/^\d+$/.test(String(fd.get('records') || '')) ) { form.querySelector('[data-error="records"]').classList.add('show'); valid = false; } if (!channels.length) { form.querySelector('[data-error="channels"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="channels"]').classList.remove('show'); if (!valid) return; const merchant = row ? row.merchant : 'india02'; const action = row ? '编辑规则' : '新增规则'; const id = row ? row.id : seq++; const next = {id, enabled:row ? row.enabled : false, merchant, lower, upper, minutes:String(fd.get('minutes')), records:String(fd.get('records')), uplift:String(fd.get('uplift') || '3'), channels}; if (row) { Object.assign(row, next); recordRuleChanges(previous, next); } else { data[current].push(next); recordApi(action, `/api/routing/${current}/create`, next, merchant, '成功', '{"code":0,"message":"success"}', `新增分流规则：${formatRuleConfig(next)}`); } overlay.innerHTML = ''; render(); showToast(`${action}成功`); });
+      }
+      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current && (current === 'logs' ? btn.textContent.includes('分流日志') : btn.textContent.includes(current === 'collection' ? '代收分流' : '代付分流')))); render(); }
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value}; renderLogs(); } else { showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:''}; renderLogs(); } else { render(); } return showToast('筛选条件已重置'); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; recordApi(`${actionName}规则`, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}分流规则：${formatRuleConfig(row)}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
+      root.addEventListener('click', event => { const nav = event.target.closest('[data-page]'); if (nav) setCurrent(nav.dataset.page); });
+      render();
+    })();
+  </script>
+</div>
