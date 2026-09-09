@@ -1,185 +1,135 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>支付后台管理系统 · 操作日志</title>
+</head>
+<body>
 <div id="routing-prototype">
   <style>
-    html, body { margin:0; padding:0; }
-    #routing-prototype { --rp-bg:#f4f6f8; --rp-panel:#fff; --rp-border:#e4e8ee; --rp-text:#263238; --rp-muted:#8a929d; --rp-primary:#2388f2; --rp-sidebar:#353a40; --rp-sidebar-2:#2c3136; --rp-green:#16bf6d; --rp-red:#e05252; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",Arial,sans-serif; color:var(--rp-text); background:var(--rp-bg); min-height:720px; font-size:14px; }
+    html, body { margin:0; padding:0; min-height:100%; background:#f1f5f9; }
+    #routing-prototype {
+      --rp-bg:#f1f5f9; --rp-panel:#fff; --rp-border:#e2e8f0;
+      --rp-text:#0f172a; --rp-muted:#64748b; --rp-primary:#475569;
+      --rp-sidebar:#475569; --rp-green:#475569; --rp-red:#b45353;
+      min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+      font-size:13px; color:var(--rp-text); background:var(--rp-bg); line-height:1.5;
+    }
     #routing-prototype * { box-sizing:border-box; }
-    #routing-prototype button, #routing-prototype select, #routing-prototype input { font:inherit; }
+    #routing-prototype button, #routing-prototype input, #routing-prototype select { font:inherit; }
     #routing-prototype button { cursor:pointer; }
-    .rp-shell { display:flex; min-height:720px; background:var(--rp-bg); }
-    .rp-side { width:220px; flex:0 0 220px; background:var(--rp-sidebar); color:#e9edf2; }
-    .rp-brand { height:64px; padding:21px 26px; font-weight:600; letter-spacing:.2px; background:var(--rp-sidebar-2); }
-    .rp-nav { padding:12px 0; }
-    .rp-nav-section { padding:0 22px; }
-    .rp-nav-title { display:flex; align-items:center; justify-content:space-between; height:48px; color:#dbe0e6; font-size:14px; }
-    .rp-nav-title span:first-child { display:flex; align-items:center; gap:12px; }
-    .rp-grid-icon { width:14px; height:14px; display:inline-grid; grid-template-columns:repeat(2,5px); grid-template-rows:repeat(2,5px); gap:2px; }
-    .rp-grid-icon i { display:block; background:#aab2bc; border-radius:1px; }
-    .rp-nav-title.active { color:#fff; }
-    .rp-nav-title.active .rp-grid-icon i { background:var(--rp-primary); }
-    .rp-subnav { padding:0 0 10px 27px; }
-    .rp-subnav button { display:block; width:100%; border:0; background:transparent; color:#bfc6ce; text-align:left; padding:12px 16px; border-radius:4px 0 0 4px; }
-    .rp-subnav button.active { color:#fff; background:#434a52; border-left:3px solid var(--rp-primary); padding-left:13px; }
-    .rp-main { min-width:0; flex:1; }
-    .rp-tabs { height:48px; background:#fff; border-bottom:1px solid var(--rp-border); display:flex; align-items:stretch; overflow:auto; white-space:nowrap; }
-    .rp-tab { border:0; border-right:1px solid var(--rp-border); background:#f8fafc; color:#9099a4; padding:0 24px; position:relative; }
-    .rp-tab.active { color:var(--rp-primary); background:#fff; }
-    .rp-tab.active:after { content:""; position:absolute; bottom:-1px; left:0; right:0; height:2px; background:var(--rp-primary); }
-    .rp-content { padding:24px 28px 36px; }
-    .rp-heading { display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:18px; }
-    .rp-heading h1 { margin:0; font-size:22px; font-weight:500; }
-    .rp-heading p { margin:7px 0 0; color:var(--rp-muted); }
-    .rp-actions { display:flex; gap:10px; }
-    .rp-btn { min-height:34px; padding:0 16px; border:1px solid transparent; border-radius:4px; color:#fff; background:var(--rp-primary); }
-    .rp-btn.secondary { color:#59636e; background:#fff; border-color:#d8dee7; }
-    .rp-btn.ghost { color:var(--rp-primary); background:#eef6ff; }
-    .rp-btn:disabled { opacity:.55; cursor:not-allowed; }
-    .rp-filter { background:var(--rp-panel); border:1px solid var(--rp-border); padding:18px 20px; display:flex; gap:16px; align-items:end; flex-wrap:wrap; }
-    .rp-field { display:flex; flex-direction:column; gap:7px; min-width:200px; }
-    .rp-field.small { min-width:170px; }
-    .rp-field label { color:#69737e; font-size:13px; }
-    .rp-input, .rp-select { height:36px; border:1px solid #d8dee7; border-radius:4px; background:#fff; color:#36404b; padding:0 11px; outline:none; }
-    .rp-input:focus, .rp-select:focus { border-color:var(--rp-primary); box-shadow:0 0 0 2px rgba(35,136,242,.12); }
-    .rp-table-wrap { margin-top:16px; background:#fff; border:1px solid var(--rp-border); overflow:auto; }
-    .rp-table { border-collapse:collapse; width:100%; min-width:900px; table-layout:fixed; }
-    .rp-table th, .rp-table td { height:46px; border-bottom:1px solid var(--rp-border); border-right:1px solid var(--rp-border); padding:0 14px; text-align:left; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-    .rp-table th { height:42px; color:#78828e; background:#fbfcfd; font-weight:500; }
-    .rp-table th:last-child, .rp-table td:last-child { border-right:0; }
-    .rp-table tr:last-child td { border-bottom:0; }
-    .rp-table th:nth-child(1) { width:90px; text-align:center; }
-    .rp-table th:nth-child(2) { width:150px; }
-    .rp-table th:nth-child(3), .rp-table th:nth-child(4) { width:130px; }
-    .rp-table th:nth-child(5) { width:auto; }
-    .rp-table th:nth-child(6) { width:160px; }
-    .rp-table th:nth-child(7) { width:150px; }
-    .rp-empty { height:320px; text-align:center; color:#a2aab4; }
-    .rp-empty td { height:320px; }
-    .rp-switch { width:38px; height:22px; border:0; border-radius:14px; background:#dfe3e8; position:relative; padding:0; vertical-align:middle; }
-    .rp-switch:after { content:""; width:18px; height:18px; background:#fff; border-radius:50%; position:absolute; top:2px; left:2px; box-shadow:0 1px 3px rgba(0,0,0,.18); transition:left .16s; }
-    .rp-switch.on { background:var(--rp-green); }
-    .rp-switch.on:after { left:18px; }
-    .rp-table .rp-switch { transform:scale(.86); transform-origin:left center; }
-    .rp-link { color:var(--rp-primary); border:0; background:transparent; padding:4px 5px; }
-    .rp-link.danger { color:var(--rp-red); }
-    .rp-footer { display:flex; justify-content:space-between; align-items:center; padding:14px 0; color:#8b949f; }
-    .rp-page { display:flex; gap:7px; align-items:center; }
-    .rp-page button { width:30px; height:30px; background:#fff; border:1px solid var(--rp-border); color:#67717c; border-radius:3px; }
-    .rp-page button.current { color:#fff; background:var(--rp-primary); border-color:var(--rp-primary); }
-    .rp-toast { position:fixed; top:22px; right:24px; z-index:50; color:#fff; background:#27313a; padding:11px 16px; border-radius:4px; box-shadow:0 8px 20px rgba(0,0,0,.18); opacity:0; transform:translateY(-8px); pointer-events:none; transition:.18s; }
-    .rp-toast.show { opacity:1; transform:translateY(0); }
-    .rp-mask { position:fixed; inset:0; background:rgba(22,29,36,.42); z-index:30; display:flex; justify-content:center; align-items:center; padding:16px; }
-    .rp-modal { width:min(720px, calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow:auto; background:#fff; border-radius:6px; box-shadow:0 16px 48px rgba(0,0,0,.24); }
-    .rp-modal-head { display:flex; justify-content:space-between; align-items:center; padding:19px 22px; border-bottom:1px solid var(--rp-border); }
-    .rp-modal-head h2 { margin:0; font-size:17px; font-weight:500; }
-    .rp-close { border:0; background:transparent; color:#7d8791; font-size:22px; line-height:1; }
-    .rp-modal-body { padding:22px; }
-    .rp-form-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:18px 20px; }
-    .rp-form-grid .full { grid-column:1 / -1; }
-    .rp-required:before { content:"*"; color:var(--rp-red); margin-right:4px; }
-    .rp-channel-list { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px; }
-    .rp-channel { display:flex; align-items:center; gap:8px; border:1px solid var(--rp-border); border-radius:4px; padding:9px 10px; color:#58636e; }
-    .rp-channel input { accent-color:var(--rp-primary); }
-    .rp-error { display:none; color:var(--rp-red); font-size:12px; margin-top:6px; }
-    .rp-error.show { display:block; }
-    .rp-modal-foot { display:flex; justify-content:flex-end; gap:10px; padding:16px 22px; border-top:1px solid var(--rp-border); }
-    .rp-drawer-mask { position:fixed; inset:0; background:rgba(22,29,36,.28); z-index:28; }
-    .rp-drawer { position:fixed; z-index:29; top:0; right:0; height:100vh; width:min(760px, calc(100vw - 24px)); background:#fff; box-shadow:-12px 0 32px rgba(0,0,0,.18); display:flex; flex-direction:column; }
-    .rp-drawer-head { padding:19px 22px; border-bottom:1px solid var(--rp-border); display:flex; justify-content:space-between; align-items:center; }
-    .rp-drawer-head h2 { margin:0; font-size:18px; font-weight:500; }
-    .rp-drawer-body { padding:18px 22px; overflow:auto; }
-    .rp-log-filter { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px; }
-    .rp-log-table { border-collapse:collapse; width:100%; min-width:640px; }
-    .rp-log-table th, .rp-log-table td { text-align:left; padding:11px 9px; border-bottom:1px solid var(--rp-border); vertical-align:top; }
-    .rp-log-table th { color:#77818d; font-weight:500; background:#fbfcfd; }
-    .rp-log-detail { color:#727d88; font-size:12px; line-height:1.55; white-space:normal; }
-    .rp-pill { display:inline-block; padding:3px 8px; border-radius:10px; font-size:12px; }
-    .rp-pill.success { color:#118550; background:#e8f8f0; }
-    .rp-pill.fail { color:#b53b3b; background:#fff0f0; }
-    @media (max-width: 800px) { .rp-side { width:180px; flex-basis:180px; } .rp-content { padding:18px; } .rp-form-grid { grid-template-columns:1fr; } .rp-form-grid .full { grid-column:auto; } .rp-channel-list { grid-template-columns:repeat(2,minmax(0,1fr)); } }
-    @media (max-width: 560px) { .rp-side { display:none; } .rp-heading { display:block; } .rp-actions { margin-top:14px; } .rp-channel-list { grid-template-columns:1fr; } }
-
-    /* Local admin component system refinement */
-    #routing-prototype { background:#f5f7fa; color:#1f2937; font-size:14px; }
-    .rp-shell { min-height:760px; }
-    .rp-side { width:224px; flex-basis:224px; background:#30353b; }
-    .rp-brand { height:64px; padding:0 24px; display:flex; align-items:center; background:#292e34; font-size:15px; }
-    .rp-nav { padding:14px 10px; }
-    .rp-nav-section { padding:0; }
-    .rp-nav-title { height:42px; padding:0 14px; border-radius:4px; color:#c8ced6; }
-    .rp-nav-title.active { color:#fff; background:#3b424a; }
-    .rp-nav-title.active .rp-grid-icon i { background:#4c9cf4; }
-    .rp-subnav { padding:4px 0 10px 18px; }
-    .rp-subnav button { min-height:38px; padding:0 14px; border-radius:4px; color:#aeb7c2; font-size:13px; }
-    .rp-subnav button.active { padding-left:11px; color:#fff; background:#3c6f9f; border-left:3px solid #6db5ff; }
+    #routing-prototype button:disabled { cursor:not-allowed; opacity:.45; }
+    #routing-prototype :focus-visible { outline:2px solid #94a3b8; outline-offset:2px; }
+    .rp-shell { display:flex; min-height:100vh; align-items:stretch; }
+    .rp-side { width:232px; flex:0 0 232px; background:var(--rp-sidebar); color:#f8fafc; }
+    .rp-brand { height:64px; padding:0 20px; display:flex; align-items:center; font-size:16px; font-weight:700; border-bottom:1px solid rgba(255,255,255,.13); }
+    .rp-nav { padding:16px 12px; position:sticky; top:0; }
+    .rp-nav-section { padding:0; margin-bottom:8px; }
+    .rp-nav-title { min-height:36px; padding:0 10px; display:flex; justify-content:space-between; align-items:center; border-radius:6px; background:#f1f5f9; color:#0f172a; font-size:14px; font-weight:700; }
+    .rp-nav-title span:first-child { display:flex; align-items:center; gap:10px; }
+    .rp-nav-title.active { background:#e2e8f0; color:#0f172a; }
+    .rp-nav-title[data-nav-toggle] { cursor:pointer; }
+    .rp-nav-title[data-nav-toggle] > span:last-child { display:none; }
+    .rp-nav-title[data-nav-toggle]::after { content:""; width:6px; height:6px; border-right:1.5px solid #64748b; border-bottom:1.5px solid #64748b; transform:rotate(45deg); margin:0 3px 3px; transition:transform .18s; }
+    .rp-nav-section.collapsed .rp-nav-title[data-nav-toggle]::after { transform:rotate(-45deg); margin-bottom:0; }
+    .rp-grid-icon { display:grid; grid-template-columns:repeat(2,5px); grid-template-rows:repeat(2,5px); gap:2px; width:12px; }
+    .rp-grid-icon i { background:#64748b; border-radius:1px; }
+    .rp-subnav { margin-top:8px; padding-left:12px; }
     .rp-nav-section.collapsed .rp-subnav { display:none; }
-    .rp-tabs { height:50px; background:#fff; }
-    .rp-tab { height:50px; padding:0 22px; background:#f8fafc; color:#7c8793; }
-    .rp-tab.active { color:#1677d2; font-weight:500; }
-    .rp-content { padding:26px 30px 40px; }
-    .rp-heading { margin-bottom:20px; }
-    .rp-heading h1 { color:#1f2937; font-size:24px; letter-spacing:-.2px; }
-    .rp-heading p { color:#8a94a0; font-size:13px; }
-    .rp-actions { gap:8px; }
-    .rp-btn { min-height:36px; padding:0 17px; border-radius:4px; background:#2388f2; box-shadow:0 1px 2px rgba(25,90,160,.12); }
-    .rp-btn.ghost { color:#1677d2; background:#edf6ff; border-color:#d5eaff; box-shadow:none; }
-    .rp-btn.secondary { color:#56616d; background:#fff; border-color:#d8dee7; box-shadow:none; }
-    .rp-filter { gap:18px; align-items:flex-end; padding:20px 22px; border-color:#e1e7ef; box-shadow:0 1px 2px rgba(31,41,55,.02); }
-    .rp-field { min-width:256px; }
-    .rp-field.small { min-width:256px; }
-    .rp-field label { color:#53606d; font-size:13px; }
-    .rp-input, .rp-select { height:36px; border-color:#d7dfe8; color:#344150; }
-    .rp-table-wrap { margin-top:18px; border-color:#e1e7ef; box-shadow:0 1px 2px rgba(31,41,55,.02); }
-    .rp-table { min-width:960px; width:100%; table-layout:auto; }
-    .rp-table th, .rp-table td { overflow:visible; text-overflow:clip; }
-    .rp-table th { height:42px; background:#f8fafc; color:#687482; font-weight:500; }
-    .rp-table td { height:44px; color:#3c4753; }
-    .rp-table th:nth-child(1) { width:110px; min-width:110px; text-align:center; }
-    .rp-table th:nth-child(2) { width:156px; }
-    .rp-table th:nth-child(3), .rp-table th:nth-child(4) { width:140px; }
-    .rp-table th:nth-child(5) { width:auto; }
-    .rp-table th:nth-child(6) { width:136px; }
-    .rp-table th:nth-child(7) { width:144px; }
-    .rp-empty td { height:300px; color:#9aa4af; }
-    .rp-footer { padding:16px 2px; }
-    .rp-link { padding:4px 6px; }
-    .rp-drawer { width:min(800px, calc(100vw - 24px)); }
-    .rp-modal { width:min(760px, calc(100vw - 32px)); }
-    .rp-modal-head, .rp-drawer-head { padding:18px 24px; }
-    .rp-modal-body, .rp-drawer-body { padding:24px; }
-    .rp-modal-foot { padding:16px 24px; }
-    .rp-channel { background:#fbfcfe; }
-    .rp-log-table { min-width:1480px; table-layout:auto; }
-    .rp-log-table th, .rp-log-table td { height:42px; padding:0 12px; vertical-align:middle; white-space:nowrap; overflow:visible; text-overflow:clip; }
-    .rp-log-table th:nth-child(1) { min-width:150px; }
-    .rp-log-table th:nth-child(2) { min-width:90px; }
-    .rp-log-table th:nth-child(3), .rp-log-table th:nth-child(4), .rp-log-table th:nth-child(5) { min-width:100px; }
-    .rp-log-table th:nth-child(6) { min-width:260px; }
-    .rp-log-table th:nth-child(7), .rp-log-table th:nth-child(8) { min-width:280px; }
-    .rp-log-table th:nth-child(9) { min-width:72px; }
-    .rp-log-detail { white-space:nowrap; }
-    .rp-routing-modal { width:min(920px, calc(100vw - 32px)); }
-    .rp-routing-fields { display:grid; grid-template-columns:repeat(2,minmax(0,360px)); gap:22px 28px; align-items:start; }
-    .rp-routing-fields .rp-field { min-width:0; display:grid; grid-template-columns:78px minmax(0,1fr); align-items:center; gap:12px; }
-    .rp-routing-fields .rp-field > label { text-align:right; white-space:nowrap; }
-    .rp-routing-fields .rp-field.full { grid-column:1 / -1; display:block; }
-    .rp-unit-input { display:flex; min-width:0; }
-    .rp-unit-input .rp-input { flex:1; min-width:0; border-radius:4px 0 0 4px; }
-    .rp-unit-input span { width:54px; height:36px; display:flex; align-items:center; justify-content:center; border:1px solid #d7dfe8; border-left:0; border-radius:0 4px 4px 0; color:#8a929d; background:#f7f8fa; }
-    .rp-channel-head, .rp-channel-row { display:grid; grid-template-columns:minmax(180px,1.2fr) minmax(120px,1fr) minmax(150px,1fr) 70px; gap:6px; align-items:center; }
-    .rp-channel-head { margin:0 0 7px; color:#53606d; }
-    .rp-channel-head span:nth-child(2), .rp-channel-head span:nth-child(3) { text-align:center; }
-    .rp-channel-row .rp-btn { min-height:36px; padding:0 14px; }
+    .rp-subnav button { display:flex; align-items:center; min-height:32px; width:100%; padding:0 10px; margin:2px 0; border:0; border-radius:6px; background:transparent; color:#f8fafc; text-align:left; transition:background .16s,color .16s; }
+    .rp-subnav button:hover { background:#cbd5e1; color:#0f172a; }
+    .rp-subnav button.active { background:#e2e8f0; color:#0f172a; font-weight:650; }
+    .rp-main { flex:1; min-width:0; padding:14px; }
+    .rp-content { min-height:calc(100vh - 28px); padding:0 14px; border:1px solid var(--rp-border); border-radius:8px; background:#fff; }
+    .rp-heading { min-height:82px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid var(--rp-border); }
+    .rp-heading h1 { margin:0; font-size:18px; font-weight:700; line-height:26px; }
+    .rp-heading p { margin:4px 0 0; font-size:12px; color:var(--rp-muted); }
+    .rp-actions { display:flex; gap:8px; }
+    .rp-btn { display:inline-flex; align-items:center; justify-content:center; min-width:76px; height:34px; min-height:34px; padding:0 14px; border:1px solid var(--rp-border); border-radius:6px; background:#e2e8f0; color:#334155; font-weight:650; white-space:nowrap; box-shadow:none; }
+    .rp-btn:hover { background:#cbd5e1; }
+    .rp-btn.secondary { background:#fff; color:#334155; }
+    .rp-btn.secondary:hover, .rp-btn.ghost { background:#f8fafc; }
+    .rp-filter { display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; padding:14px 0; border-bottom:1px solid var(--rp-border); }
+    .rp-field { display:flex; flex-direction:column; gap:6px; min-width:0; width:256px; max-width:100%; }
+    .rp-field.small { width:256px; }
+    .rp-field label { font-size:13px; color:#475569; }
+    .rp-input, .rp-select { width:100%; min-width:0; height:36px; padding:0 10px; border:1px solid #d9e0ea; border-radius:6px; color:#334155; background:#fff; outline:none; }
+    .rp-input:hover, .rp-select:hover { border-color:#94a3b8; }
+    .rp-input:focus, .rp-select:focus { border-color:#64748b; box-shadow:0 0 0 2px rgba(100,116,139,.12); }
+    .rp-input:disabled, .rp-select:disabled { background:#f1f5f9; color:#94a3b8; }
+    .rp-field:has(.rp-date-range) { width:528px; }
     .rp-date-range { display:flex; align-items:center; gap:8px; }
-    .rp-date-range .rp-input { width:196px; min-width:0; }
-    .rp-route-table { min-width:2200px; }
+    .rp-date-range .rp-input { width:calc((100% - 30px)/2); }
+    .rp-date-range > span { color:#64748b; flex:none; }
+    .rp-table-wrap { margin-top:14px; overflow:auto; background:#fff; border-radius:4px; }
+    .rp-table, .rp-log-table { width:100%; border-collapse:collapse; table-layout:auto; font-size:13px; }
+    .rp-table { min-width:860px; }
+    .rp-table th, .rp-table td, .rp-log-table th, .rp-log-table td { height:42px; border:1px solid var(--rp-border); padding:0 10px; text-align:left; white-space:nowrap; overflow:visible; text-overflow:clip; color:#334155; vertical-align:middle; }
+    .rp-table th, .rp-log-table th { height:38px; font-weight:650; background:#f8fafc; color:#334155; }
+    .rp-table tbody tr:hover td, .rp-log-table tbody tr:hover td { background:#f8fafc; }
+    .rp-table th:first-child { width:104px; min-width:104px; }
+    .rp-table td:first-child, .rp-table th:first-child { text-align:center; }
+    .rp-table th:nth-child(2) { min-width:130px; }
+    .rp-table th:nth-child(3), .rp-table th:nth-child(4) { min-width:120px; }
+    .rp-table th:last-child { width:88px; min-width:88px; }
+    .rp-log-table { min-width:1200px; }
+    .rp-log-table th:first-child { min-width:164px; }
+    .rp-log-table th:nth-child(2) { min-width:90px; }
+    .rp-log-table th:nth-child(3) { min-width:130px; }
+    .rp-log-table th:nth-child(4), .rp-log-table th:nth-child(5) { min-width:110px; }
+    .rp-log-table th:last-child { min-width:320px; }
+    .rp-route-table { min-width:2100px; }
     .rp-route-table th, .rp-route-table td { min-width:120px; }
-    .rp-route-table th:first-child, .rp-route-table td:first-child { min-width:100px; }
-    .rp-route-table th:last-child, .rp-route-table td:last-child { min-width:88px; position:sticky; right:0; background:#fff; }
-    .rp-route-table .rp-input { width:100%; min-width:92px; }
-    .rp-route-table .rp-select { width:100%; min-width:110px; }
-    .rp-route-summary { display:flex; gap:18px; align-items:end; flex-wrap:wrap; background:#fff7e8; border:1px solid #f2dfb5; padding:16px 20px; margin-top:16px; }
-    .rp-route-summary .rp-field { min-width:180px; }
-    @media (max-width: 800px) { .rp-side { width:190px; flex-basis:190px; } .rp-content { padding:20px; } }
-    @media (max-width: 700px) { .rp-routing-fields { grid-template-columns:1fr; } .rp-routing-fields .rp-field.full { grid-column:auto; } .rp-channel-head, .rp-channel-row { grid-template-columns:1fr 1fr; } .rp-channel-head span:nth-child(3), .rp-channel-head span:nth-child(4) { display:none; } .rp-date-range { flex-wrap:wrap; } .rp-date-range .rp-input { width:100%; } }
+    .rp-route-table td { height:54px; }
+    .rp-route-table th:last-child, .rp-route-table td:last-child { position:sticky; right:0; min-width:88px; background:#fff; box-shadow:-1px 0 0 #e2e8f0; }
+    .rp-route-table th:last-child { background:#f8fafc; }
+    .rp-route-table .rp-input { min-width:90px; }
+    .rp-route-table input[type="checkbox"] { accent-color:#475569; width:15px; height:15px; cursor:pointer; }
+    .rp-route-table input[data-route-field="whiteEnabled"], .rp-route-table input[data-route-field="antiComplaint"] { appearance:none; width:34px; height:18px; margin:0; border:0; border-radius:18px; background:#cbd5e1; position:relative; vertical-align:middle; transition:background .18s; }
+    .rp-route-table input[data-route-field="whiteEnabled"]::after, .rp-route-table input[data-route-field="antiComplaint"]::after { content:""; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; box-shadow:0 1px 3px #0f172a2e; transition:transform .18s; }
+    .rp-route-table input[data-route-field="whiteEnabled"]:checked, .rp-route-table input[data-route-field="antiComplaint"]:checked { background:#475569; }
+    .rp-route-table input[data-route-field="whiteEnabled"]:checked::after, .rp-route-table input[data-route-field="antiComplaint"]:checked::after { transform:translateX(16px); }
+    .rp-route-summary { display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; background:#f8fafc; border:1px solid var(--rp-border); border-radius:6px; padding:14px; margin-top:14px; }
+    .rp-switch { width:34px; height:18px; flex:none; padding:0; border:0; border-radius:18px; background:#cbd5e1; position:relative; vertical-align:middle; transition:background .18s; }
+    .rp-switch::after { content:""; position:absolute; left:2px; top:2px; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 3px #0f172a2e; transition:transform .18s; }
+    .rp-switch.on { background:#475569; }
+    .rp-switch.on::after { transform:translateX(16px); }
+    .rp-link { color:#334155; background:transparent; border:0; padding:4px 6px; font-weight:650; }
+    .rp-link:hover { text-decoration:underline; }
+    .rp-empty td { height:260px; color:#94a3b8; text-align:center; }
+    .rp-footer { display:flex; justify-content:space-between; align-items:center; padding:14px 0; color:#64748b; gap:12px; }
+    .rp-page { display:flex; gap:6px; align-items:center; }
+    .rp-page button { width:28px; height:28px; padding:0; border:1px solid var(--rp-border); border-radius:6px; background:#fff; color:#475569; }
+    .rp-page button.current { background:#e2e8f0; font-weight:700; color:#0f172a; }
+    .rp-mask { position:fixed; inset:0; z-index:30; background:#0f172a59; display:flex; justify-content:center; align-items:center; padding:16px; }
+    .rp-modal { width:min(760px,calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow:auto; background:#fff; border:1px solid var(--rp-border); border-radius:8px; box-shadow:0 18px 48px #0f172a26; }
+    .rp-routing-modal { width:min(920px,calc(100vw - 32px)); }
+    .rp-modal-head { display:flex; align-items:center; justify-content:space-between; padding:16px 20px; border-bottom:1px solid var(--rp-border); background:#f8fafc; }
+    .rp-modal-head h2 { margin:0; font-size:16px; font-weight:700; }
+    .rp-close { display:grid; place-items:center; width:28px; height:28px; padding:0; background:transparent; border:0; border-radius:6px; color:#64748b; font-size:20px; }
+    .rp-close:hover { background:#e2e8f0; }
+    .rp-modal-body { padding:20px; }
+    .rp-routing-fields { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:16px 24px; }
+    .rp-routing-fields .rp-field { width:auto; display:grid; grid-template-columns:80px minmax(0,1fr); align-items:center; gap:10px; }
+    .rp-routing-fields .rp-field > label { text-align:right; white-space:nowrap; }
+    .rp-routing-fields .rp-field.full { grid-column:1/-1; display:block; }
+    .rp-required::before { content:"*"; color:#b45353; margin-right:4px; }
+    .rp-unit-input { display:flex; min-width:0; }
+    .rp-unit-input .rp-input { flex:1; border-radius:6px 0 0 6px; }
+    .rp-unit-input > span { display:grid; place-items:center; width:46px; flex:none; height:36px; border:1px solid #d9e0ea; border-left:0; border-radius:0 6px 6px 0; background:#f8fafc; color:#64748b; }
+    .rp-channel-head, .rp-channel-row { display:grid; grid-template-columns:minmax(180px,1.2fr) minmax(100px,1fr) minmax(140px,1fr) 70px; gap:8px; align-items:center; }
+    .rp-channel-head { margin:2px 0 8px; color:#475569; font-weight:650; }
+    .rp-channel-row { margin-bottom:8px; }
+    .rp-error { display:none; color:#b45353; font-size:12px; }
+    .rp-error.show { display:block; }
+    .rp-routing-fields .rp-error { grid-column:2; }
+    .rp-modal-foot { display:flex; justify-content:flex-end; gap:8px; padding:14px 20px; border-top:1px solid var(--rp-border); }
+    .rp-toast { position:fixed; z-index:60; top:20px; left:50%; transform:translate(-50%,-8px); padding:10px 18px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; color:#334155; box-shadow:0 8px 24px #0f172a1a; opacity:0; pointer-events:none; transition:opacity .18s,transform .18s; }
+    .rp-toast.show { opacity:1; transform:translate(-50%,0); }
+    @media(max-width:1100px) { .rp-side { width:208px; flex-basis:208px; } .rp-brand { font-size:14px; padding:0 16px; } }
+    @media(max-width:700px) { .rp-side { width:180px; flex-basis:180px; } .rp-nav { padding:12px 8px; } .rp-main { padding:8px; } .rp-content { padding:0 10px; min-height:calc(100vh - 16px); } .rp-field, .rp-field.small { width:100%; } .rp-heading { align-items:flex-start; } .rp-routing-fields { grid-template-columns:1fr; } }
+    @media(prefers-reduced-motion:reduce) { #routing-prototype * { transition:none !important; } }
   </style>
 
   <div class="rp-shell">
@@ -187,10 +137,10 @@
       <div class="rp-brand">支付后台管理系统</div>
       <nav class="rp-nav">
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>权限配置</span><span>⌄</span></div></div>
-        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="platform" data-nav-toggle><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="logs">▤　操作日志</button></div></div>
+        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="platform" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="logs">▤　操作日志</button></div></div>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>订单管理</span><span>⌄</span></div></div>
         <div class="rp-nav-section">
-          <div class="rp-nav-title active" data-nav-group="business" data-nav-toggle><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>业务管理</span><span>⌃</span></div>
+          <div class="rp-nav-title active" data-nav-group="business" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>业务管理</span><span>⌃</span></div>
           <div class="rp-subnav">
             <button type="button">▤　支付成功率</button>
             <button type="button" data-page="collection">▤　代收分流</button>
@@ -199,7 +149,7 @@
             <button type="button">▤　虚拟币代付路由</button>
           </div>
         </div>
-        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="merchant" data-nav-toggle><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="merchantCollection">▤　商户代收路由</button><button type="button" data-page="merchantPayout">▤　商户代付路由</button></div></div>
+        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="merchant" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="merchantCollection">▤　商户代收路由</button><button type="button" data-page="merchantPayout">▤　商户代付路由</button></div></div>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>报表</span><span>⌄</span></div></div>
       </nav>
     </aside>
@@ -238,8 +188,8 @@
         ]
       };
       const logs = [
-        {time:'2026-09-08 14:32:10', operator:'white', type:'编辑规则', business:'代收分流', merchant:'india02', api:'/api/routing/collection/update', params:'{"id":1,"lower":0,"upper":5000}', response:'{"code":0,"message":"success"}', detail:'下限（含）：0 → 0；上限（不含）：3000 → 5000', result:'成功'},
-        {time:'2026-09-08 14:28:41', operator:'white', type:'启用规则', business:'代付分流', merchant:'india02', api:'/api/routing/payout/update-status', params:'{"id":3,"enabled":true}', response:'{"code":0,"message":"success"}', detail:'启用分流规则', result:'成功'}
+        {time:'2026-09-08 14:32:10', operator:'white', type:'编辑', business:'代收分流', merchant:'india02', api:'/api/routing/collection/update', params:'{"id":1,"lower":0,"upper":5000}', response:'{"code":0,"message":"success"}', detail:'下限（含）：0 → 0；上限（不含）：3000 → 5000', result:'成功'},
+        {time:'2026-09-08 14:28:41', operator:'white', type:'启用', business:'代付分流', merchant:'india02', api:'/api/routing/payout/update-status', params:'{"id":3,"enabled":true}', response:'{"code":0,"message":"success"}', detail:'启用分流规则', result:'成功'}
       ];
 
       function showToast(message) {
@@ -257,7 +207,7 @@
       function formatRouteConfig(row) { return `商户：${row.merchant}；渠道名称：${row.channelName}；渠道排序：${row.sort}；金额区间：${row.min}～${row.max}`; }
       const routeFieldLabels = {channelName:'渠道名称', sort:'渠道排序', own:'自有', min:'最小（含）', middle:'普大（不含）', max:'最大（不含）', fee:'费率（%）', quota:'限额（w）', minCount:'最少充值次数', minAmount:'最少充值金额', amountBase:'金额基数', whiteEnabled:'白户', antiComplaint:'是否抗投诉', fixedFee:'固费（卢比）', bankCheck:'代付银行卡校验'};
       function recordApi(type, api, params, merchant, result = '成功', response = '{"code":0,"message":"success"}', detail = '操作完成') {
-        if (result !== '成功') return;
+        if (result !== '成功' || !['新增', '编辑', '启用', '停用'].includes(type) || !Object.hasOwn(data, current)) return;
         logs.unshift({time:now(), operator:'white', type, business:currentTitle(), merchant:merchant || '-', api, params:JSON.stringify(params), response, detail});
       }
       function recordRuleChanges(previous, next) {
@@ -271,7 +221,7 @@
           const after = key === 'channels' ? JSON.stringify(next[key]) : String(next[key]);
           if (before !== after) changes.push({field:label, before:previous[key], after:next[key]});
         });
-        if (changes.length) recordApi('编辑规则', `/api/routing/${current}/update`, {id:next.id, changes}, next.merchant, '成功', '{"code":0,"message":"success"}', `配置分流规则：${changes.map(change => `${change.field}：${formatChangeValue(change.before)} → ${formatChangeValue(change.after)}`).join('；')}`);
+        if (changes.length) recordApi('编辑', `/api/routing/${current}/update`, {id:next.id, changes}, next.merchant, '成功', '{"code":0,"message":"success"}', `配置分流规则：${changes.map(change => `${change.field}：${formatChangeValue(change.before)} → ${formatChangeValue(change.after)}`).join('；')}`);
       }
       function renderMerchantRoute() {
         const filters = ruleFilters[current];
@@ -280,9 +230,9 @@
         const columns = isCollection ? ['是否启用','商户','渠道名称','渠道排序','自有','最小（含）','普大（不含）','最大（不含）','费率（%）','限额（w）','最少充值次数','最少充值金额','金额基数','白户开关','是否抗投诉','操作'] : ['是否启用','商户','渠道名称','渠道排序','自有','最小（含）','最大（不含）','费率（%）','固费（卢比）','代付银行卡校验','操作'];
         const input = (name, value) => `<input class="rp-input" data-route-field="${name}" value="${escapeHtml(value)}">`;
         const body = rows.length ? rows.map(row => { const cells = isCollection ? [
-          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}">`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('middle',row.middle), input('max',row.max), input('fee',row.fee), input('quota',row.quota), input('minCount',row.minCount), input('minAmount',row.minAmount), input('amountBase',row.amountBase), `<input type="checkbox" data-route-field="whiteEnabled" ${row.whiteEnabled ? 'checked' : ''}>`, `<input type="checkbox" data-route-field="antiComplaint" ${row.antiComplaint ? 'checked' : ''}>`, `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
+          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}"></button>`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('middle',row.middle), input('max',row.max), input('fee',row.fee), input('quota',row.quota), input('minCount',row.minCount), input('minAmount',row.minAmount), input('amountBase',row.amountBase), `<input type="checkbox" data-route-field="whiteEnabled" ${row.whiteEnabled ? 'checked' : ''}>`, `<input type="checkbox" data-route-field="antiComplaint" ${row.antiComplaint ? 'checked' : ''}>`, `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
         ] : [
-          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}">`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('max',row.max), input('fee',row.fee), input('fixedFee',row.fixedFee), input('bankCheck',row.bankCheck), `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
+          `<button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="toggle" data-id="${row.id}"></button>`, escapeHtml(row.merchant), input('channelName',row.channelName), input('sort',row.sort), `<input type="checkbox" data-route-field="own" ${row.own ? 'checked' : ''}>`, input('min',row.min), input('max',row.max), input('fee',row.fee), input('fixedFee',row.fixedFee), input('bankCheck',row.bankCheck), `<button type="button" class="rp-link" data-action="route-save" data-id="${row.id}">保存</button>`
         ]; return `<tr data-route-row="${row.id}">${cells.map(cell => `<td>${cell}</td>`).join('')}</tr>`; }).join('') : `<tr class="rp-empty"><td colspan="${columns.length}">暂无数据</td></tr>`;
         const setting = isCollection ? '' : `<div class="rp-route-summary"><div class="rp-field"><label>时间（分钟）</label>${input('minutes',routeSettings.merchantPayout.minutes)}</div><div class="rp-field"><label>单数</label>${input('count',routeSettings.merchantPayout.count)}</div><button type="button" class="rp-btn" data-action="route-settings-save">更新配置</button></div>`;
         page.innerHTML = `<div class="rp-heading"><div><h1>${currentTitle()}</h1><p>按商户和启用状态管理商户路由配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-filter"><option value="">全部商户</option><option value="india02" ${filters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${filters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-status-filter"><option value="">全部状态</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>${setting}<div class="rp-table-wrap"><table class="rp-table rp-route-table"><thead><tr>${columns.map(column => `<th>${column}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
@@ -308,7 +258,7 @@
       function renderLogs() {
         const visibleLogs = logs.filter(log => (!logFilters.start || log.time >= logFilters.start.replace('T', ' ')) && (!logFilters.end || log.time <= logFilters.end.replace('T', ' ')) && (!logFilters.business || log.business === logFilters.business) && (!logFilters.type || log.type === logFilters.type) && (!logFilters.merchant || log.merchant === logFilters.merchant || log.merchant === '全部商户'));
         page.innerHTML = `<div class="rp-heading"><div><h1>操作日志</h1><p>汇总代收分流、代付分流及商户路由的成功操作，便于运营统一查询</p></div></div>
-          <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option><option value="商户代收路由" ${logFilters.business === '商户代收路由' ? 'selected' : ''}>商户代收路由</option><option value="商户代付路由" ${logFilters.business === '商户代付路由' ? 'selected' : ''}>商户代付路由</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="查询规则" ${logFilters.type === '查询规则' ? 'selected' : ''}>查询规则</option><option value="新增规则" ${logFilters.type === '新增规则' ? 'selected' : ''}>新增规则</option><option value="编辑规则" ${logFilters.type === '编辑规则' ? 'selected' : ''}>编辑规则</option><option value="启用规则" ${logFilters.type === '启用规则' ? 'selected' : ''}>启用规则</option><option value="停用规则" ${logFilters.type === '停用规则' ? 'selected' : ''}>停用规则</option></select></div><div class="rp-field small"><label>商户</label><select class="rp-select" data-log-merchant><option value="">全部商户</option><option value="india02" ${logFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${logFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
+          <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option><option value="商户代收路由" ${logFilters.business === '商户代收路由' ? 'selected' : ''}>商户代收路由</option><option value="商户代付路由" ${logFilters.business === '商户代付路由' ? 'selected' : ''}>商户代付路由</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="新增" ${logFilters.type === '新增' ? 'selected' : ''}>新增</option><option value="编辑" ${logFilters.type === '编辑' ? 'selected' : ''}>编辑</option><option value="启用" ${logFilters.type === '启用' ? 'selected' : ''}>启用</option><option value="停用" ${logFilters.type === '停用' ? 'selected' : ''}>停用</option></select></div><div class="rp-field small"><label>商户</label><select class="rp-select" data-log-merchant><option value="">全部商户</option><option value="india02" ${logFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${logFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
           <div class="rp-table-wrap"><table class="rp-log-table"><thead><tr><th>操作时间</th><th>操作人</th><th>业务类型</th><th>操作类型</th><th>商户</th><th>调整内容</th></tr></thead><tbody>${visibleLogs.length ? visibleLogs.map(log => `<tr><td>${escapeHtml(log.time)}</td><td>${escapeHtml(log.operator)}</td><td>${escapeHtml(log.business)}</td><td>${escapeHtml(log.type)}</td><td>${escapeHtml(log.merchant)}</td><td>${escapeHtml(log.detail)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="6">暂无符合条件的日志</td></tr>'}</tbody></table></div>
           <div class="rp-footer"><span>共 ${visibleLogs.length} 条</span><div class="rp-page"><span>20条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
       }
@@ -325,13 +275,16 @@
         channelList.addEventListener('input', event => { const line = event.target.closest('[data-channel-index]'); if (!line) return; const item = channelEntries[Number(line.dataset.channelIndex)]; if (event.target.name === 'channel') item.name = event.target.value; if (event.target.name === 'weight') item.weight = event.target.value; if (event.target.name === 'channelUpper') item.upper = event.target.value; });
         channelList.addEventListener('change', event => { const line = event.target.closest('[data-channel-index]'); if (!line) return; const item = channelEntries[Number(line.dataset.channelIndex)]; if (event.target.name === 'channel') item.name = event.target.value; });
         form.querySelector('[data-action="add-channel"]').addEventListener('click', () => { channelEntries.push({name:'', weight:'100', upper:'100'}); renderChannelRows(); });
-        form.addEventListener('submit', event => { event.preventDefault(); const fd = new FormData(form); const lower = String(fd.get('lower') || '').trim(); const upper = String(fd.get('upper') || '').trim(); const channels = channelEntries.filter(item => item.name).map(item => ({name:item.name, weight:String(item.weight || '100'), upper:String(item.upper || '100')})); let valid = true; if (!/^\d+(\.\d{1,2})?$/.test(lower) || !/^\d+(\.\d{1,2})?$/.test(upper)) { form.querySelector('[data-error="range"]').classList.add('show'); valid = false; } else { form.querySelector('[data-error="range"]').classList.remove('show'); if (Number(lower) >= Number(upper)) { form.querySelector('[data-error="range2"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="range2"]').classList.remove('show'); } if (!/^\d+$/.test(String(fd.get('minutes') || '')) ) { form.querySelector('[data-error="minutes"]').classList.add('show'); valid = false; } if (!/^\d+$/.test(String(fd.get('records') || '')) ) { form.querySelector('[data-error="records"]').classList.add('show'); valid = false; } if (!channels.length) { form.querySelector('[data-error="channels"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="channels"]').classList.remove('show'); if (!valid) return; const merchant = row ? row.merchant : 'india02'; const action = row ? '编辑规则' : '新增规则'; const id = row ? row.id : seq++; const next = {id, enabled:row ? row.enabled : false, merchant, lower, upper, minutes:String(fd.get('minutes')), records:String(fd.get('records')), uplift:String(fd.get('uplift') || '3'), channels}; if (row) { Object.assign(row, next); recordRuleChanges(previous, next); } else { data[current].push(next); recordApi(action, `/api/routing/${current}/create`, next, merchant, '成功', '{"code":0,"message":"success"}', `新增分流规则：${formatRuleConfig(next)}`); } overlay.innerHTML = ''; render(); showToast(`${action}成功`); });
+        form.addEventListener('submit', event => { event.preventDefault(); const fd = new FormData(form); const lower = String(fd.get('lower') || '').trim(); const upper = String(fd.get('upper') || '').trim(); const channels = channelEntries.filter(item => item.name).map(item => ({name:item.name, weight:String(item.weight || '100'), upper:String(item.upper || '100')})); let valid = true; if (!/^\d+(\.\d{1,2})?$/.test(lower) || !/^\d+(\.\d{1,2})?$/.test(upper)) { form.querySelector('[data-error="range"]').classList.add('show'); valid = false; } else { form.querySelector('[data-error="range"]').classList.remove('show'); if (Number(lower) >= Number(upper)) { form.querySelector('[data-error="range2"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="range2"]').classList.remove('show'); } if (!/^\d+$/.test(String(fd.get('minutes') || '')) ) { form.querySelector('[data-error="minutes"]').classList.add('show'); valid = false; } if (!/^\d+$/.test(String(fd.get('records') || '')) ) { form.querySelector('[data-error="records"]').classList.add('show'); valid = false; } if (!channels.length) { form.querySelector('[data-error="channels"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="channels"]').classList.remove('show'); if (!valid) return; const merchant = row ? row.merchant : 'india02'; const action = row ? '编辑' : '新增'; const id = row ? row.id : seq++; const next = {id, enabled:row ? row.enabled : false, merchant, lower, upper, minutes:String(fd.get('minutes')), records:String(fd.get('records')), uplift:String(fd.get('uplift') || '3'), channels}; if (row) { Object.assign(row, next); recordRuleChanges(previous, next); } else { data[current].push(next); recordApi(action, `/api/routing/${current}/create`, next, merchant, '成功', '{"code":0,"message":"success"}', `新增分流规则：${formatRuleConfig(next)}`); } overlay.innerHTML = ''; render(); showToast(`${action}成功`); });
       }
-      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current)); const group = current === 'logs' ? 'platform' : current === 'merchantCollection' || current === 'merchantPayout' ? 'merchant' : 'business'; document.querySelectorAll('[data-nav-group]').forEach(title => { title.classList.toggle('active', title.dataset.navGroup === group); const section = title.closest('.rp-nav-section'); if (section) section.classList.toggle('collapsed', title.dataset.navGroup !== group); }); render(); }
-      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value, merchant:document.querySelector('[data-log-merchant]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; const queryMerchant = ruleFilters[current].merchant || '全部商户'; const queryStatus = ruleFilters[current].enabled === 'on' ? '启用' : ruleFilters[current].enabled === 'off' ? '停用' : '全部状态'; recordApi('查询规则', `/api/routing/${current}/list`, ruleFilters[current], queryMerchant, '成功', '{"code":0,"message":"success"}', `查询分流配置：商户=${queryMerchant}；启用状态=${queryStatus}`); render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:'', merchant:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'route-settings-save') { const previous = {...routeSettings.merchantPayout}; const fields = document.querySelectorAll('[data-route-field]'); fields.forEach(field => { if (field.dataset.routeField in routeSettings.merchantPayout) routeSettings.merchantPayout[field.dataset.routeField] = field.value; }); const changes = Object.keys(routeSettings.merchantPayout).filter(key => previous[key] !== routeSettings.merchantPayout[key]); if (changes.length) recordApi('编辑规则', '/api/merchant-payout-route/settings', {changes}, '全部商户', '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${routeSettings.merchantPayout[key]}`).join('；')}`); renderMerchantRoute(); return showToast('配置更新成功'); } if (action === 'route-save') { const row = data[current].find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-route-field]').forEach(field => { row[field.dataset.routeField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑规则', `/api/routing/${current}/save`, {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); render(); return showToast('保存成功'); } if (action === 'route-flag') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; const before = row[field] ? '开' : '关'; row[field] = !row[field]; const after = row[field] ? '开' : '关'; recordApi('编辑规则', `/api/routing/${current}/save`, {id:row.id, field, enabled:row[field]}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${routeFieldLabels[field]}：${before} → ${after}`); render(); return showToast(`${routeFieldLabels[field]}已${row[field] ? '开启' : '关闭'}`); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; const config = current === 'merchantCollection' || current === 'merchantPayout' ? formatRouteConfig(row) : formatRuleConfig(row); recordApi(`${actionName}规则`, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}${current === 'merchantCollection' || current === 'merchantPayout' ? '路由' : '分流'}规则：${config}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
-      root.addEventListener('click', event => { const toggle = event.target.closest('[data-nav-toggle]'); if (!toggle) return; const section = toggle.closest('.rp-nav-section'); if (!section) return; const willOpen = section.classList.contains('collapsed'); root.querySelectorAll('.rp-nav-section').forEach(item => item.classList.add('collapsed')); if (willOpen) section.classList.remove('collapsed'); });
+      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current)); const group = current === 'logs' ? 'platform' : current === 'merchantCollection' || current === 'merchantPayout' ? 'merchant' : 'business'; document.querySelectorAll('[data-nav-group]').forEach(title => { title.classList.toggle('active', title.dataset.navGroup === group); const section = title.closest('.rp-nav-section'); if (section) section.classList.toggle('collapsed', title.dataset.navGroup !== group); title.setAttribute('aria-expanded', String(title.dataset.navGroup === group)); }); render(); }
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value, merchant:document.querySelector('[data-log-merchant]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:'', merchant:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'route-settings-save') { const previous = {...routeSettings.merchantPayout}; const fields = document.querySelectorAll('[data-route-field]'); fields.forEach(field => { if (field.dataset.routeField in routeSettings.merchantPayout) routeSettings.merchantPayout[field.dataset.routeField] = field.value; }); const changes = Object.keys(routeSettings.merchantPayout).filter(key => previous[key] !== routeSettings.merchantPayout[key]); if (changes.length) recordApi('编辑', '/api/merchant-payout-route/settings', {changes}, '全部商户', '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${routeSettings.merchantPayout[key]}`).join('；')}`); renderMerchantRoute(); return showToast('配置更新成功'); } if (action === 'route-save') { const row = data[current].find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-route-field]').forEach(field => { row[field.dataset.routeField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); render(); return showToast('保存成功'); } if (action === 'route-flag') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; const before = row[field] ? '开' : '关'; row[field] = !row[field]; const after = row[field] ? '开' : '关'; recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, field, enabled:row[field]}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${routeFieldLabels[field]}：${before} → ${after}`); render(); return showToast(`${routeFieldLabels[field]}已${row[field] ? '开启' : '关闭'}`); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; const config = current === 'merchantCollection' || current === 'merchantPayout' ? formatRouteConfig(row) : formatRuleConfig(row); recordApi(actionName, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}${current === 'merchantCollection' || current === 'merchantPayout' ? '路由' : '分流'}规则：${config}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
+      root.addEventListener('click', event => { const toggle = event.target.closest('[data-nav-toggle]'); if (!toggle) return; const section = toggle.closest('.rp-nav-section'); if (!section) return; const willOpen = section.classList.contains('collapsed'); root.querySelectorAll('[data-nav-toggle]').forEach(title => { const open = title === toggle && willOpen; title.closest('.rp-nav-section').classList.toggle('collapsed', !open); title.setAttribute('aria-expanded', String(open)); }); });
       root.addEventListener('click', event => { const nav = event.target.closest('[data-page]'); if (nav) setCurrent(nav.dataset.page); });
+      root.addEventListener('keydown', event => { const title = event.target.closest('[data-nav-toggle]'); if (title && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); title.click(); } });
       setCurrent('collection');
     })();
   </script>
 </div>
+</body>
+</html>
