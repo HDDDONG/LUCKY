@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>支付后台管理系统 · 操作日志</title>
+<title>支付后台管理系统 · 首页</title>
 </head>
 <body>
 <div id="routing-prototype">
   <style>
     html, body { margin:0; padding:0; min-height:100%; background:#f1f5f9; }
     #routing-prototype {
-      --rp-bg:#f1f5f9; --rp-panel:#fff; --rp-border:#e2e8f0;
-      --rp-text:#0f172a; --rp-muted:#64748b; --rp-primary:#475569;
-      --rp-sidebar:#475569; --rp-green:#475569; --rp-red:#b45353;
+      --rp-bg:#f5f7fa; --rp-panel:#fff; --rp-border:#dbe3ec;
+      --rp-text:#1f2937; --rp-muted:#738197; --rp-primary:#2f80d8;
+      --rp-sidebar:#252d35; --rp-green:#18b978; --rp-red:#c45858;
       min-height:100vh; font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
       font-size:13px; color:var(--rp-text); background:var(--rp-bg); line-height:1.5;
     }
@@ -22,32 +22,71 @@
     #routing-prototype button:disabled { cursor:not-allowed; opacity:.45; }
     #routing-prototype :focus-visible { outline:2px solid #94a3b8; outline-offset:2px; }
     .rp-shell { display:flex; min-height:100vh; align-items:stretch; }
-    .rp-side { width:232px; flex:0 0 232px; background:var(--rp-sidebar); color:#f8fafc; }
-    .rp-brand { height:64px; padding:0 20px; display:flex; align-items:center; font-size:16px; font-weight:700; border-bottom:1px solid rgba(255,255,255,.13); }
-    .rp-nav { padding:16px 12px; position:sticky; top:0; }
-    .rp-nav-section { padding:0; margin-bottom:8px; }
-    .rp-nav-title { min-height:36px; padding:0 10px; display:flex; justify-content:space-between; align-items:center; border-radius:6px; background:#f1f5f9; color:#0f172a; font-size:14px; font-weight:700; }
+    .rp-side { width:248px; flex:0 0 248px; background:var(--rp-sidebar); color:#f8fafc; box-shadow:inset -1px 0 rgba(15,23,42,.18); }
+    .rp-brand { height:72px; padding:0 22px; display:flex; align-items:center; gap:11px; font-size:15px; font-weight:700; letter-spacing:.2px; border-bottom:1px solid rgba(255,255,255,.08); }
+    .rp-brand::before { content:"P"; display:grid; place-items:center; width:28px; height:28px; border-radius:8px; background:#2f80d8; color:#fff; font-size:15px; font-weight:800; box-shadow:0 4px 10px rgba(47,128,216,.28); }
+    .rp-nav { padding:18px 14px; position:sticky; top:0; }
+    .rp-nav-section { padding:0; margin-bottom:6px; }
+    .rp-nav-title { min-height:42px; padding:0 12px; display:flex; justify-content:space-between; align-items:center; border-radius:8px; background:transparent; color:#b9c4cf; font-size:13px; font-weight:650; letter-spacing:.1px; }
     .rp-nav-title span:first-child { display:flex; align-items:center; gap:10px; }
-    .rp-nav-title.active { background:#e2e8f0; color:#0f172a; }
+    .rp-nav-title.active { background:#303c48; color:#fff; }
     .rp-nav-title[data-nav-toggle] { cursor:pointer; }
+    .rp-nav-title[data-nav-toggle]:hover { background:#3a4856; color:#fff; }
     .rp-nav-title[data-nav-toggle] > span:last-child { display:none; }
-    .rp-nav-title[data-nav-toggle]::after { content:""; width:6px; height:6px; border-right:1.5px solid #64748b; border-bottom:1.5px solid #64748b; transform:rotate(45deg); margin:0 3px 3px; transition:transform .18s; }
+    .rp-nav-title[data-nav-toggle]::after { content:""; width:6px; height:6px; border-right:1.5px solid #aab6c3; border-bottom:1.5px solid #aab6c3; transform:rotate(45deg); margin:0 3px 3px; transition:transform .18s; }
     .rp-nav-section.collapsed .rp-nav-title[data-nav-toggle]::after { transform:rotate(-45deg); margin-bottom:0; }
     .rp-grid-icon { display:grid; grid-template-columns:repeat(2,5px); grid-template-rows:repeat(2,5px); gap:2px; width:12px; }
-    .rp-grid-icon i { background:#64748b; border-radius:1px; }
-    .rp-subnav { margin-top:8px; padding-left:12px; }
+    .rp-grid-icon i { background:#8190a0; border-radius:1px; }
+    .rp-nav-title.active .rp-grid-icon i { background:#69aaf0; }
+    .rp-subnav { position:relative; margin:4px 0 8px 14px; padding:3px 0; }
     .rp-nav-section.collapsed .rp-subnav { display:none; }
-    .rp-subnav button { display:flex; align-items:center; min-height:32px; width:100%; padding:0 10px; margin:2px 0; border:0; border-radius:6px; background:transparent; color:#f8fafc; text-align:left; transition:background .16s,color .16s; }
-    .rp-subnav button:hover { background:#cbd5e1; color:#0f172a; }
-    .rp-subnav button.active { background:#e2e8f0; color:#0f172a; font-weight:650; }
-    .rp-main { flex:1; min-width:0; padding:14px; }
-    .rp-content { min-height:calc(100vh - 28px); padding:0 14px; border:1px solid var(--rp-border); border-radius:8px; background:#fff; }
+    .rp-subnav button { display:flex; align-items:center; min-height:36px; width:100%; padding:0 12px; margin:3px 0; border:0; border-radius:7px; background:transparent; color:#aebbc8; text-align:left; transition:background .16s,color .16s,transform .16s; }
+    .rp-subnav button::before { content:""; width:5px; height:5px; margin-right:10px; flex:none; border-radius:50%; background:#718094; transition:background .16s,transform .16s; }
+    .rp-subnav button:hover { background:#3a4856; color:#fff; transform:translateX(3px); }
+    .rp-subnav button.active { background:#2f80d8; color:#fff; font-weight:650; box-shadow:0 4px 10px rgba(15,23,42,.16); }
+    .rp-subnav button.active::before { background:#fff; transform:scale(1.25); }
+    .rp-home-link { display:flex; align-items:center; gap:10px; width:100%; min-height:42px; padding:0 12px; margin-bottom:14px; border:0; border-radius:8px; background:transparent; color:#b9c4cf; text-align:left; font-weight:650; }
+    .rp-home-link:hover { background:#3a4856; color:#fff; transform:translateX(3px); }
+    .rp-home-link.active { background:#2f80d8; color:#fff; box-shadow:0 4px 10px rgba(15,23,42,.16); }
+    .rp-home-heading { flex-wrap:wrap; }
+    .rp-home-heading .rp-field { width:208px; }
+    .rp-home-status { display:flex; align-items:center; flex-wrap:wrap; gap:8px; margin:16px 0; color:var(--rp-muted); font-size:12px; }
+    .rp-home-badge { padding:3px 8px; border:1px solid var(--rp-border); border-radius:4px; background:#f8fafc; color:#475569; }
+    .rp-home-groups { padding-bottom:18px; }
+    .rp-home-group { display:grid; grid-template-columns:130px minmax(0,1fr); border:1px solid var(--rp-border); border-radius:6px; margin-bottom:12px; overflow:hidden; }
+    .rp-home-group h2 { margin:0; padding:20px 16px; background:#f8fafc; font-size:14px; font-weight:650; line-height:22px; }
+    .rp-home-metrics { display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); margin:0; }
+    .rp-home-metrics[data-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); }
+    .rp-home-metric { min-width:0; padding:17px 18px; }
+    .rp-home-metric dt { margin:0 0 10px; color:#64748b; font-size:13px; line-height:20px; overflow-wrap:anywhere; }
+    .rp-home-metric dd { margin:0; font-size:25px; line-height:30px; font-weight:650; font-variant-numeric:tabular-nums; color:#334155; }
+    .rp-merchant-table { min-width:1500px; }
+    .rp-merchant-table th, .rp-merchant-table td { min-width:104px; }
+    .rp-merchant-table th:first-child, .rp-merchant-table td:first-child { min-width:58px; width:58px; text-align:center; }
+    .rp-merchant-table th:nth-child(2), .rp-merchant-table td:nth-child(2) { min-width:124px; }
+    .rp-merchant-table th:nth-child(3), .rp-merchant-table td:nth-child(3) { min-width:124px; }
+    .rp-merchant-table th:last-child, .rp-merchant-table td:last-child { min-width:118px; position:sticky; right:0; background:#fff; box-shadow:-1px 0 0 #e2e8f0; }
+    .rp-merchant-table th:last-child { background:#f8fafc; }
+    .rp-balance-summary { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px; }
+    .rp-balance-card { padding:14px; border:1px solid var(--rp-border); border-radius:6px; background:#f8fafc; }
+    .rp-balance-card span { display:block; color:var(--rp-muted); font-size:12px; }
+    .rp-balance-card strong { display:block; margin-top:6px; color:#334155; font-size:22px; line-height:28px; }
+    .rp-modal-note { margin:14px 0 0; color:var(--rp-muted); font-size:12px; }
+    .rp-balance-form { display:grid; gap:14px; max-width:520px; }
+    .rp-balance-form .rp-field { width:400px; max-width:100%; }
+    .rp-balance-form .rp-error { display:none; margin-top:4px; color:#b45353; font-size:12px; }
+    .rp-balance-form .rp-error.show { display:block; }
+    @media(max-width:1250px) { .rp-home-group { grid-template-columns:110px minmax(0,1fr); } .rp-home-metrics, .rp-home-metrics[data-count="3"] { grid-template-columns:repeat(3,minmax(0,1fr)); } }
+    @media(max-width:950px) { .rp-home-group { grid-template-columns:1fr; } .rp-home-group h2 { padding:10px 14px; border-bottom:1px solid var(--rp-border); } .rp-home-metrics, .rp-home-metrics[data-count="3"] { grid-template-columns:repeat(2,minmax(0,1fr)); } .rp-home-metric { padding:14px; } }
+    @media(max-width:560px) { .rp-home-metrics, .rp-home-metrics[data-count="3"] { grid-template-columns:1fr; } .rp-home-heading .rp-field { width:100%; } }
+    .rp-main { flex:1; min-width:0; padding:20px 24px; }
+    .rp-content { min-height:calc(100vh - 40px); padding:0 22px; border:1px solid var(--rp-border); border-radius:8px; background:#fff; box-shadow:0 1px 2px rgba(15,23,42,.04); }
     .rp-heading { min-height:82px; display:flex; justify-content:space-between; align-items:center; gap:16px; padding:16px 0; border-bottom:1px solid var(--rp-border); }
     .rp-heading h1 { margin:0; font-size:18px; font-weight:700; line-height:26px; }
     .rp-heading p { margin:4px 0 0; font-size:12px; color:var(--rp-muted); }
     .rp-actions { display:flex; gap:8px; }
-    .rp-btn { display:inline-flex; align-items:center; justify-content:center; min-width:76px; height:34px; min-height:34px; padding:0 14px; border:1px solid var(--rp-border); border-radius:6px; background:#e2e8f0; color:#334155; font-weight:650; white-space:nowrap; box-shadow:none; }
-    .rp-btn:hover { background:#cbd5e1; }
+    .rp-btn { display:inline-flex; align-items:center; justify-content:center; min-width:76px; height:34px; min-height:34px; padding:0 14px; border:1px solid #2f80d8; border-radius:6px; background:#2f80d8; color:#fff; font-weight:650; white-space:nowrap; box-shadow:none; }
+    .rp-btn:hover { background:#256fbe; border-color:#256fbe; }
     .rp-btn.secondary { background:#fff; color:#334155; }
     .rp-btn.secondary:hover, .rp-btn.ghost { background:#f8fafc; }
     .rp-filter { display:flex; flex-wrap:wrap; gap:16px; align-items:flex-end; padding:14px 0; border-bottom:1px solid var(--rp-border); }
@@ -90,18 +129,97 @@
     .rp-route-table input[data-route-field="whiteEnabled"]::after, .rp-route-table input[data-route-field="antiComplaint"]::after { content:""; position:absolute; top:2px; left:2px; width:14px; height:14px; background:#fff; border-radius:50%; box-shadow:0 1px 3px #0f172a2e; transition:transform .18s; }
     .rp-route-table input[data-route-field="whiteEnabled"]:checked, .rp-route-table input[data-route-field="antiComplaint"]:checked { background:#475569; }
     .rp-route-table input[data-route-field="whiteEnabled"]:checked::after, .rp-route-table input[data-route-field="antiComplaint"]:checked::after { transform:translateX(16px); }
+    .rp-order-filter { display:grid; grid-template-columns:repeat(6,minmax(150px,1fr)); gap:16px 18px; align-items:end; padding:20px 0; }
+    .rp-order-filter .rp-field { width:auto; }
+    .rp-order-filter .rp-date-field { grid-column:span 2; }
+    .rp-order-filter .rp-date-field .rp-date-range { width:100%; }
+    .rp-order-filter .rp-action-row { display:flex; gap:8px; align-items:end; }
+    .rp-order-table { min-width:2200px; }
+    .rp-order-table th, .rp-order-table td { min-width:104px; white-space:normal; line-height:1.45; }
+    .rp-order-table th:first-child, .rp-order-table td:first-child { min-width:54px; width:54px; }
+    .rp-order-table th:nth-child(4), .rp-order-table td:nth-child(4) { min-width:92px; }
+    .rp-order-table th:nth-child(8), .rp-order-table td:nth-child(8) { min-width:116px; }
+    .rp-order-table th:nth-child(9), .rp-order-table td:nth-child(9), .rp-order-table th:nth-child(10), .rp-order-table td:nth-child(10) { min-width:150px; }
+    .rp-order-table th:nth-child(14), .rp-order-table td:nth-child(14), .rp-order-table th:nth-child(15), .rp-order-table td:nth-child(15) { min-width:146px; }
+    .rp-order-table td { height:58px; vertical-align:middle; }
+    .rp-order-table .rp-status { font-weight:650; }
+    .rp-order-table .rp-status.success { color:#15803d; }
+    .rp-order-table .rp-status.failed { color:#b45353; }
+    .rp-order-table .rp-status.pending { color:#a16207; }
+    .rp-exception-table { min-width:1500px; }
+    .rp-exception-table th, .rp-exception-table td { min-width:116px; white-space:normal; line-height:1.45; }
+    .rp-exception-table th:first-child, .rp-exception-table td:first-child { width:48px; min-width:48px; text-align:center; }
+    .rp-exception-table th:nth-child(4), .rp-exception-table td:nth-child(4) { min-width:140px; }
+    .rp-exception-table th:nth-child(5), .rp-exception-table td:nth-child(5), .rp-exception-table th:nth-child(6), .rp-exception-table td:nth-child(6) { min-width:150px; }
+    .rp-exception-table td { height:58px; vertical-align:middle; }
+    .rp-collection-exception-table { min-width:2200px; }
+    .rp-collection-exception-table th, .rp-collection-exception-table td { min-width:112px; white-space:normal; line-height:1.45; }
+    .rp-collection-exception-table th:first-child, .rp-collection-exception-table td:first-child { min-width:54px; width:54px; }
+    .rp-collection-exception-table th:nth-child(2), .rp-collection-exception-table td:nth-child(2), .rp-collection-exception-table th:nth-child(3), .rp-collection-exception-table td:nth-child(3) { min-width:128px; }
+    .rp-collection-exception-table th:nth-child(8), .rp-collection-exception-table td:nth-child(8), .rp-collection-exception-table th:nth-child(9), .rp-collection-exception-table td:nth-child(9) { min-width:150px; }
+    .rp-collection-exception-table th:nth-child(12), .rp-collection-exception-table td:nth-child(12), .rp-collection-exception-table th:nth-child(13), .rp-collection-exception-table td:nth-child(13) { min-width:146px; }
+    .rp-collection-exception-table td { height:58px; vertical-align:middle; }
+    .rp-multiple-exception-table { min-width:1450px; }
+    .rp-multiple-exception-table th, .rp-multiple-exception-table td { min-width:132px; white-space:normal; line-height:1.45; }
+    .rp-multiple-exception-table th:nth-child(2), .rp-multiple-exception-table td:nth-child(2), .rp-multiple-exception-table th:nth-child(3), .rp-multiple-exception-table td:nth-child(3) { min-width:160px; }
+    .rp-multiple-exception-table th:nth-child(7), .rp-multiple-exception-table td:nth-child(7) { min-width:220px; }
+    .rp-multiple-exception-table th:last-child, .rp-multiple-exception-table td:last-child { min-width:96px; }
+    .rp-multiple-exception-table td { height:58px; vertical-align:middle; }
+    .rp-upload-form { max-width:560px; padding:8px 0 30px; }
+    .rp-upload-form .rp-field { margin-bottom:24px; }
+    .rp-upload-dropzone { width:360px; min-height:180px; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; border:1px dashed #cbd5e1; border-radius:8px; background:#fff; color:#64748b; cursor:pointer; transition:border-color .18s,background .18s; }
+    .rp-upload-dropzone:hover, .rp-upload-dropzone.dragover { border-color:#2f80d8; background:#f8fbff; }
+    .rp-upload-icon { font-size:42px; line-height:1; color:#94a3b8; }
+    .rp-upload-dropzone strong { color:#2f80d8; font-weight:650; }
+    .rp-upload-file { display:none; }
+    .rp-upload-name { max-width:360px; margin-top:10px; color:#475569; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+    .rp-upload-status { margin-top:14px; color:#15803d; font-size:13px; }
+    .rp-success-rate-table { min-width:1500px; }
+    .rp-success-rate-table th, .rp-success-rate-table td { min-width:140px; white-space:normal; line-height:1.45; }
+    .rp-success-rate-table th:first-child, .rp-success-rate-table td:first-child { min-width:80px; width:80px; }
+    .rp-success-rate-table td { height:58px; vertical-align:middle; }
+    .rp-global-route-table { min-width:1500px; }
+    .rp-global-route-table th, .rp-global-route-table td { min-width:128px; white-space:normal; line-height:1.45; }
+    .rp-global-route-table th:first-child, .rp-global-route-table td:first-child { min-width:100px; }
+    .rp-global-route-table td { height:58px; vertical-align:middle; }
+    .rp-virtual-route-table { min-width:1640px; }
+    .rp-virtual-route-table th, .rp-virtual-route-table td { min-width:128px; white-space:normal; line-height:1.45; }
+    .rp-virtual-route-table th:first-child, .rp-virtual-route-table td:first-child { min-width:100px; }
+    .rp-virtual-route-table th:nth-child(2), .rp-virtual-route-table td:nth-child(2) { min-width:168px; }
+    .rp-virtual-route-table th:last-child, .rp-virtual-route-table td:last-child { min-width:152px; }
+    .rp-virtual-route-table td { height:58px; vertical-align:middle; }
+    .rp-virtual-payout-route-table { min-width:1510px; }
+    .rp-virtual-payout-route-table th, .rp-virtual-payout-route-table td { min-width:128px; white-space:normal; line-height:1.45; }
+    .rp-virtual-payout-route-table th:first-child, .rp-virtual-payout-route-table td:first-child { min-width:100px; }
+    .rp-virtual-payout-route-table th:nth-child(2), .rp-virtual-payout-route-table td:nth-child(2) { min-width:168px; }
+    .rp-virtual-payout-route-table td { height:58px; vertical-align:middle; }
+    .rp-merchant-virtual-route-table { min-width:2200px; }
+    .rp-merchant-virtual-route-table th, .rp-merchant-virtual-route-table td { min-width:128px; white-space:normal; line-height:1.45; }
+    .rp-merchant-virtual-route-table th:first-child, .rp-merchant-virtual-route-table td:first-child { min-width:100px; }
+    .rp-merchant-virtual-route-table th:nth-child(2), .rp-merchant-virtual-route-table td:nth-child(2) { min-width:124px; }
+    .rp-merchant-virtual-route-table th:nth-child(3), .rp-merchant-virtual-route-table td:nth-child(3) { min-width:168px; }
+    .rp-merchant-virtual-route-table th:last-child, .rp-merchant-virtual-route-table td:last-child { min-width:152px; }
+    .rp-merchant-virtual-route-table td { height:58px; vertical-align:middle; }
+    .rp-merchant-virtual-payout-route-table { min-width:1840px; }
+    .rp-merchant-virtual-payout-route-table th, .rp-merchant-virtual-payout-route-table td { min-width:128px; white-space:normal; line-height:1.45; }
+    .rp-merchant-virtual-payout-route-table th:first-child, .rp-merchant-virtual-payout-route-table td:first-child { min-width:100px; }
+    .rp-merchant-virtual-payout-route-table th:nth-child(2), .rp-merchant-virtual-payout-route-table td:nth-child(2) { min-width:124px; }
+    .rp-merchant-virtual-payout-route-table th:nth-child(3), .rp-merchant-virtual-payout-route-table td:nth-child(3) { min-width:168px; }
+    .rp-merchant-virtual-payout-route-table td { height:58px; vertical-align:middle; }
     .rp-route-summary { display:flex; gap:16px; align-items:flex-end; flex-wrap:wrap; background:#f8fafc; border:1px solid var(--rp-border); border-radius:6px; padding:14px; margin-top:14px; }
     .rp-switch { width:34px; height:18px; flex:none; padding:0; border:0; border-radius:18px; background:#cbd5e1; position:relative; vertical-align:middle; transition:background .18s; }
     .rp-switch::after { content:""; position:absolute; left:2px; top:2px; width:14px; height:14px; border-radius:50%; background:#fff; box-shadow:0 1px 3px #0f172a2e; transition:transform .18s; }
     .rp-switch.on { background:#475569; }
     .rp-switch.on::after { transform:translateX(16px); }
-    .rp-link { color:#334155; background:transparent; border:0; padding:4px 6px; font-weight:650; }
+    .rp-link { color:#2f80d8; background:transparent; border:0; padding:4px 6px; font-weight:650; }
     .rp-link:hover { text-decoration:underline; }
     .rp-empty td { height:260px; color:#94a3b8; text-align:center; }
-    .rp-footer { display:flex; justify-content:space-between; align-items:center; padding:14px 0; color:#64748b; gap:12px; }
-    .rp-page { display:flex; gap:6px; align-items:center; }
+    .rp-footer { display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; padding:16px 0; color:#64748b; gap:14px 24px; }
+    .rp-page { display:flex; gap:6px; align-items:center; flex-wrap:wrap; }
+    .rp-page > span { white-space:nowrap; }
     .rp-page button { width:28px; height:28px; padding:0; border:1px solid var(--rp-border); border-radius:6px; background:#fff; color:#475569; }
-    .rp-page button.current { background:#e2e8f0; font-weight:700; color:#0f172a; }
+    .rp-page button.current { background:#2f80d8; border-color:#2f80d8; font-weight:700; color:#fff; }
+    .rp-page-input { width:56px !important; min-width:56px !important; height:28px !important; padding:0 7px; text-align:center; }
     .rp-mask { position:fixed; inset:0; z-index:30; background:#0f172a59; display:flex; justify-content:center; align-items:center; padding:16px; }
     .rp-modal { width:min(760px,calc(100vw - 32px)); max-height:calc(100vh - 32px); overflow:auto; background:#fff; border:1px solid var(--rp-border); border-radius:8px; box-shadow:0 18px 48px #0f172a26; }
     .rp-routing-modal { width:min(920px,calc(100vw - 32px)); }
@@ -127,8 +245,81 @@
     .rp-modal-foot { display:flex; justify-content:flex-end; gap:8px; padding:14px 20px; border-top:1px solid var(--rp-border); }
     .rp-toast { position:fixed; z-index:60; top:20px; left:50%; transform:translate(-50%,-8px); padding:10px 18px; border:1px solid #cbd5e1; border-radius:6px; background:#fff; color:#334155; box-shadow:0 8px 24px #0f172a1a; opacity:0; pointer-events:none; transition:opacity .18s,transform .18s; }
     .rp-toast.show { opacity:1; transform:translate(-50%,0); }
+    @media(max-width:1250px) { .rp-order-filter { grid-template-columns:repeat(3,minmax(170px,1fr)); } .rp-order-filter .rp-date-field { grid-column:span 2; } }
     @media(max-width:1100px) { .rp-side { width:208px; flex-basis:208px; } .rp-brand { font-size:14px; padding:0 16px; } }
-    @media(max-width:700px) { .rp-side { width:180px; flex-basis:180px; } .rp-nav { padding:12px 8px; } .rp-main { padding:8px; } .rp-content { padding:0 10px; min-height:calc(100vh - 16px); } .rp-field, .rp-field.small { width:100%; } .rp-heading { align-items:flex-start; } .rp-routing-fields { grid-template-columns:1fr; } }
+    @media(max-width:700px) { .rp-side { width:180px; flex-basis:180px; } .rp-nav { padding:12px 8px; } .rp-main { padding:8px; } .rp-content { padding:0 10px; min-height:calc(100vh - 16px); } .rp-field, .rp-field.small { width:100%; } .rp-order-filter { grid-template-columns:1fr; } .rp-order-filter .rp-date-field { grid-column:auto; } .rp-heading { align-items:flex-start; } .rp-routing-fields { grid-template-columns:1fr; } }
+    .tg-dashboard { padding:18px 0 22px; }
+    .tg-head { display:flex; justify-content:space-between; align-items:flex-start; gap:16px; padding:2px 0 16px; }
+    .tg-head h1 { margin:0; font-size:21px; line-height:28px; }
+    .tg-head p { margin:4px 0 0; color:#718096; font-size:12px; }
+    .tg-head-actions { display:flex; align-items:center; gap:8px; }
+    .tg-live { display:inline-flex; align-items:center; gap:7px; padding:6px 10px; border:1px solid #d9efe4; border-radius:18px; background:#effaf4; color:#168455; font-size:12px; white-space:nowrap; }
+    .tg-live::before { content:""; width:7px; height:7px; border-radius:50%; background:#22ad73; box-shadow:0 0 0 3px #22ad7320; }
+    .tg-demo { color:#738197; font-size:11px; white-space:nowrap; }
+    .tg-alert { display:flex; align-items:center; justify-content:space-between; gap:14px; margin:0 0 14px; padding:12px 15px; border:1px solid #f1d8dc; border-radius:7px; background:#fff6f6; color:#7d3640; }
+    .tg-alert-main { display:flex; align-items:center; gap:10px; min-width:0; }
+    .tg-alert-icon { display:grid; place-items:center; width:26px; height:26px; flex:none; border-radius:50%; background:#fae5e8; color:#c94c5a; font-weight:700; }
+    .tg-alert strong { display:block; font-size:13px; }
+    .tg-alert small { display:block; margin-top:2px; color:#91646a; }
+    .tg-alert button { border:0; background:transparent; color:#b44351; font-weight:650; white-space:nowrap; }
+    .tg-stat-grid { display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:10px; margin-bottom:12px; }
+    .tg-stat { min-width:0; padding:13px 14px; border:1px solid #e4e9f0; border-radius:7px; background:#fff; box-shadow:0 2px 8px #24364b08; }
+    .tg-stat-label { color:#68778b; font-size:12px; }
+    .tg-stat-value { margin-top:7px; color:#24344d; font-size:25px; font-weight:700; line-height:1.15; font-variant-numeric:tabular-nums; }
+    .tg-stat-note { margin-top:7px; color:#8290a2; font-size:11px; }
+    .tg-stat-note.good { color:#168455; }
+    .tg-stat-note.warn { color:#c04a58; }
+    .tg-progress { display:block; width:100%; height:4px; margin-top:8px; overflow:hidden; border-radius:4px; background:#e7ebf1; }
+    .tg-progress i { display:block; width:96.2%; height:100%; border-radius:4px; background:#5968dd; }
+    .tg-cycle { display:grid; grid-template-columns:1.35fr 1fr 1fr .8fr; gap:0; margin-bottom:14px; border-radius:8px; background:linear-gradient(105deg,#263967,#1e2d57); color:#fff; box-shadow:0 5px 16px #25365c24; }
+    .tg-cycle-item { min-width:0; padding:13px 17px; border-right:1px solid #ffffff22; }
+    .tg-cycle-item:last-child { border-right:0; }
+    .tg-cycle-label { color:#c3cee7; font-size:11px; }
+    .tg-cycle-value { margin-top:3px; font-size:17px; font-weight:700; line-height:22px; font-variant-numeric:tabular-nums; }
+    .tg-cycle-value.status { color:#ffd277; font-size:14px; }
+    .tg-cycle-value.person { display:flex; align-items:center; gap:7px; }
+    .tg-avatar { display:grid; place-items:center; width:22px; height:22px; border-radius:50%; background:#7189d8; color:#fff; font-size:11px; }
+    .tg-workspace { overflow:hidden; border:1px solid #e1e7ef; border-radius:8px; background:#fff; }
+    .tg-work-head { display:flex; justify-content:space-between; align-items:center; gap:14px; padding:12px 14px 0; }
+    .tg-tabs { display:flex; gap:20px; align-items:center; }
+    .tg-tab { padding:9px 1px 10px; border:0; border-bottom:2px solid transparent; background:transparent; color:#6f7e91; font-weight:600; }
+    .tg-tab[aria-selected="true"] { border-bottom-color:#3d5cdb; color:#3154d4; }
+    .tg-work-actions { display:flex; gap:8px; align-items:center; }
+    .tg-filters { display:flex; flex-wrap:wrap; align-items:end; gap:10px; padding:12px 14px; border-bottom:1px solid #e7ecf2; background:#fcfdff; }
+    .tg-filter { display:flex; flex-direction:column; gap:5px; width:156px; min-width:0; }
+    .tg-filter.search { flex:1; min-width:170px; }
+    .tg-filter label { color:#738197; font-size:11px; }
+    .tg-filter .rp-input, .tg-filter .rp-select { height:32px; font-size:12px; }
+    .tg-table-wrap { overflow:auto; }
+    .tg-table { width:100%; min-width:800px; border-collapse:collapse; font-size:12px; }
+    .tg-table th, .tg-table td { height:43px; padding:0 11px; border-bottom:1px solid #e9edf3; text-align:left; white-space:nowrap; }
+    .tg-table th { height:36px; background:#f8fafc; color:#7c8797; font-size:11px; font-weight:600; }
+    .tg-table tbody tr:hover { background:#fafcff; }
+    .tg-user { display:flex; align-items:center; gap:8px; }
+    .tg-user-avatar { display:grid; place-items:center; width:27px; height:27px; border-radius:50%; background:#7189dc; color:#fff; font-weight:700; }
+    .tg-user-name { color:#26364e; font-weight:650; }
+    .tg-user-handle { margin-top:1px; color:#8491a3; font-size:10px; }
+    .tg-number.good { color:#168455; font-weight:650; }
+    .tg-number.warn { color:#ce8332; font-weight:650; }
+    .tg-number.bad { color:#cb4d5a; font-weight:650; }
+    .tg-status { display:inline-flex; align-items:center; padding:3px 8px; border-radius:12px; background:#edf8f1; color:#188452; font-size:11px; }
+    .tg-status.late { background:#fff5e9; color:#b9762d; }
+    .tg-status.missed, .tg-status.failed { background:#fff0f1; color:#bd4653; }
+    .tg-empty { padding:54px 12px; color:#8794a5; text-align:center; }
+    .tg-footer { display:flex; justify-content:space-between; align-items:center; padding:11px 14px; color:#8390a0; font-size:11px; }
+    .tg-modal { width:min(720px,calc(100vw - 32px)); }
+    .tg-rule-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 18px; }
+    .tg-rule-section { margin:0 0 16px; padding:0 0 14px; border-bottom:1px solid #e9edf3; }
+    .tg-rule-section:last-child { border-bottom:0; margin-bottom:0; padding-bottom:0; }
+    .tg-rule-section h3 { margin:0 0 12px; color:#29384e; font-size:13px; }
+    .tg-rule-field { display:flex; flex-direction:column; gap:6px; min-width:0; }
+    .tg-rule-field label { color:#657489; font-size:12px; }
+    .tg-rule-field textarea { min-height:60px; padding:9px 10px; resize:vertical; border:1px solid #d9e0ea; border-radius:6px; color:#334155; }
+    .tg-rule-note { margin:10px 0 0; color:#7b8797; font-size:11px; line-height:1.6; }
+    .tg-rule-template { padding:9px 10px; border:1px solid #e2e8f0; border-radius:6px; background:#f8fafc; color:#475569; }
+    .tg-disclaimer { margin:10px 2px 0; color:#8592a2; font-size:11px; }
+    @media(max-width:1050px) { .tg-stat-grid { grid-template-columns:repeat(3,minmax(0,1fr)); } .tg-cycle { grid-template-columns:repeat(2,minmax(0,1fr)); } .tg-cycle-item:nth-child(2) { border-right:0; } .tg-cycle-item:nth-child(-n+2) { border-bottom:1px solid #ffffff22; } }
+    @media(max-width:650px) { .tg-dashboard { padding:12px 0 18px; } .tg-head { flex-direction:column; } .tg-stat-grid { grid-template-columns:repeat(2,minmax(0,1fr)); } .tg-cycle { grid-template-columns:1fr 1fr; } .tg-cycle-item { padding:11px; } .tg-cycle-value { font-size:15px; } .tg-work-head { align-items:flex-start; flex-direction:column; } .tg-filters { align-items:stretch; } .tg-filter, .tg-filter.search { width:100%; min-width:0; } .tg-rule-grid { grid-template-columns:1fr; } .tg-alert { align-items:flex-start; } }
     @media(prefers-reduced-motion:reduce) { #routing-prototype * { transition:none !important; } }
   </style>
 
@@ -136,20 +327,23 @@
     <aside class="rp-side">
       <div class="rp-brand">支付后台管理系统</div>
       <nav class="rp-nav">
+        <button type="button" class="rp-home-link" data-page="home"><span aria-hidden="true">⌂</span>首页</button>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>权限配置</span><span>⌄</span></div></div>
-        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="platform" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="logs">▤　操作日志</button></div></div>
-        <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>订单管理</span><span>⌄</span></div></div>
+        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="platform" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>平台管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="merchant">商户</button><button type="button" data-page="logs">操作日志</button><button type="button" data-page="tgInspection" data-component-code="201060101">TG巡检</button></div></div>
+        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="orders" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>订单管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="orderPayout">代付订单(提现)</button><button type="button" data-page="orderCollection">代收订单(充值)</button><button type="button" data-page="orderPayoutCallbackException">代付回调异常订单</button><button type="button" data-page="orderCollectionCallbackException">代收回调异常订单</button><button type="button" data-page="orderPayoutMultipleException">代付多次异常订单</button><button type="button" data-page="uploadReconciliation">上传对账单</button></div></div>
         <div class="rp-nav-section">
           <div class="rp-nav-title active" data-nav-group="business" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>业务管理</span><span>⌃</span></div>
           <div class="rp-subnav">
-            <button type="button">▤　支付成功率</button>
-            <button type="button" data-page="collection">▤　代收分流</button>
-            <button type="button" data-page="payout">▤　代付分流</button>
-            <button type="button">▤　虚拟币代收路由</button>
-            <button type="button">▤　虚拟币代付路由</button>
+            <button type="button" data-page="paymentSuccessRate">支付成功率</button>
+            <button type="button" data-page="collectionRoute">代收路由</button>
+            <button type="button" data-page="payoutRoute">代付路由</button>
+            <button type="button" data-page="collection">代收分流</button>
+            <button type="button" data-page="payout">代付分流</button>
+            <button type="button" data-page="virtualCollectionRoute">虚拟币代收路由</button>
+            <button type="button" data-page="virtualPayoutRoute">虚拟币代付路由</button>
           </div>
         </div>
-        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="merchant" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="merchantCollection">▤　商户代收路由</button><button type="button" data-page="merchantPayout">▤　商户代付路由</button></div></div>
+        <div class="rp-nav-section collapsed"><div class="rp-nav-title" data-nav-group="merchant" data-nav-toggle role="button" tabindex="0" aria-expanded="false"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>商户管理</span><span>⌄</span></div><div class="rp-subnav"><button type="button" data-page="merchantCollectionSuccessRate">商户代收成功率</button><button type="button" data-page="merchantCollection">商户代收路由</button><button type="button" data-page="merchantPayout">商户代付路由</button><button type="button" data-page="merchantVirtualCollectionRoute">商户虚拟币代收路由</button><button type="button" data-page="merchantVirtualPayoutRoute">商户虚拟币代付路由</button></div></div>
         <div class="rp-nav-section"><div class="rp-nav-title"><span><span class="rp-grid-icon"><i></i><i></i><i></i><i></i></span>报表</span><span>⌄</span></div></div>
       </nav>
     </aside>
@@ -166,11 +360,46 @@
       const page = document.getElementById('rp-page-content');
       const overlay = document.getElementById('rp-overlay');
       const toast = document.getElementById('rp-toast');
-      let current = 'collection';
+      let current = 'home';
+      let tgDashboardTab = 'summary';
+      let tgDashboardFilters = {date:'', staff:'', keyword:'', result:'', anomaliesOnly:false};
+      let tgDashboardTimer = null;
+      let tgInspectionRules = {commands:['/r'], interval:5, grace:2, missedLimit:2, responseTimeout:60};
+      const tgDemoDate = (() => { const d = new Date(); return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; })();
+      tgDashboardFilters.date = tgDemoDate;
+      const tgInspectionPeople = [
+        {name:'Sam', username:'sam_ops', expected:96, onTime:93, late:1, missed:1, failed:1, completed:94, rate:'97.9%', last:'14:25:18'},
+        {name:'Mia', username:'mia_pay', expected:96, onTime:92, late:1, missed:1, failed:0, completed:93, rate:'96.9%', last:'14:25:05'},
+        {name:'Leo', username:'leo_ops', expected:96, onTime:92, late:2, missed:0, failed:0, completed:94, rate:'97.9%', last:'13:55:21'}
+      ];
+      const tgInspectionDetails = [
+        {date:'', time:'14:25:18', person:'Sam', username:'sam_ops', merchant:'india02', period:'14:25–14:30', command:'/r', response:'8秒', status:'按时完成'},
+        {date:'', time:'14:25:05', person:'Mia', username:'mia_pay', merchant:'RummyX', period:'14:25–14:30', command:'/r', response:'12秒', status:'按时完成'},
+        {date:'', time:'14:15:00', person:'Sam', username:'sam_ops', merchant:'RummyX', period:'14:15–14:20', command:'/r', response:'—', status:'漏查'},
+        {date:'', time:'14:12:44', person:'Leo', username:'leo_ops', merchant:'india02', period:'14:10–14:15', command:'/r', response:'1分24秒', status:'响应超时'},
+        {date:'', time:'14:05:36', person:'Mia', username:'mia_pay', merchant:'india02', period:'14:05–14:10', command:'/r', response:'18秒', status:'迟到'},
+        {date:'', time:'14:00:12', person:'Leo', username:'leo_ops', merchant:'RummyX', period:'14:00–14:05', command:'/r', response:'9秒', status:'按时完成'},
+        {date:'', time:'13:55:27', person:'Sam', username:'sam_ops', merchant:'india02', period:'13:55–14:00', command:'/r', response:'11秒', status:'按时完成'},
+        {date:'', time:'13:50:00', person:'Mia', username:'mia_pay', merchant:'RummyX', period:'13:50–13:55', command:'/r', response:'—', status:'漏查'}
+      ];
+      let homeDate = '';
+      let merchantFilters = {name:''};
+      let orderPage = 1;
+      let orderFilters = {merchant:'RummyX', merchantOrder:'', paymentOrder:'', phone:'', ifsc:'', card:'', status:'', createStart:'2026-07-01', createEnd:'2026-09-10', completeStart:'2026-07-01', completeEnd:'2026-09-10'};
+      const homeMetricGroups = [
+        {name:'代收', metrics:['代收单数','代收成功单数','代收成功金额'], firstCode:201070102},
+        {name:'代付', metrics:['代付单数','代付金额','代付成功单数','代付成功金额','代付失败单数','代付失败金额'], firstCode:201070105},
+        {name:'审核中 / 代付中', metrics:['代付中单数','代付中金额','代付失败待审核单数','代付失败待审核金额'], firstCode:201070111},
+        {name:'承兑', metrics:['承兑单数','承兑金额','承兑成功单数','承兑成功金额','承兑失败单数','承兑失败金额','承兑中单数','承兑中金额'], firstCode:201070115}
+      ];
       let seq = 3;
       let logFilters = {start:'', end:'', business:'', type:'', merchant:''};
-      let ruleFilters = {collection:{merchant:'', enabled:''}, payout:{merchant:'', enabled:''}, merchantCollection:{merchant:'', enabled:''}, merchantPayout:{merchant:'', enabled:''}};
+      let ruleFilters = {collection:{merchant:'', enabled:''}, payout:{merchant:'', enabled:''}, collectionRoute:{merchant:'', enabled:'on'}, payoutRoute:{merchant:'', enabled:''}, virtualCollectionRoute:{merchant:'', enabled:''}, virtualPayoutRoute:{merchant:'', enabled:''}, merchantCollection:{merchant:'', enabled:''}, merchantPayout:{merchant:'', enabled:''}, merchantVirtualCollectionRoute:{merchant:'india02', enabled:''}, merchantVirtualPayoutRoute:{merchant:'india02', enabled:''}};
       const routeSettings = {merchantPayout:{minutes:'30', count:'100'}};
+      const merchantRows = [
+        {id:1, name:'india02', code:'india02', balance:'1990.99', locked:'118.43', collectionAutoRise:false, collectionRouting:false, payoutRouting:false, whiteEnabled:false, failureReturn:false, fee:'6% + 3% + 6', status:'启用'},
+        {id:2, name:'RummyX', code:'rummyx', balance:'0', locked:'0', collectionAutoRise:false, collectionRouting:true, payoutRouting:false, whiteEnabled:true, failureReturn:true, fee:'0% + 0% + 0', status:'启用'}
+      ];
       const data = {
         collection: [
           {id:1, enabled:true, merchant:'india02', lower:'0', upper:'5000', minutes:'10', records:'10000', uplift:'3', channels:[{name:'UPI-01', weight:'100', upper:'100'}]},
@@ -185,12 +414,84 @@
         merchantPayout: [
           {id:201, enabled:true, merchant:'india02', channelName:'StablePay-代付', sort:'1', own:false, min:'200', max:'50000', fee:'0', fixedFee:'0', bankCheck:'0'},
           {id:202, enabled:true, merchant:'india02', channelName:'BetixPay-代付', sort:'9', own:false, min:'100', max:'5000000', fee:'0', fixedFee:'0', bankCheck:'0'}
+        ],
+        collectionRoute: [
+          {id:301, enabled:true, channelName:'CowPay-代收', sort:'9', own:false, min:'100', max:'50000', fee:'0', fixedFee:'0', quota:''}
+        ],
+        payoutRoute: [
+          {id:401, enabled:false, channelName:'TopPay-代付', sort:'1', own:false, min:'100', max:'50000', fee:'0', fixedFee:'0'},
+          {id:402, enabled:false, channelName:'StablePay-代付', sort:'1', own:false, min:'200', max:'50000', fee:'0', fixedFee:'0'},
+          {id:403, enabled:false, channelName:'PayX-钱包-代付', sort:'1', own:false, min:'10000', max:'5000000', fee:'0', fixedFee:'0'},
+          {id:404, enabled:false, channelName:'PayX2-唤醒-代付', sort:'1', own:false, min:'10000', max:'5000000', fee:'0', fixedFee:'0'},
+          {id:405, enabled:false, channelName:'TPay-代付', sort:'9', own:false, min:'100', max:'50000', fee:'0', fixedFee:'0'},
+          {id:406, enabled:false, channelName:'PayX-代付', sort:'9', own:false, min:'100', max:'5000000', fee:'0', fixedFee:'0'},
+          {id:407, enabled:false, channelName:'OxPay-代付', sort:'9', own:false, min:'100', max:'50000', fee:'0', fixedFee:'0'},
+          {id:408, enabled:false, channelName:'OnePay-代付', sort:'9', own:false, min:'100', max:'5000000', fee:'0', fixedFee:'0'},
+          {id:409, enabled:false, channelName:'AroPay-代付', sort:'9', own:false, min:'100', max:'50000', fee:'0', fixedFee:'0'}
+        ],
+        virtualCollectionRoute: [
+          {id:501, enabled:false, channelName:'SmilePayz-USDT代收', sort:'9', own:false, currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0', quota:''},
+          {id:502, enabled:false, channelName:'StablePayz-USDT代收', sort:'9', own:false, currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0', quota:''}
+        ],
+        virtualPayoutRoute: [
+          {id:601, enabled:false, channelName:'StablePayz-USDT代付', sort:'9', currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0'}
+        ],
+        merchantVirtualCollectionRoute: [
+          {id:701, enabled:false, merchant:'india02', channelName:'SmilePayz-USDT代收', sort:'9', own:false, currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0', quota:'', minCount:'0'},
+          {id:702, enabled:false, merchant:'india02', channelName:'StablePayz-USDT代收', sort:'9', own:false, currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0', quota:'', minCount:'0'}
+        ],
+        merchantVirtualPayoutRoute: [
+          {id:801, enabled:false, merchant:'india02', channelName:'StablePayz-USDT代付', sort:'9', currency:'USDT', min:'100', max:'5000000', fee:'0', fixedFee:'0'}
         ]
       };
       const logs = [
         {time:'2026-09-08 14:32:10', operator:'white', type:'编辑', business:'代收分流', merchant:'india02', api:'/api/routing/collection/update', params:'{"id":1,"lower":0,"upper":5000}', response:'{"code":0,"message":"success"}', detail:'下限（含）：0 → 0；上限（不含）：3000 → 5000', result:'成功'},
         {time:'2026-09-08 14:28:41', operator:'white', type:'启用', business:'代付分流', merchant:'india02', api:'/api/routing/payout/update-status', params:'{"id":3,"enabled":true}', response:'{"code":0,"message":"success"}', detail:'启用分流规则', result:'成功'}
       ];
+      const payoutOrderSeeds = [
+        {merchantName:'rummyx', userName:'bdyfgkntv', phone:'***6999', ifsc:'FINO0001157', card:'30001448885', channel:'BetixPay-代付', amount:'109.16', status:'交易失败', remark:'代付失败', create:'2026-08-18 14:21:05', complete:'2026-08-18 14:23:00'},
+        {merchantName:'rummyx', userName:'bdyfgkntv', phone:'***6999', ifsc:'FINO0001157', card:'30001448885', channel:'BetixPay-代付', amount:'109.16', status:'交易成功', remark:'', create:'2026-08-18 14:14:47', complete:'2026-08-18 14:17:00', utr:'567898765687'},
+        {merchantName:'rummyx', userName:'bdyfgkntv', phone:'***6999', ifsc:'FINO0001157', card:'30001448885', channel:'CowPay-代付', amount:'110', status:'交易成功', remark:'', create:'2026-08-17 15:33:57', complete:'2026-08-17 15:37:38'},
+        {merchantName:'rummyx', userName:'bdyfgkntv', phone:'***6999', ifsc:'FINO0001157', card:'30001448885', channel:'CowPay-代付', amount:'110', status:'交易失败', remark:'success', create:'2026-08-17 14:00:18', complete:'2026-08-17 14:18:45'},
+        {merchantName:'rummyx', userName:'bdyfgkntv', phone:'***6999', ifsc:'FINO0001157', card:'30001448885', channel:'AroPay-代付', amount:'109.16', status:'交易成功', remark:'', create:'2026-08-14 12:31:53', complete:'2026-08-14 15:16:07', utr:'213187027768'},
+        {merchantName:'rummyx', userName:'kgcyuvqcx', phone:'***6999', ifsc:'AIRP0000001', card:'057610203767', channel:'CowPay-代付', amount:'110', status:'交易失败', remark:'', create:'2026-07-07 09:10:25', complete:'2026-08-01 17:12:40'}
+      ];
+      const payoutOrders = Array.from({length:79}, (_, index) => {
+        const seed = payoutOrderSeeds[index % payoutOrderSeeds.length];
+        const day = String(Math.max(1, 18 - Math.floor(index / 6))).padStart(2, '0');
+        const orderDate = index < 48 ? `2026-08-${day}` : `2026-07-${String(Math.max(1, 30 - index % 28)).padStart(2, '0')}`;
+        return {...seed, id:index + 1, merchantOrder:`2026${index < 48 ? '08' : '07'}${String(18 - index % 18).padStart(2,'0')}${String(14204313950 + index).padStart(11,'0')}`, paymentOrder:`${seed.channel.startsWith('Betix') ? 'bet' : seed.channel.startsWith('Aro') ? 'aro' : 'cow'}${String(index + 1).padStart(10,'0')}`, billId:'', utr:seed.utr || '', fee:'0', create:seed.create.startsWith('2026-') ? seed.create : `${orderDate} 09:10:25`, complete:seed.complete || `${orderDate} 09:25:00`, callback:'已回调', callbackCount:'1'};
+      });
+      let collectionOrderPage = 1;
+      let collectionOrderFilters = {merchant:'india02', merchantOrder:'', paymentOrder:'', phone:'', status:'', createStart:'', createEnd:'', completeStart:'2026-07-01', completeEnd:'2026-09-10'};
+      let callbackExceptionPage = 1;
+      let callbackExceptionFilters = {merchant:'india02', merchantOrder:'', paymentOrder:'', phone:'', ifsc:'', card:'', updateStart:'2026-07-01', updateEnd:'2026-09-10', channel:'', amountMin:'', amountMax:''};
+      const payoutCallbackExceptions = [];
+      let collectionCallbackExceptionPage = 1;
+      let collectionCallbackExceptionFilters = {merchant:'', merchantOrder:'', paymentOrder:'', phone:'', createStart:'2026-09-10', createEnd:'2026-09-10'};
+      const collectionCallbackExceptions = [];
+      let multipleExceptionPage = 1;
+      let multipleExceptionFilters = {start:'2026-04-01', end:'2026-09-10', failureCount:''};
+      const multipleExceptions = [];
+      let reconciliationUpload = {fileType:'', fileName:'', status:''};
+      let successRatePage = 1;
+      let successRateFilters = {minutes:'5'};
+      const successRateRows = [];
+      let merchantSuccessRatePage = 1;
+      let merchantSuccessRateFilters = {merchant:'india02', minutes:'5'};
+      const merchantSuccessRateRows = [{sort:'1', channel:'PayX2-唤醒-代收', successRate:'0%', launchSeconds:'0.746', launchSuccessRate:'0%', rechargeSuccessSeconds:'', rechargeCount:'1', pendingCount:'1', successCount:'0', failureCount:'0'}];
+      const collectionOrderSeeds = [
+        {merchantName:'india02', userName:'', phone:'***0508', status:'交易失败', channelName:'', channelType:'HX', billId:'', currency:'INR', amount:'200', fee:'0', create:'2026-09-10 12:54:45', complete:'2026-09-10 12:54:45', callback:'未回调', callbackCount:'0', remark:'no match channel'},
+        {merchantName:'india02', userName:'', phone:'***0508', status:'交易失败', channelName:'', channelType:'HX', billId:'', currency:'INR', amount:'200', fee:'0', create:'2026-09-10 12:54:37', complete:'2026-09-10 12:54:37', callback:'未回调', callbackCount:'0', remark:'no match channel'},
+        {merchantName:'india02', userName:'', phone:'***0508', status:'交易失败', channelName:'', channelType:'HX', billId:'', currency:'INR', amount:'200', fee:'0', create:'2026-09-10 12:53:33', complete:'2026-09-10 12:53:33', callback:'未回调', callbackCount:'0', remark:'no match channel'},
+        {merchantName:'india02', userName:'', phone:'***0501', status:'交易成功', channelName:'PayX2-唤醒-代收', channelType:'HX', billId:'140', currency:'INR', amount:'500', fee:'30', create:'2026-09-03 15:03:41', complete:'2026-09-03 15:05:49', callback:'已回调', callbackCount:'3', remark:''},
+        {merchantName:'india02', userName:'', phone:'***0374', status:'交易成功', channelName:'HuasPay-代收', channelType:'KK', billId:'136', currency:'INR', amount:'500', fee:'30', create:'2026-08-13 14:36:19', complete:'2026-08-13 15:02:17', callback:'已回调', callbackCount:'1', remark:''},
+        {merchantName:'india02', userName:'', phone:'***0374', status:'交易失败', channelName:'', channelType:'BASE', billId:'', currency:'INR', amount:'500', fee:'0', create:'2026-08-13 14:22:01', complete:'2026-08-13 14:22:01', callback:'未回调', callbackCount:'0', remark:'no match channel'}
+      ];
+      const collectionOrders = Array.from({length:55}, (_, index) => {
+        const seed = collectionOrderSeeds[index % collectionOrderSeeds.length];
+        return {...seed, id:index + 1, merchantOrder:`202609${String(10 - index % 10).padStart(2,'0')}${String(125444657166 + index).padStart(12,'0')}`, paymentOrder:`${seed.status === '交易成功' ? 'pay' : '20260910'}${String(958750973538 + index).padStart(12,'0')}`, utr:'', callbackCount:seed.callbackCount};
+      });
 
       function showToast(message) {
         toast.textContent = message;
@@ -199,20 +500,72 @@
         showToast.timer = window.setTimeout(() => toast.classList.remove('show'), 2200);
       }
       function escapeHtml(value) { return String(value).replace(/[&<>'"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[c])); }
-      function currentTitle() { return ({collection:'代收分流', payout:'代付分流', merchantCollection:'商户代收路由', merchantPayout:'商户代付路由', logs:'操作日志'})[current]; }
+      function tgClock() {
+        const now = new Date(), interval = Number(tgInspectionRules.interval) || 5;
+        const minute = now.getHours() * 60 + now.getMinutes(), start = Math.floor(minute / interval) * interval, end = start + interval;
+        const format = value => `${String(Math.floor((value % 1440) / 60)).padStart(2,'0')}:${String(value % 60).padStart(2,'0')}`;
+        const remaining = Math.max(0, end * 60 - (minute * 60 + now.getSeconds()));
+        return {range:`${format(start)}–${format(end)}`,remaining:`${String(Math.floor(remaining / 60)).padStart(2,'0')}:${String(remaining % 60).padStart(2,'0')}`};
+      }
+      function tgVisiblePeople() {
+        if (tgDashboardFilters.date !== tgDemoDate) return [];
+        const needle = tgDashboardFilters.keyword.trim().toLowerCase();
+        return tgInspectionPeople.filter(person => (!tgDashboardFilters.staff || person.username === tgDashboardFilters.staff) && (!needle || `${person.name} ${person.username}`.toLowerCase().includes(needle)));
+      }
+      function tgVisibleDetails() {
+        if (tgDashboardFilters.date !== tgDemoDate) return [];
+        const needle = tgDashboardFilters.keyword.trim().toLowerCase();
+        return tgInspectionDetails.filter(row => (!tgDashboardFilters.staff || row.username === tgDashboardFilters.staff) && (!needle || `${row.person} ${row.username} ${row.merchant} ${row.command}`.toLowerCase().includes(needle)) && (!tgDashboardFilters.result || row.status === tgDashboardFilters.result) && (!tgDashboardFilters.anomaliesOnly || ['漏查','响应超时'].includes(row.status)));
+      }
+      function tgStatusClass(status) { return status === '迟到' ? 'late' : status === '漏查' ? 'missed' : status === '响应超时' ? 'failed' : ''; }
+      function renderTgInspection() {
+        if (tgDashboardTimer) clearInterval(tgDashboardTimer);
+        const hasDemoDate = tgDashboardFilters.date === tgDemoDate;
+        const people = tgVisiblePeople(), details = tgVisibleDetails(), clock = tgClock();
+        const stats = [
+          ['今日应巡检',hasDemoDate?'288':'—',`按每 ${tgInspectionRules.interval} 分钟计算`,''],
+          ['已完成',hasDemoDate?'281':'—','当前演示日期','good'],
+          ['按时完成率',hasDemoDate?'96.2%':'—',hasDemoDate?'<span class="tg-progress"><i></i></span>':'当前日期暂无演示数据','good'],
+          ['今日漏查',hasDemoDate?'2':'—','连续漏查提醒阈值 '+tgInspectionRules.missedLimit+' 次','warn'],
+          ['响应超时',hasDemoDate?'1':'—','超过机器人响应阈值','warn']
+        ];
+        page.innerHTML = `<div class="tg-dashboard">
+          <header class="tg-head" data-component-code="201180107"><div><h1>支付运营巡检监控</h1><p>监控 TG 指令执行情况及巡检质量</p></div><div class="tg-head-actions"><span class="tg-live">实时监控</span><span class="tg-demo">原型演示 · 未接入 TG 数据</span><button class="rp-btn" type="button" data-tg-action="rules">规则配置</button></div></header>
+          ${hasDemoDate ? `<section class="tg-alert" data-component-code="201180110"><div class="tg-alert-main"><span class="tg-alert-icon">!</span><div><strong>存在巡检异常</strong><small>今日发现 2 次漏查和 1 次响应超时，最近一次异常发生于 14:15。</small></div></div><button type="button" data-tg-action="anomalies">查看异常明细 →</button></section>` : `<section class="tg-alert"><div class="tg-alert-main"><span class="tg-alert-icon">i</span><div><strong>暂无该日期的演示数据</strong><small>当前原型数据仅用于展示交互，不代表线上巡检记录。</small></div></div></section>`}
+          <section class="tg-stat-grid" aria-label="今日巡检概况">${stats.map(([label,value,note,tone],i)=>`<article class="tg-stat" data-component-code="201180107"><div class="tg-stat-label">${label}</div><div class="tg-stat-value">${value}</div><div class="tg-stat-note ${tone}">${note}</div></article>`).join('')}</section>
+          <section class="tg-cycle" data-component-code="201180108" aria-label="当前巡检周期"><div class="tg-cycle-item"><div class="tg-cycle-label">当前巡检周期</div><div class="tg-cycle-value" id="tg-cycle-range">${clock.range}</div></div><div class="tg-cycle-item"><div class="tg-cycle-label">最近执行人员</div><div class="tg-cycle-value person"><span class="tg-avatar">S</span>Sam</div></div><div class="tg-cycle-item"><div class="tg-cycle-label">本周期状态</div><div class="tg-cycle-value status">等待执行</div></div><div class="tg-cycle-item"><div class="tg-cycle-label">距离周期结束</div><div class="tg-cycle-value" id="tg-cycle-remaining">${clock.remaining}</div></div></section>
+          <section class="tg-workspace" data-component-code="201180109"><div class="tg-work-head"><div class="tg-tabs" role="tablist" aria-label="巡检数据视图"><button class="tg-tab" type="button" role="tab" aria-selected="${tgDashboardTab==='summary'}" data-tg-tab="summary">人员执行汇总</button><button class="tg-tab" type="button" role="tab" aria-selected="${tgDashboardTab==='details'}" data-tg-tab="details">巡检明细</button></div><div class="tg-work-actions"><span class="tg-demo">演示数据</span><button class="rp-btn secondary" type="button" data-tg-action="export">导出报表</button></div></div>
+            <div class="tg-filters"><div class="tg-filter"><label for="tg-filter-date">日期</label><input class="rp-input" id="tg-filter-date" type="date" value="${escapeHtml(tgDashboardFilters.date)}"></div><div class="tg-filter"><label for="tg-filter-staff">人员</label><select class="rp-select" id="tg-filter-staff"><option value="">全部人员</option>${tgInspectionPeople.map(person=>`<option value="${person.username}" ${tgDashboardFilters.staff===person.username?'selected':''}>${person.name}</option>`).join('')}</select></div>${tgDashboardTab==='details' ? `<div class="tg-filter"><label for="tg-filter-result">结果</label><select class="rp-select" id="tg-filter-result"><option value="">全部结果</option>${['按时完成','迟到','漏查','响应超时'].map(result=>`<option value="${result}" ${tgDashboardFilters.result===result?'selected':''}>${result}</option>`).join('')}</select></div>` : ''}<div class="tg-filter search"><label for="tg-filter-keyword">搜索</label><input class="rp-input" id="tg-filter-keyword" value="${escapeHtml(tgDashboardFilters.keyword)}" placeholder="搜索人员、TG号或商户"></div><button class="rp-btn" type="button" data-tg-action="query">查询</button><button class="rp-btn secondary" type="button" data-tg-action="reset">重置</button></div>
+            ${tgDashboardTab==='summary' ? `<div class="tg-table-wrap"><table class="tg-table"><thead><tr><th>运营人员</th><th>应巡检</th><th>按时完成</th><th>迟到</th><th>漏查</th><th>响应超时</th><th>完成率</th><th>最近执行</th><th>操作</th></tr></thead><tbody>${people.length?people.map(person=>`<tr><td><div class="tg-user"><span class="tg-user-avatar">${person.name.slice(0,1)}</span><div><div class="tg-user-name">${person.name}</div><div class="tg-user-handle" data-component-code="201180101">${escapeHtml(person.username)}</div></div></div></td><td>${person.expected}</td><td class="tg-number good">${person.onTime}</td><td class="tg-number warn">${person.late}</td><td class="tg-number ${person.missed?'bad':''}">${person.missed}</td><td class="tg-number ${person.failed?'bad':''}">${person.failed}</td><td><strong>${person.rate}</strong></td><td>${person.last}</td><td><button class="rp-link" type="button" data-tg-action="view-person" data-username="${person.username}">查看明细</button></td></tr>`).join(''):'<tr><td class="tg-empty" colspan="9">暂无符合条件的汇总数据</td></tr>'}</tbody></table></div><div class="tg-footer"><span>共 ${people.length} 位人员${tgDashboardFilters.staff?' · 已按人员筛选':''}</span><span>仅展示演示数据</span></div>` : `<div class="tg-table-wrap"><table class="tg-table"><thead><tr><th>执行时间</th><th>人员</th><th>TG号</th><th>商户</th><th>巡检周期</th><th>指令</th><th>机器人响应</th><th>结果</th></tr></thead><tbody>${details.length?details.map(row=>`<tr><td>${row.time}</td><td>${row.person}</td><td data-component-code="201180101">${escapeHtml(row.username)}</td><td>${escapeHtml(row.merchant)}</td><td>${row.period}</td><td><code>${escapeHtml(row.command)}</code></td><td>${row.response}</td><td><span class="tg-status ${tgStatusClass(row.status)}">${row.status}</span></td></tr>`).join(''):'<tr><td class="tg-empty" colspan="8">暂无符合条件的巡检明细</td></tr>'}</tbody></table></div><div class="tg-footer"><span>共 ${details.length} 条</span><span>${tgDashboardFilters.anomaliesOnly?'仅显示漏查与响应超时':'演示数据 · 查询结果'}</span></div>`}
+          </section>
+          <div class="tg-disclaimer">说明：页面数据仅供本地原型演示；实际巡检与机器人监控数据需由支付群和 TG 服务接入。</div>
+        </div>`;
+        tgDashboardTimer = window.setInterval(() => { if (current !== 'tgInspection') return clearInterval(tgDashboardTimer); const next = tgClock(); const range = document.getElementById('tg-cycle-range'), remaining = document.getElementById('tg-cycle-remaining'); if (range) range.textContent = next.range; if (remaining) remaining.textContent = next.remaining; },1000);
+      }
+      function openTgRules() {
+        overlay.innerHTML = `<div class="rp-mask" data-tg-close><section class="rp-modal tg-modal" role="dialog" aria-modal="true" aria-labelledby="tg-rules-title"><header class="rp-modal-head"><h2 id="tg-rules-title">TG巡检规则配置</h2><button class="rp-close" type="button" aria-label="关闭" data-tg-close>×</button></header><form id="tg-rules-form"><div class="rp-modal-body"><div class="tg-rule-section" data-component-code="201180102"><h3>巡检指令</h3><div class="tg-rule-field"><label for="tg-rule-commands">有效巡检指令（每行一条）</label><textarea id="tg-rule-commands" name="commands" required>${escapeHtml(tgInspectionRules.commands.join('\n'))}</textarea></div><p class="tg-rule-note">默认指令为 /r；只有命中已配置指令的消息计入有效响应。</p></div><div class="tg-rule-section"><h3>巡检周期与连续漏查</h3><div class="tg-rule-grid"><div class="tg-rule-field" data-component-code="201180103"><label for="tg-rule-interval">巡检周期</label><select id="tg-rule-interval" class="rp-select" name="interval"><option value="5" ${tgInspectionRules.interval===5?'selected':''}>5 分钟</option><option value="10" ${tgInspectionRules.interval===10?'selected':''}>10 分钟</option></select></div><div class="tg-rule-field" data-component-code="201180103"><label for="tg-rule-grace">单次宽限时间</label><select id="tg-rule-grace" class="rp-select" name="grace"><option value="2" ${tgInspectionRules.grace===2?'selected':''}>2 分钟</option><option value="3" ${tgInspectionRules.grace===3?'selected':''}>3 分钟</option></select></div><div class="tg-rule-field" data-component-code="201180104"><label for="tg-rule-missed">连续漏查提醒阈值</label><select id="tg-rule-missed" class="rp-select" name="missed"><option value="2" ${tgInspectionRules.missedLimit===2?'selected':''}>2 次</option><option value="3" ${tgInspectionRules.missedLimit===3?'selected':''}>3 次</option></select></div></div><p class="tg-rule-note">每日从 00:00 起按周期执行；巡检周期须为 5 分钟的倍数，宽限时间须小于巡检周期。提醒后连续漏查次数重新统计。</p></div><div class="tg-rule-section" data-component-code="201180105"><h3>机器人响应监控</h3><div class="tg-rule-grid"><div class="tg-rule-field"><label for="tg-rule-timeout">机器人响应超时</label><select id="tg-rule-timeout" class="rp-select" name="timeout"><option value="60" ${tgInspectionRules.responseTimeout===60?'selected':''}>60 秒</option><option value="90" ${tgInspectionRules.responseTimeout===90?'selected':''}>90 秒</option></select></div></div></div></div><footer class="rp-modal-foot"><button type="button" class="rp-btn secondary" data-tg-close>取消</button><button type="submit" class="rp-btn">保存配置</button></footer></form></section></div>`;
+      }
+      function exportTgReport() {
+        const rows = tgVisibleDetails(), header = ['执行时间','人员','TG号','商户','巡检周期','指令','机器人响应','结果'];
+        const csv = [header,...rows.map(row=>[row.time,row.person,row.username,row.merchant,row.period,row.command,row.response,row.status])].map(row=>row.map(value=>`"${String(value).replace(/"/g,'""')}"`).join(',')).join('\r\n');
+        const link = document.createElement('a'), url = URL.createObjectURL(new Blob(['\ufeff',csv],{type:'text/csv;charset=utf-8'}));
+        link.href = url; link.download = `TG巡检报表-${tgDashboardFilters.date||tgDemoDate}.csv`; document.body.append(link); link.click(); link.remove(); URL.revokeObjectURL(url); showToast('演示巡检报表已导出');
+      }
+      function currentTitle() { return ({home:'首页', collection:'代收分流', payout:'代付分流', paymentSuccessRate:'支付成功率', collectionRoute:'代收路由', payoutRoute:'代付路由', virtualCollectionRoute:'虚拟币代收路由', virtualPayoutRoute:'虚拟币代付路由', merchant:'商户', merchantCollectionSuccessRate:'商户代收成功率', merchantCollection:'商户代收路由', merchantPayout:'商户代付路由', merchantVirtualCollectionRoute:'商户虚拟币代收路由', merchantVirtualPayoutRoute:'商户虚拟币代付路由', orderPayout:'代付订单(提现)', orderCollection:'代收订单(充值)', orderPayoutCallbackException:'代付回调异常订单', orderCollectionCallbackException:'代收回调异常订单', orderPayoutMultipleException:'代付多次异常订单', uploadReconciliation:'上传对账单', logs:'操作日志', tgInspection:'TG巡检'})[current]; }
       function now() { return new Date().toLocaleString('zh-CN', {hour12:false}).replace(/\//g, '-'); }
       function formatChannels(channels) { return channels.map(channel => `${channel.name}:${Number(channel.weight || 0).toFixed(2)}%;`).join(''); }
       function formatChangeValue(value) { return Array.isArray(value) ? formatChannels(value) : String(value); }
       function formatRuleConfig(row) { return `商户：${row.merchant}；金额区间：${row.lower}～${row.upper}；支持通道：${formatChannels(row.channels)}`; }
-      function formatRouteConfig(row) { return `商户：${row.merchant}；渠道名称：${row.channelName}；渠道排序：${row.sort}；金额区间：${row.min}～${row.max}`; }
+      function formatRouteConfig(row) { return `${row.merchant ? `商户：${row.merchant}；` : ''}渠道名称：${row.channelName}；${row.currency ? `币种：${row.currency}；` : ''}渠道排序：${row.sort}；金额区间：${row.min}～${row.max}`; }
       const routeFieldLabels = {channelName:'渠道名称', sort:'渠道排序', own:'自有', min:'最小（含）', middle:'普大（不含）', max:'最大（不含）', fee:'费率（%）', quota:'限额（w）', minCount:'最少充值次数', minAmount:'最少充值金额', amountBase:'金额基数', whiteEnabled:'白户', antiComplaint:'是否抗投诉', fixedFee:'固费（卢比）', bankCheck:'代付银行卡校验'};
       function recordApi(type, api, params, merchant, result = '成功', response = '{"code":0,"message":"success"}', detail = '操作完成') {
         if (result !== '成功' || !['新增', '编辑', '启用', '停用', '删除', '废弃'].includes(type) || !Object.hasOwn(data, current)) return;
-        if ((type === '删除' && current !== 'collection') || (type === '废弃' && current !== 'merchantCollection')) return;
+        if ((type === '删除' && current !== 'collection') || (type === '废弃' && !['merchantCollection', 'virtualCollectionRoute', 'merchantVirtualCollectionRoute'].includes(current))) return;
         logs.unshift({time:now(), operator:'white', type, business:currentTitle(), merchant:merchant || '-', api, params:JSON.stringify(params), response, detail});
       }
       function removeConfiguration(action, id) {
-        const business = action === 'delete-rule' ? 'collection' : 'merchantCollection';
+        const business = action === 'delete-rule' ? 'collection' : current;
+        if (!['collection', 'merchantCollection', 'virtualCollectionRoute', 'merchantVirtualCollectionRoute'].includes(business)) return;
         if (current !== business) return;
         const row = data[business].find(item => item.id === Number(id) && !item.deprecated);
         if (!row) return;
@@ -253,8 +606,267 @@
         const setting = isCollection ? '' : `<div class="rp-route-summary"><div class="rp-field"><label>时间（分钟）</label>${input('minutes',routeSettings.merchantPayout.minutes)}</div><div class="rp-field"><label>单数</label>${input('count',routeSettings.merchantPayout.count)}</div><button type="button" class="rp-btn" data-action="route-settings-save">更新配置</button></div>`;
         page.innerHTML = `<div class="rp-heading"><div><h1>${currentTitle()}</h1><p>按商户和启用状态管理商户路由配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-filter"><option value="">全部商户</option><option value="india02" ${filters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${filters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-status-filter"><option value="">全部状态</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>${setting}<div class="rp-table-wrap"><table class="rp-table rp-route-table"><thead><tr>${columns.map(column => `<th>${column}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
       }
+      function merchantSwitch(row, field, label) {
+        return `<button type="button" class="rp-switch ${row[field] ? 'on' : ''}" aria-label="${escapeHtml(label)}${row[field] ? '已开启' : '已关闭'}" aria-pressed="${row[field]}" data-action="merchant-toggle" data-id="${row.id}" data-field="${field}"></button>`;
+      }
+      function renderMerchantManagement() {
+        const query = merchantFilters.name.trim().toLowerCase();
+        const rows = merchantRows.filter(row => !query || row.name.toLowerCase().includes(query) || row.code.toLowerCase().includes(query));
+        const body = rows.length ? rows.map((row, index) => `<tr><td>${index + 1}</td><td>${escapeHtml(row.name)}</td><td>${escapeHtml(row.code)}</td><td>${escapeHtml(row.balance)}</td><td>${escapeHtml(row.locked)}</td><td>${merchantSwitch(row, 'collectionAutoRise', '代收分流自动上浮')}</td><td>${merchantSwitch(row, 'collectionRouting', '代收分流')}</td><td>${merchantSwitch(row, 'payoutRouting', '代付分流')}</td><td>${merchantSwitch(row, 'whiteEnabled', '白户开关')}</td><td>${merchantSwitch(row, 'failureReturn', '失败退回')}</td><td>${escapeHtml(row.fee)}</td><td>${escapeHtml(row.status)}</td><td><button type="button" class="rp-btn" data-action="merchant-balance" data-id="${row.id}">余额管理</button></td></tr>`).join('') : `<tr class="rp-empty"><td colspan="13">暂无数据</td></tr>`;
+        page.innerHTML = `<div class="rp-heading"><div><h1>商户</h1><p>查看商户基础信息、余额和支付能力开关</p></div></div><div class="rp-filter"><div class="rp-field small"><label for="rp-merchant-name">商户名称</label><input class="rp-input" id="rp-merchant-name" value="${escapeHtml(merchantFilters.name)}" placeholder="请输入商户名称"></div><button type="button" class="rp-btn" data-action="query-merchant">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-merchant-table"><thead><tr><th>序号</th><th>商户名称</th><th>商户编码</th><th>余额</th><th>锁定余额</th><th>代收分流自动上浮</th><th>代收分流</th><th>代付分流</th><th>白户开关</th><th>失败退回</th><th>代收费率</th><th>状态</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>10条/页</span><button type="button" aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" aria-label="下一页">›</button></div></div>`;
+      }
+      function orderDateOnly(value) { return String(value || '').slice(0, 10); }
+      function orderField(key) { return document.querySelector(`[data-order-field="${key}"]`); }
+      function filterPayoutOrders() {
+        return payoutOrders.filter(row => {
+          const merchantMatch = !orderFilters.merchant || row.merchantName.toLowerCase() === orderFilters.merchant.toLowerCase();
+          const contains = (value, query) => !query || String(value || '').toLowerCase().includes(String(query).toLowerCase());
+          const create = orderDateOnly(row.create);
+          const complete = orderDateOnly(row.complete);
+          return merchantMatch && contains(row.merchantOrder, orderFilters.merchantOrder) && contains(row.paymentOrder, orderFilters.paymentOrder) && contains(row.phone, orderFilters.phone) && contains(row.ifsc, orderFilters.ifsc) && contains(row.card, orderFilters.card) && (!orderFilters.status || row.status === orderFilters.status) && (!orderFilters.createStart || create >= orderFilters.createStart) && (!orderFilters.createEnd || create <= orderFilters.createEnd) && (!orderFilters.completeStart || complete >= orderFilters.completeStart) && (!orderFilters.completeEnd || complete <= orderFilters.completeEnd);
+        });
+      }
+      function orderPager(totalPages) {
+        if (totalPages <= 7) return Array.from({length:totalPages}, (_, index) => index + 1);
+        return [1, 2, 3, 4, 5, 6, '…', totalPages];
+      }
+      function renderPayoutOrders() {
+        const rows = filterPayoutOrders();
+        const pageSize = 6;
+        const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+        orderPage = Math.min(Math.max(orderPage, 1), totalPages);
+        const visible = rows.slice((orderPage - 1) * pageSize, orderPage * pageSize);
+        const input = (key, type = 'text', placeholder = '') => `<input class="rp-input" data-order-field="${key}" type="${type}" value="${escapeHtml(orderFilters[key])}" placeholder="${placeholder}" aria-label="${key}">`;
+        const dateRange = (startKey, endKey, label) => `<div class="rp-field rp-date-field"><label>${label}</label><div class="rp-date-range"><input class="rp-input" data-order-field="${startKey}" type="date" value="${escapeHtml(orderFilters[startKey])}" aria-label="${label}开始"><span>至</span><input class="rp-input" data-order-field="${endKey}" type="date" value="${escapeHtml(orderFilters[endKey])}" aria-label="${label}结束"></div></div>`;
+        const statusClass = status => status === '交易成功' ? 'success' : status === '交易失败' ? 'failed' : 'pending';
+        const cell = value => value ? escapeHtml(value) : '<span aria-label="无">—</span>';
+        const body = visible.length ? visible.map((row, index) => `<tr><td>${(orderPage - 1) * pageSize + index + 1}</td><td>${cell(row.merchantName)}</td><td>${cell(row.userName)}</td><td>${cell(row.phone)}</td><td>${cell(row.ifsc)}</td><td>${cell(row.card)}</td><td>${cell(row.channel)}</td><td>${cell(row.billId)}</td><td>${cell(row.merchantOrder)}</td><td>${cell(row.paymentOrder)}</td><td>${cell(row.utr)}</td><td>${cell(row.amount)}</td><td>${cell(row.fee)}</td><td>${cell(row.create)}</td><td>${cell(row.complete)}</td><td class="rp-status ${statusClass(row.status)}">${cell(row.status)}</td><td>${cell(row.callback)}</td><td>${cell(row.callbackCount)}</td><td>${cell(row.remark)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="19">暂无符合条件的订单</td></tr>';
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === orderPage ? 'current' : ''}" data-action="order-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>代付订单(提现)</h1><p>查询代付订单的交易、回调和处理状态</p></div></div><div class="rp-filter rp-order-filter"><div class="rp-field"><label>商户</label><select class="rp-select" data-order-field="merchant"><option value="">全部商户</option><option value="RummyX" ${orderFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option><option value="india02" ${orderFilters.merchant === 'india02' ? 'selected' : ''}>india02</option></select></div><div class="rp-field"><label>商户单号</label>${input('merchantOrder','text','请输入商户单号')}</div><div class="rp-field"><label>支付单号</label>${input('paymentOrder','text','请输入支付单号')}</div><div class="rp-field"><label>手机号</label>${input('phone','text','请输入手机号')}</div><div class="rp-field"><label>IFSC</label>${input('ifsc','text','请输入IFSC')}</div><div class="rp-field"><label>用户卡号</label>${input('card','text','请输入用户卡号')}</div><div class="rp-field"><label>交易状态</label><select class="rp-select" data-order-field="status"><option value="">请选择</option><option value="交易成功" ${orderFilters.status === '交易成功' ? 'selected' : ''}>交易成功</option><option value="交易失败" ${orderFilters.status === '交易失败' ? 'selected' : ''}>交易失败</option><option value="处理中" ${orderFilters.status === '处理中' ? 'selected' : ''}>处理中</option></select></div>${dateRange('createStart','createEnd','创建时间')}${dateRange('completeStart','completeEnd','完成时间')}<div class="rp-action-row"><button type="button" class="rp-btn" data-action="order-query">查询</button></div></div><div class="rp-table-wrap"><table class="rp-table rp-order-table"><thead><tr>${['序号','商户名称','用户姓名','手机号','IFSC','用户卡号','渠道名称','账单id','商户单号','支付单号','UTR','交易金额','手续费','创建时间','完成时间','交易状态','回调状态','回调次数','备注'].map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>6条/页</span>${orderPage > 1 ? `<button type="button" data-action="order-page" data-page="${orderPage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${orderPage < totalPages ? `<button type="button" data-action="order-page" data-page="${orderPage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-order-field="goto" type="number" min="1" max="${totalPages}" value="${orderPage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function collectionOrderField(key) { return document.querySelector(`[data-collection-order-field="${key}"]`); }
+      function filterCollectionOrders() {
+        return collectionOrders.filter(row => {
+          const merchantMatch = !collectionOrderFilters.merchant || row.merchantName.toLowerCase() === collectionOrderFilters.merchant.toLowerCase();
+          const contains = (value, query) => !query || String(value || '').toLowerCase().includes(String(query).toLowerCase());
+          const create = orderDateOnly(row.create);
+          const complete = orderDateOnly(row.complete);
+          return merchantMatch && contains(row.merchantOrder, collectionOrderFilters.merchantOrder) && contains(row.paymentOrder, collectionOrderFilters.paymentOrder) && contains(row.phone, collectionOrderFilters.phone) && (!collectionOrderFilters.status || row.status === collectionOrderFilters.status) && (!collectionOrderFilters.createStart || create >= collectionOrderFilters.createStart) && (!collectionOrderFilters.createEnd || create <= collectionOrderFilters.createEnd) && (!collectionOrderFilters.completeStart || complete >= collectionOrderFilters.completeStart) && (!collectionOrderFilters.completeEnd || complete <= collectionOrderFilters.completeEnd);
+        });
+      }
+      function renderCollectionOrders() {
+        const rows = filterCollectionOrders();
+        const pageSize = 6;
+        const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+        collectionOrderPage = Math.min(Math.max(collectionOrderPage, 1), totalPages);
+        const visible = rows.slice((collectionOrderPage - 1) * pageSize, collectionOrderPage * pageSize);
+        const input = (key, placeholder = '') => `<input class="rp-input" data-collection-order-field="${key}" type="text" value="${escapeHtml(collectionOrderFilters[key])}" placeholder="${placeholder}" aria-label="${key}">`;
+        const dateRange = (startKey, endKey, label) => `<div class="rp-field rp-date-field"><label>${label}</label><div class="rp-date-range"><input class="rp-input" data-collection-order-field="${startKey}" type="date" value="${escapeHtml(collectionOrderFilters[startKey])}" aria-label="${label}开始"><span>至</span><input class="rp-input" data-collection-order-field="${endKey}" type="date" value="${escapeHtml(collectionOrderFilters[endKey])}" aria-label="${label}结束"></div></div>`;
+        const cell = value => value ? escapeHtml(value) : '<span aria-label="无">—</span>';
+        const body = visible.length ? visible.map((row, index) => `<tr><td>${(collectionOrderPage - 1) * pageSize + index + 1}</td><td>${cell(row.merchantName)}</td><td>${cell(row.userName)}</td><td>${cell(row.phone)}</td><td class="rp-status ${row.status === '交易成功' ? 'success' : 'failed'}">${cell(row.status)}</td><td>${cell(row.channelName)}</td><td>${cell(row.channelType)}</td><td>${cell(row.billId)}</td><td>${cell(row.merchantOrder)}</td><td>${cell(row.paymentOrder)}</td><td>${cell(row.utr)}</td><td>${cell(row.currency)}</td><td>${cell(row.amount)}</td><td>${cell(row.fee)}</td><td>${cell(row.create)}</td><td>${cell(row.complete)}</td><td>${cell(row.callback)}</td><td>${cell(row.callbackCount)}</td><td>${cell(row.remark)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="19">暂无符合条件的订单</td></tr>';
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === collectionOrderPage ? 'current' : ''}" data-action="collection-order-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>代收订单(充值)</h1><p>查询代收订单的交易、回调和处理状态</p></div></div><div class="rp-filter rp-order-filter"><div class="rp-field"><label>商户</label><select class="rp-select" data-collection-order-field="merchant"><option value="">全部商户</option><option value="india02" ${collectionOrderFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${collectionOrderFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field"><label>商户单号</label>${input('merchantOrder','请输入商户单号')}</div><div class="rp-field"><label>支付单号</label>${input('paymentOrder','请输入支付单号')}</div><div class="rp-field"><label>手机号码</label>${input('phone','请输入手机号码')}</div><div class="rp-field"><label>交易状态</label><select class="rp-select" data-collection-order-field="status"><option value="">请选择</option><option value="交易成功" ${collectionOrderFilters.status === '交易成功' ? 'selected' : ''}>交易成功</option><option value="交易失败" ${collectionOrderFilters.status === '交易失败' ? 'selected' : ''}>交易失败</option><option value="处理中" ${collectionOrderFilters.status === '处理中' ? 'selected' : ''}>处理中</option></select></div>${dateRange('createStart','createEnd','创建时间')}${dateRange('completeStart','completeEnd','完成时间')}<div class="rp-action-row"><button type="button" class="rp-btn" data-action="collection-order-query">查询</button></div></div><div class="rp-table-wrap"><table class="rp-table rp-order-table"><thead><tr>${['序号','商户名称','用户姓名','手机号','交易状态','渠道名称','渠道类型','账单id','商户单号','支付单号','UTR','货币类型','交易金额','手续费','创建时间','完成时间','回调状态','回调次数','备注'].map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>6条/页</span>${collectionOrderPage > 1 ? `<button type="button" data-action="collection-order-page" data-page="${collectionOrderPage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${collectionOrderPage < totalPages ? `<button type="button" data-action="collection-order-page" data-page="${collectionOrderPage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-collection-order-field="goto" type="number" min="1" max="${totalPages}" value="${collectionOrderPage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function callbackExceptionField(key) { return document.querySelector(`[data-callback-exception-field="${key}"]`); }
+      function filterPayoutCallbackExceptions() {
+        return payoutCallbackExceptions.filter(row => {
+          const contains = (value, query) => !query || String(value || '').toLowerCase().includes(String(query).toLowerCase());
+          const updated = orderDateOnly(row.updated || row.create);
+          const amount = Number(row.amount);
+          const min = callbackExceptionFilters.amountMin === '' ? null : Number(callbackExceptionFilters.amountMin);
+          const max = callbackExceptionFilters.amountMax === '' ? null : Number(callbackExceptionFilters.amountMax);
+          return (!callbackExceptionFilters.merchant || String(row.merchantName || '').toLowerCase() === callbackExceptionFilters.merchant.toLowerCase()) && contains(row.merchantOrder, callbackExceptionFilters.merchantOrder) && contains(row.paymentOrder, callbackExceptionFilters.paymentOrder) && contains(row.phone, callbackExceptionFilters.phone) && contains(row.ifsc, callbackExceptionFilters.ifsc) && contains(row.card, callbackExceptionFilters.card) && (!callbackExceptionFilters.updateStart || updated >= callbackExceptionFilters.updateStart) && (!callbackExceptionFilters.updateEnd || updated <= callbackExceptionFilters.updateEnd) && (!callbackExceptionFilters.channel || row.channel === callbackExceptionFilters.channel) && (min === null || amount >= min) && (max === null || amount <= max);
+        });
+      }
+      function renderPayoutCallbackExceptions() {
+        const rows = filterPayoutCallbackExceptions();
+        const pageSize = 6;
+        const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+        callbackExceptionPage = Math.min(Math.max(callbackExceptionPage, 1), totalPages);
+        const visible = rows.slice((callbackExceptionPage - 1) * pageSize, callbackExceptionPage * pageSize);
+        const input = (key, type = 'text', placeholder = '') => `<input class="rp-input" data-callback-exception-field="${key}" type="${type}" value="${escapeHtml(callbackExceptionFilters[key])}" placeholder="${placeholder}" aria-label="${key}">`;
+        const dateRange = (startKey, endKey, label) => `<div class="rp-field rp-date-field"><label>${label}</label><div class="rp-date-range"><input class="rp-input" data-callback-exception-field="${startKey}" type="date" value="${escapeHtml(callbackExceptionFilters[startKey])}" aria-label="${label}开始"><span>至</span><input class="rp-input" data-callback-exception-field="${endKey}" type="date" value="${escapeHtml(callbackExceptionFilters[endKey])}" aria-label="${label}结束"></div></div>`;
+        const cell = value => value ? escapeHtml(value) : '<span aria-label="无">—</span>';
+        const body = visible.length ? visible.map((row, index) => `<tr><td><input type="checkbox" aria-label="选择第${(callbackExceptionPage - 1) * pageSize + index + 1}条"></td><td>${(callbackExceptionPage - 1) * pageSize + index + 1}</td><td>${cell(row.merchantName)}</td><td>${cell(row.channel)}</td><td>${cell(row.merchantOrder)}</td><td>${cell(row.paymentOrder)}</td><td>${cell(row.card)}</td><td>${cell(row.ifsc)}</td><td>${cell(row.amount)}</td><td>${cell(row.create)}</td><td>${cell(row.remark)}</td><td>${cell(row.action)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="12">暂无数据</td></tr>';
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === callbackExceptionPage ? 'current' : ''}" data-action="callback-exception-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        const columns = ['','序号','商户名称','渠道名称','商户单号','支付单号','用户卡号','IFSC','交易金额','创建时间','备注','操作'];
+        page.innerHTML = `<div class="rp-heading"><div><h1>代付回调异常订单</h1><p>查询代付回调异常订单，定位未完成回调的交易记录</p></div></div><div class="rp-filter rp-order-filter"><div class="rp-field"><label>商户</label><select class="rp-select" data-callback-exception-field="merchant"><option value="">全部商户</option><option value="india02" ${callbackExceptionFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${callbackExceptionFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field"><label>商户单号</label>${input('merchantOrder','text','请输入商户单号')}</div><div class="rp-field"><label>支付单号</label>${input('paymentOrder','text','请输入支付单号')}</div><div class="rp-field"><label>手机号码</label>${input('phone','text','请输入手机号码')}</div><div class="rp-field"><label>IFSC</label>${input('ifsc','text','请输入IFSC')}</div><div class="rp-field"><label>用户卡号</label>${input('card','text','请输入用户卡号')}</div>${dateRange('updateStart','updateEnd','更新时间')}<div class="rp-field"><label>渠道</label><select class="rp-select" data-callback-exception-field="channel"><option value="">请选择</option><option value="BetixPay-代付" ${callbackExceptionFilters.channel === 'BetixPay-代付' ? 'selected' : ''}>BetixPay-代付</option><option value="CowPay-代付" ${callbackExceptionFilters.channel === 'CowPay-代付' ? 'selected' : ''}>CowPay-代付</option><option value="AroPay-代付" ${callbackExceptionFilters.channel === 'AroPay-代付' ? 'selected' : ''}>AroPay-代付</option></select></div><div class="rp-field"><label>金额</label><div class="rp-date-range"><input class="rp-input" data-callback-exception-field="amountMin" type="number" min="0" step="0.01" value="${escapeHtml(callbackExceptionFilters.amountMin)}" placeholder="最小金额" aria-label="金额最小值"><span>至</span><input class="rp-input" data-callback-exception-field="amountMax" type="number" min="0" step="0.01" value="${escapeHtml(callbackExceptionFilters.amountMax)}" placeholder="最大金额" aria-label="金额最大值"></div></div><div class="rp-action-row"><button type="button" class="rp-btn" data-action="callback-exception-query">查询</button></div></div><div class="rp-table-wrap"><table class="rp-table rp-exception-table"><thead><tr><th><input type="checkbox" ${rows.length ? '' : 'disabled'} aria-label="全选"></th>${columns.slice(1).map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>6条/页</span>${callbackExceptionPage > 1 ? `<button type="button" data-action="callback-exception-page" data-page="${callbackExceptionPage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${callbackExceptionPage < totalPages ? `<button type="button" data-action="callback-exception-page" data-page="${callbackExceptionPage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-callback-exception-field="goto" type="number" min="1" max="${totalPages}" value="${callbackExceptionPage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function collectionCallbackExceptionField(key) { return document.querySelector(`[data-collection-callback-exception-field="${key}"]`); }
+      function filterCollectionCallbackExceptions() {
+        return collectionCallbackExceptions.filter(row => {
+          const contains = (value, query) => !query || String(value || '').toLowerCase().includes(String(query).toLowerCase());
+          const created = orderDateOnly(row.create);
+          return (!collectionCallbackExceptionFilters.merchant || String(row.merchantName || '').toLowerCase() === collectionCallbackExceptionFilters.merchant.toLowerCase()) && contains(row.merchantOrder, collectionCallbackExceptionFilters.merchantOrder) && contains(row.paymentOrder, collectionCallbackExceptionFilters.paymentOrder) && contains(row.phone, collectionCallbackExceptionFilters.phone) && (!collectionCallbackExceptionFilters.createStart || created >= collectionCallbackExceptionFilters.createStart) && (!collectionCallbackExceptionFilters.createEnd || created <= collectionCallbackExceptionFilters.createEnd);
+        });
+      }
+      function renderCollectionCallbackExceptions() {
+        const rows = filterCollectionCallbackExceptions();
+        const pageSize = 10;
+        const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+        collectionCallbackExceptionPage = Math.min(Math.max(collectionCallbackExceptionPage, 1), totalPages);
+        const visible = rows.slice((collectionCallbackExceptionPage - 1) * pageSize, collectionCallbackExceptionPage * pageSize);
+        const input = (key, placeholder = '') => `<input class="rp-input" data-collection-callback-exception-field="${key}" type="text" value="${escapeHtml(collectionCallbackExceptionFilters[key])}" placeholder="${placeholder}" aria-label="${key}">`;
+        const cell = value => value ? escapeHtml(value) : '<span aria-label="无">—</span>';
+        const body = visible.length ? visible.map((row, index) => `<tr><td>${(collectionCallbackExceptionPage - 1) * pageSize + index + 1}</td><td>${cell(row.merchantName)}</td><td>${cell(row.userName)}</td><td>${cell(row.phone)}</td><td class="rp-status ${row.status === '交易成功' ? 'success' : row.status === '交易失败' ? 'failed' : 'pending'}">${cell(row.status)}</td><td>${cell(row.channelName)}</td><td>${cell(row.billId)}</td><td>${cell(row.merchantOrder)}</td><td>${cell(row.paymentOrder)}</td><td>${cell(row.amount)}</td><td>${cell(row.fee)}</td><td>${cell(row.requestTime)}</td><td>${cell(row.processTime)}</td><td>${cell(row.callback)}</td><td>${cell(row.callbackCount)}</td><td>${cell(row.remark)}</td><td>${cell(row.action)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="17">暂无数据</td></tr>';
+        const columns = ['序号','商户名称','用户姓名','手机号','交易状态','渠道名称','账单id','商户单号','支付单号','交易金额','手续费','请求时间','处理时间','回调状态','回调次数','备注','操作'];
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === collectionCallbackExceptionPage ? 'current' : ''}" data-action="collection-callback-exception-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>代收回调异常订单</h1><p>查询代收回调异常订单，定位回调异常的交易记录</p></div></div><div class="rp-filter rp-order-filter"><div class="rp-field"><label>商户</label><select class="rp-select" data-collection-callback-exception-field="merchant"><option value="">请选择</option><option value="india02" ${collectionCallbackExceptionFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${collectionCallbackExceptionFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field"><label>商户单号</label>${input('merchantOrder','请输入商户单号')}</div><div class="rp-field"><label>支付单号</label>${input('paymentOrder','请输入支付单号')}</div><div class="rp-field"><label>手机号码</label>${input('phone','请输入手机号码')}</div><div class="rp-field rp-date-field"><label>创建时间</label><div class="rp-date-range"><input class="rp-input" data-collection-callback-exception-field="createStart" type="date" value="${escapeHtml(collectionCallbackExceptionFilters.createStart)}" aria-label="创建时间开始"><span>至</span><input class="rp-input" data-collection-callback-exception-field="createEnd" type="date" value="${escapeHtml(collectionCallbackExceptionFilters.createEnd)}" aria-label="创建时间结束"></div></div><div class="rp-action-row"><button type="button" class="rp-btn" data-action="collection-callback-exception-query">查询</button></div></div><div class="rp-table-wrap"><table class="rp-table rp-collection-exception-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>10条/页</span>${collectionCallbackExceptionPage > 1 ? `<button type="button" data-action="collection-callback-exception-page" data-page="${collectionCallbackExceptionPage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${collectionCallbackExceptionPage < totalPages ? `<button type="button" data-action="collection-callback-exception-page" data-page="${collectionCallbackExceptionPage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-collection-callback-exception-field="goto" type="number" min="1" max="${totalPages}" value="${collectionCallbackExceptionPage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function multipleExceptionField(key) { return document.querySelector(`[data-multiple-exception-field="${key}"]`); }
+      function filterMultipleExceptions() {
+        return multipleExceptions.filter(row => {
+          const created = orderDateOnly(row.create);
+          const failureCount = multipleExceptionFilters.failureCount === '' ? null : Number(multipleExceptionFilters.failureCount);
+          return (!multipleExceptionFilters.start || created >= multipleExceptionFilters.start) && (!multipleExceptionFilters.end || created <= multipleExceptionFilters.end) && (failureCount === null || Number(row.failureCount) >= failureCount);
+        });
+      }
+      function renderMultipleExceptions() {
+        const rows = filterMultipleExceptions();
+        const pageSize = 10;
+        const totalPages = Math.max(1, Math.ceil(rows.length / pageSize));
+        multipleExceptionPage = Math.min(Math.max(multipleExceptionPage, 1), totalPages);
+        const visible = rows.slice((multipleExceptionPage - 1) * pageSize, multipleExceptionPage * pageSize);
+        const body = visible.length ? visible.map(row => `<tr><td>${escapeHtml(row.merchantName)}</td><td>${escapeHtml(row.merchantOrder)}</td><td>${escapeHtml(row.card)}</td><td>${escapeHtml(row.ifsc)}</td><td>${escapeHtml(row.amount)}</td><td>${escapeHtml(row.failureCount)}</td><td>${escapeHtml(row.channels)}</td><td>${escapeHtml(row.remark || '—')}</td><td>${escapeHtml(row.action || '—')}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="9">暂无数据</td></tr>';
+        const columns = ['商户名称','商户单号','用户卡号','IFSC','交易金额','代付次数','渠道列表','备注','操作'];
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === multipleExceptionPage ? 'current' : ''}" data-action="multiple-exception-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>代付多次异常订单</h1><p>查询多次代付失败的异常订单，并支持失败回单导出</p></div></div><div class="rp-filter rp-order-filter"><div class="rp-field rp-date-field"><label>日期</label><div class="rp-date-range"><input class="rp-input" data-multiple-exception-field="start" type="date" value="${escapeHtml(multipleExceptionFilters.start)}" aria-label="日期开始"><span>至</span><input class="rp-input" data-multiple-exception-field="end" type="date" value="${escapeHtml(multipleExceptionFilters.end)}" aria-label="日期结束"></div></div><div class="rp-field"><label>失败次数</label><input class="rp-input" data-multiple-exception-field="failureCount" type="number" min="1" step="1" value="${escapeHtml(multipleExceptionFilters.failureCount)}" placeholder="请输入失败次数" aria-label="失败次数"></div><div class="rp-action-row"><button type="button" class="rp-btn" data-action="multiple-exception-query">查询</button><button type="button" class="rp-btn secondary" data-action="multiple-exception-export">失败回单并导出</button></div></div><div class="rp-table-wrap"><table class="rp-table rp-multiple-exception-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>10条/页</span>${multipleExceptionPage > 1 ? `<button type="button" data-action="multiple-exception-page" data-page="${multipleExceptionPage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${multipleExceptionPage < totalPages ? `<button type="button" data-action="multiple-exception-page" data-page="${multipleExceptionPage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-multiple-exception-field="goto" type="number" min="1" max="${totalPages}" value="${multipleExceptionPage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderUploadReconciliation() {
+        const fileName = reconciliationUpload.fileName ? `<div class="rp-upload-name" title="${escapeHtml(reconciliationUpload.fileName)}">已选择：${escapeHtml(reconciliationUpload.fileName)}</div>` : '';
+        const status = reconciliationUpload.status ? `<div class="rp-upload-status" role="status">${escapeHtml(reconciliationUpload.status)}</div>` : '';
+        page.innerHTML = `<div class="rp-heading"><div><h1>上传对账单</h1><p>上传代收或代付对账文件，提交后进入对账处理</p></div></div><div class="rp-upload-form"><div class="rp-field"><label class="rp-required">文件类型</label><select class="rp-select" data-upload-field="fileType"><option value="">请选择</option><option value="代收对账单" ${reconciliationUpload.fileType === '代收对账单' ? 'selected' : ''}>代收对账单</option><option value="代付对账单" ${reconciliationUpload.fileType === '代付对账单' ? 'selected' : ''}>代付对账单</option></select></div><div class="rp-field"><label class="rp-required">文件</label><label class="rp-upload-dropzone" for="rp-reconciliation-file" data-reconciliation-dropzone><span class="rp-upload-icon" aria-hidden="true">☁</span><span>将文件拖到此处，或<strong>点击上传</strong></span><input class="rp-upload-file" id="rp-reconciliation-file" data-reconciliation-file type="file" accept=".xlsx,.xls,.csv"></label>${fileName}${status}</div><button type="button" class="rp-btn" data-action="reconciliation-upload">上传</button></div>`;
+        const fileInput = page.querySelector('[data-reconciliation-file]');
+        const dropzone = page.querySelector('[data-reconciliation-dropzone]');
+        if (fileInput) fileInput.addEventListener('change', event => { const file = event.target.files && event.target.files[0]; if (!file) return; reconciliationUpload.fileName = file.name; reconciliationUpload.status = ''; renderUploadReconciliation(); });
+        if (dropzone) { dropzone.addEventListener('dragover', event => { event.preventDefault(); dropzone.classList.add('dragover'); }); dropzone.addEventListener('dragleave', () => dropzone.classList.remove('dragover')); dropzone.addEventListener('drop', event => { event.preventDefault(); dropzone.classList.remove('dragover'); const file = event.dataTransfer.files && event.dataTransfer.files[0]; if (!file) return; reconciliationUpload.fileName = file.name; reconciliationUpload.status = ''; renderUploadReconciliation(); }); }
+      }
+      function successRateField(key) { return document.querySelector(`[data-success-rate-field="${key}"]`); }
+      function renderPaymentSuccessRate() {
+        const pageSize = 30;
+        const totalPages = Math.max(1, Math.ceil(successRateRows.length / pageSize));
+        successRatePage = Math.min(Math.max(successRatePage, 1), totalPages);
+        const visible = successRateRows.slice((successRatePage - 1) * pageSize, successRatePage * pageSize);
+        const columns = ['排序','渠道','成功率','拉起(秒)','拉起成功率','充值成功(秒)','充值次数','支付中','成功数','失败数'];
+        const cell = value => value === undefined || value === null || value === '' ? '<span aria-label="无">—</span>' : escapeHtml(value);
+        const body = visible.length ? visible.map(row => `<tr><td>${cell(row.sort)}</td><td>${cell(row.channel)}</td><td>${cell(row.successRate)}</td><td>${cell(row.launchSeconds)}</td><td>${cell(row.launchSuccessRate)}</td><td>${cell(row.rechargeSuccessSeconds)}</td><td>${cell(row.rechargeCount)}</td><td>${cell(row.pendingCount)}</td><td>${cell(row.successCount)}</td><td>${cell(row.failureCount)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="10">暂无数据</td></tr>';
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === successRatePage ? 'current' : ''}" data-action="success-rate-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>支付成功率</h1><p>查询最近时间段内各渠道的支付成功率和处理效率</p></div></div><div class="rp-filter"><div class="rp-field small"><label>最近</label><div class="rp-unit-input"><input class="rp-input" data-success-rate-field="minutes" type="number" min="1" step="1" value="${escapeHtml(successRateFilters.minutes)}" aria-label="最近分钟数"><span>分钟</span></div></div><button type="button" class="rp-btn" data-action="success-rate-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-success-rate-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${successRateRows.length} 条</span><div class="rp-page"><span>30条/页</span>${successRatePage > 1 ? `<button type="button" data-action="success-rate-page" data-page="${successRatePage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${successRatePage < totalPages ? `<button type="button" data-action="success-rate-page" data-page="${successRatePage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-success-rate-field="goto" type="number" min="1" max="${totalPages}" value="${successRatePage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function merchantSuccessRateField(key) { return document.querySelector(`[data-merchant-success-rate-field="${key}"]`); }
+      function renderMerchantCollectionSuccessRate() {
+        const pageSize = 30;
+        const totalPages = Math.max(1, Math.ceil(merchantSuccessRateRows.length / pageSize));
+        merchantSuccessRatePage = Math.min(Math.max(merchantSuccessRatePage, 1), totalPages);
+        const visible = merchantSuccessRateRows.slice((merchantSuccessRatePage - 1) * pageSize, merchantSuccessRatePage * pageSize);
+        const columns = ['排序','渠道','成功率','拉起(秒)','拉起成功率','充值成功(秒)','充值次数','支付中','成功数','失败数'];
+        const cell = value => value === undefined || value === null || value === '' ? '<span aria-label="无">—</span>' : escapeHtml(value);
+        const body = visible.length ? visible.map(row => `<tr><td>${cell(row.sort)}</td><td>${cell(row.channel)}</td><td>${cell(row.successRate)}</td><td>${cell(row.launchSeconds)}</td><td>${cell(row.launchSuccessRate)}</td><td>${cell(row.rechargeSuccessSeconds)}</td><td>${cell(row.rechargeCount)}</td><td>${cell(row.pendingCount)}</td><td>${cell(row.successCount)}</td><td>${cell(row.failureCount)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="10">暂无数据</td></tr>';
+        const pages = orderPager(totalPages).map(item => item === '…' ? '<span>…</span>' : `<button type="button" class="${item === merchantSuccessRatePage ? 'current' : ''}" data-action="merchant-success-rate-page" data-page="${item}" aria-label="第${item}页">${item}</button>`).join('');
+        page.innerHTML = `<div class="rp-heading"><div><h1>商户代收成功率</h1><p>查询指定商户最近时间段内各渠道的代收成功率和处理效率</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" data-merchant-success-rate-field="merchant"><option value="india02" ${merchantSuccessRateFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${merchantSuccessRateFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>最近</label><div class="rp-unit-input"><input class="rp-input" data-merchant-success-rate-field="minutes" type="number" min="1" step="1" value="${escapeHtml(merchantSuccessRateFilters.minutes)}" aria-label="最近分钟数"><span>分钟</span></div></div><button type="button" class="rp-btn" data-action="merchant-success-rate-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-success-rate-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${merchantSuccessRateRows.length} 条</span><div class="rp-page"><span>30条/页</span>${merchantSuccessRatePage > 1 ? `<button type="button" data-action="merchant-success-rate-page" data-page="${merchantSuccessRatePage - 1}" aria-label="上一页">‹</button>` : '<button type="button" disabled aria-label="上一页">‹</button>'}${pages}${merchantSuccessRatePage < totalPages ? `<button type="button" data-action="merchant-success-rate-page" data-page="${merchantSuccessRatePage + 1}" aria-label="下一页">›</button>` : '<button type="button" disabled aria-label="下一页">›</button>'}<span>前往</span><input class="rp-input rp-page-input" data-merchant-success-rate-field="goto" type="number" min="1" max="${totalPages}" value="${merchantSuccessRatePage}" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderCollectionRoute() {
+        const filters = ruleFilters.collectionRoute;
+        const rows = data.collectionRoute.filter(row => !filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled));
+        const input = (name, value) => `<input class="rp-input" data-global-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-global-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','渠道名称','渠道排序','自有','最小(含)','最大(不含)','费率(%)','固费(卢比)','限额(w)','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-global-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="collection-route-toggle" data-id="${row.id}"></button></td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td><input type="checkbox" data-global-route-field="own" ${row.own ? 'checked' : ''} aria-label="自有"></td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td>${input('quota',row.quota)}</td><td><button type="button" class="rp-link" data-action="collection-route-save" data-id="${row.id}">保存</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="10">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>代收路由</h1><p>按启用状态管理代收渠道路由配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-collection-route-status"><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option></select></div><button type="button" class="rp-btn" data-action="collection-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-global-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderPayoutRoute() {
+        const filters = ruleFilters.payoutRoute;
+        const rows = data.payoutRoute.filter(row => !filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled));
+        const input = (name, value) => `<input class="rp-input" data-payout-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-payout-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','渠道名称','渠道排序','自有','最小(含)','最大(不含)','费率(%)','固费(卢比)','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-payout-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="payout-route-toggle" data-id="${row.id}"></button></td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td><input type="checkbox" data-payout-route-field="own" ${row.own ? 'checked' : ''} aria-label="自有"></td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td><button type="button" class="rp-link" data-action="payout-route-save" data-id="${row.id}">保存</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="9">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>代付路由</h1><p>按启用状态管理代付渠道路由配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-payout-route-status"><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="payout-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-global-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderVirtualCollectionRoute() {
+        const filters = ruleFilters.virtualCollectionRoute;
+        const rows = data.virtualCollectionRoute.filter(row => !row.deprecated && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
+        const input = (name, value) => `<input class="rp-input" data-virtual-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-virtual-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','渠道名称','渠道排序','自有','币种','最小(含)','最大(不含)','费率(%)','固费(卢比)','限额(w)','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-virtual-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="virtual-route-toggle" data-id="${row.id}"></button></td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td><input type="checkbox" data-virtual-route-field="own" ${row.own ? 'checked' : ''} aria-label="自有"></td><td>${input('currency',row.currency)}</td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td>${input('quota',row.quota)}</td><td><button type="button" class="rp-link" data-action="virtual-route-save" data-id="${row.id}">保存</button> <button type="button" class="rp-link" data-action="deprecate-route" data-id="${row.id}">废弃</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="11">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>虚拟币代收路由</h1><p>按启用状态管理虚拟币代收渠道和币种配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-virtual-collection-route-status"><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="virtual-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-virtual-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderVirtualPayoutRoute() {
+        const filters = ruleFilters.virtualPayoutRoute;
+        const rows = data.virtualPayoutRoute.filter(row => !filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled));
+        const input = (name, value) => `<input class="rp-input" data-virtual-payout-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-virtual-payout-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','渠道名称','渠道排序','币种','最小(含)','最大(不含)','费率(%)','固费(卢比)','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-virtual-payout-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="virtual-payout-route-toggle" data-id="${row.id}"></button></td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td>${input('currency',row.currency)}</td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td><button type="button" class="rp-link" data-action="virtual-payout-route-save" data-id="${row.id}">保存</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="9">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>虚拟币代付路由</h1><p>按启用状态管理虚拟币代付渠道和币种配置</p></div></div><div class="rp-filter"><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-virtual-payout-route-status"><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="virtual-payout-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-virtual-payout-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderMerchantVirtualCollectionRoute() {
+        const filters = ruleFilters.merchantVirtualCollectionRoute;
+        const rows = data.merchantVirtualCollectionRoute.filter(row => !row.deprecated && (!filters.merchant || row.merchant === filters.merchant) && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
+        const input = (name, value) => `<input class="rp-input" data-merchant-virtual-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-merchant-virtual-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','商户','渠道名称','渠道排序','自有','币种','最小(含)','最大(不含)','费率(%)','固费(卢比)','限额(w)','最少充值次数','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-merchant-virtual-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="merchant-virtual-route-toggle" data-id="${row.id}"></button></td><td>${escapeHtml(row.merchant)}</td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td><input type="checkbox" data-merchant-virtual-route-field="own" ${row.own ? 'checked' : ''} aria-label="自有"></td><td>${input('currency',row.currency)}</td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td>${input('quota',row.quota)}</td><td>${input('minCount',row.minCount)}</td><td><button type="button" class="rp-link" data-action="merchant-virtual-route-save" data-id="${row.id}">保存</button> <button type="button" class="rp-link" data-action="deprecate-route" data-id="${row.id}">废弃</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="13">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>商户虚拟币代收路由</h1><p>按商户和启用状态管理虚拟币代收渠道、币种及充值规则</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-virtual-route-merchant"><option value="">全部商户</option><option value="india02" ${filters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${filters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-merchant-virtual-route-status"><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="merchant-virtual-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-merchant-virtual-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function renderMerchantVirtualPayoutRoute() {
+        const filters = ruleFilters.merchantVirtualPayoutRoute;
+        const rows = data.merchantVirtualPayoutRoute.filter(row => (!filters.merchant || row.merchant === filters.merchant) && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
+        const input = (name, value) => `<input class="rp-input" data-merchant-virtual-payout-route-field="${name}" value="${escapeHtml(value)}" aria-label="${name}">`;
+        const fee = value => `<div class="rp-unit-input"><input class="rp-input" data-merchant-virtual-payout-route-field="fee" value="${escapeHtml(value)}" aria-label="费率"><span>%</span></div>`;
+        const columns = ['是否启用','商户','渠道名称','渠道排序','币种','最小(含)','最大(不含)','费率(%)','固费(卢比)','操作'];
+        const body = rows.length ? rows.map(row => `<tr data-merchant-virtual-payout-route-row="${row.id}"><td><button type="button" class="rp-switch ${row.enabled ? 'on' : ''}" aria-label="${row.enabled ? '已启用' : '未启用'}" data-action="merchant-virtual-payout-route-toggle" data-id="${row.id}"></button></td><td>${escapeHtml(row.merchant)}</td><td>${input('channelName',row.channelName)}</td><td>${input('sort',row.sort)}</td><td>${input('currency',row.currency)}</td><td>${input('min',row.min)}</td><td>${input('max',row.max)}</td><td>${fee(row.fee)}</td><td>${input('fixedFee',row.fixedFee)}</td><td><button type="button" class="rp-link" data-action="merchant-virtual-payout-route-save" data-id="${row.id}">保存</button></td></tr>`).join('') : '<tr class="rp-empty"><td colspan="10">暂无数据</td></tr>';
+        page.innerHTML = `<div class="rp-heading"><div><h1>商户虚拟币代付路由</h1><p>按商户和启用状态管理虚拟币代付渠道、币种及金额规则</p></div></div><div class="rp-filter"><div class="rp-field small"><label>商户</label><select class="rp-select" id="rp-merchant-virtual-payout-route-merchant"><option value="">全部商户</option><option value="india02" ${filters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${filters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><div class="rp-field small"><label>是否启用</label><select class="rp-select" id="rp-merchant-virtual-payout-route-status"><option value="" ${filters.enabled === '' ? 'selected' : ''}>全部</option><option value="on" ${filters.enabled === 'on' ? 'selected' : ''}>启用</option><option value="off" ${filters.enabled === 'off' ? 'selected' : ''}>停用</option></select></div><button type="button" class="rp-btn" data-action="merchant-virtual-payout-route-query">查询</button></div><div class="rp-table-wrap"><table class="rp-table rp-merchant-virtual-payout-route-table"><thead><tr>${columns.map(name => `<th>${name}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div><div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button" disabled aria-label="上一页">‹</button><button type="button" class="current" aria-current="page">1</button><button type="button" disabled aria-label="下一页">›</button><span>前往</span><input class="rp-input rp-page-input" type="number" min="1" value="1" aria-label="前往页码"><span>页</span></div></div>`;
+      }
+      function openMerchantBalance(id) {
+        const sourceRow = merchantRows.find(item => item.id === id);
+        if (!sourceRow) return;
+        overlay.innerHTML = `<div class="rp-mask" data-action="close-modal"><div class="rp-modal" role="dialog" aria-modal="true" aria-labelledby="rp-balance-title"><div class="rp-modal-head"><h2 id="rp-balance-title">余额管理</h2><button type="button" class="rp-close" data-action="close-modal" aria-label="关闭">×</button></div><form id="rp-balance-form"><div class="rp-modal-body"><div class="rp-balance-form"><div class="rp-field"><label class="rp-required" for="rp-balance-merchant-code">商户编码</label><input class="rp-input" id="rp-balance-merchant-code" name="merchantCode" value="" placeholder="请输入商户编码"><div class="rp-error" data-balance-error="merchantCode">请填写商户编码</div></div><div class="rp-field"><label class="rp-required" for="rp-balance-operation">操作方式</label><select class="rp-select" id="rp-balance-operation" name="operation"><option value="">请选择</option><option value="承兑(扣减)">承兑(扣减)</option><option value="内充(增加)">内充(增加)</option></select><div class="rp-error" data-balance-error="operation">请选择操作方式</div></div><div class="rp-field"><label class="rp-required" for="rp-balance-amount">金额</label><input class="rp-input" id="rp-balance-amount" name="amount" inputmode="decimal" value="" placeholder="请输入金额"><div class="rp-error" data-balance-error="amount">请填写有效金额</div></div><div class="rp-field"><label for="rp-balance-discount">折价</label><input class="rp-input" id="rp-balance-discount" name="discount" value="" placeholder="请输入折价"></div><div class="rp-field"><label for="rp-balance-remark">备注</label><input class="rp-input" id="rp-balance-remark" name="remark" value="" placeholder="请输入备注"></div><div class="rp-field"><label class="rp-required" for="rp-balance-google-code">谷歌验证码</label><input class="rp-input" id="rp-balance-google-code" name="googleCode" inputmode="numeric" value="" placeholder="请输入谷歌验证码"><div class="rp-error" data-balance-error="googleCode">请填写谷歌验证码</div></div></div></div><div class="rp-modal-foot"><button type="button" class="rp-btn secondary" data-action="close-modal">取消</button><button type="submit" class="rp-btn">确定</button></div></form></div></div>`;
+        const form = document.getElementById('rp-balance-form');
+        const setError = (field, message) => { const node = form.querySelector(`[data-balance-error="${field}"]`); if (!node) return; node.textContent = message; node.classList.add('show'); };
+        const clearError = field => { const node = form.querySelector(`[data-balance-error="${field}"]`); if (node) node.classList.remove('show'); };
+        form.addEventListener('submit', event => {
+          event.preventDefault();
+          const fd = new FormData(form);
+          const merchantCode = String(fd.get('merchantCode') || '').trim();
+          const operation = String(fd.get('operation') || '');
+          const amountText = String(fd.get('amount') || '').trim();
+          const googleCode = String(fd.get('googleCode') || '').trim();
+          let valid = true;
+          if (!merchantCode) { setError('merchantCode', '请填写商户编码'); valid = false; } else clearError('merchantCode');
+          if (!operation) { setError('operation', '请选择操作方式'); valid = false; } else clearError('operation');
+          if (!/^\d+(\.\d{1,2})?$/.test(amountText) || Number(amountText) <= 0) { setError('amount', '请填写大于0的有效金额'); valid = false; } else clearError('amount');
+          if (!googleCode) { setError('googleCode', '请填写谷歌验证码'); valid = false; } else clearError('googleCode');
+          const row = merchantRows.find(item => item.code === merchantCode);
+          if (valid && !row) { setError('merchantCode', '商户编码不存在'); valid = false; }
+          if (!valid) return;
+          const amount = Number(amountText);
+          row.balance = (operation === '内充(增加)' ? Number(row.balance) + amount : Number(row.balance) - amount).toFixed(2);
+          overlay.innerHTML = '';
+          renderMerchantManagement();
+          showToast('余额管理提交成功（演示）');
+        });
+      }
       function render() {
+        if (current === 'home') return renderHome();
         if (current === 'logs') return renderLogs();
+        if (current === 'tgInspection') return renderTgInspection();
+        if (current === 'merchant') return renderMerchantManagement();
+        if (current === 'orderPayout') return renderPayoutOrders();
+        if (current === 'orderCollection') return renderCollectionOrders();
+        if (current === 'orderPayoutCallbackException') return renderPayoutCallbackExceptions();
+        if (current === 'orderCollectionCallbackException') return renderCollectionCallbackExceptions();
+        if (current === 'orderPayoutMultipleException') return renderMultipleExceptions();
+        if (current === 'uploadReconciliation') return renderUploadReconciliation();
+        if (current === 'paymentSuccessRate') return renderPaymentSuccessRate();
+        if (current === 'collectionRoute') return renderCollectionRoute();
+        if (current === 'payoutRoute') return renderPayoutRoute();
+        if (current === 'virtualCollectionRoute') return renderVirtualCollectionRoute();
+        if (current === 'virtualPayoutRoute') return renderVirtualPayoutRoute();
+        if (current === 'merchantCollectionSuccessRate') return renderMerchantCollectionSuccessRate();
+        if (current === 'merchantVirtualCollectionRoute') return renderMerchantVirtualCollectionRoute();
+        if (current === 'merchantVirtualPayoutRoute') return renderMerchantVirtualPayoutRoute();
         if (current === 'merchantCollection' || current === 'merchantPayout') return renderMerchantRoute();
         const filters = ruleFilters[current];
         const rows = data[current].filter(row => (!filters.merchant || row.merchant === filters.merchant) && (!filters.enabled || (filters.enabled === 'on' ? row.enabled : !row.enabled)));
@@ -271,9 +883,22 @@
           <div class="rp-table-wrap"><table class="rp-table"><thead><tr><th>是否启用</th>${merchant}<th>下限（含）</th><th>上限（不含）</th><th>支持通道</th><th>操作</th></tr></thead><tbody>${body}</tbody></table></div>
           <div class="rp-footer"><span>共 ${rows.length} 条</span><div class="rp-page"><span>100条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
       }
+      function homeStatusText() {
+        return homeDate ? `已选择 ${homeDate}；统计数据尚未接入，指标暂不显示数值。` : '请选择统计日期；统计数据尚未接入，指标暂不显示数值。';
+      }
+      function renderHome() {
+        page.innerHTML = `<div class="rp-heading rp-home-heading"><div><h1>首页</h1><p>支付业务概览</p></div><div class="rp-field" data-component-code="201070101"><label for="rp-home-date">统计日期</label><input class="rp-input" id="rp-home-date" type="date" value="${escapeHtml(homeDate)}" aria-describedby="rp-home-status"></div></div>
+          <div class="rp-home-status"><span class="rp-home-badge">原型预览 · 未接入数据</span><span id="rp-home-status" role="status" aria-live="polite">${escapeHtml(homeStatusText())}</span></div>
+          <div class="rp-home-groups">${homeMetricGroups.map((group,index) => `<section class="rp-home-group" aria-labelledby="rp-home-group-${index}"><h2 id="rp-home-group-${index}">${group.name}</h2><dl class="rp-home-metrics" data-count="${group.metrics.length}">${group.metrics.map((name,i) => `<div class="rp-home-metric" data-component-code="${group.firstCode+i}"><dt>${name}</dt><dd aria-label="尚未接入数据">—</dd></div>`).join('')}</dl></section>`).join('')}</div>`;
+      }
+      root.addEventListener('change', event => {
+        if (event.target.id !== 'rp-home-date') return;
+        homeDate = event.target.value;
+        document.getElementById('rp-home-status').textContent = homeStatusText();
+      });
       function renderLogs() {
         const visibleLogs = logs.filter(log => (!logFilters.start || log.time >= logFilters.start.replace('T', ' ')) && (!logFilters.end || log.time <= logFilters.end.replace('T', ' ')) && (!logFilters.business || log.business === logFilters.business) && (!logFilters.type || log.type === logFilters.type) && (!logFilters.merchant || log.merchant === logFilters.merchant || log.merchant === '全部商户'));
-        page.innerHTML = `<div class="rp-heading"><div><h1>操作日志</h1><p>汇总代收分流、代付分流及商户路由的成功操作，便于运营统一查询</p></div></div>
+        page.innerHTML = `<div class="rp-heading"><div><h1>操作日志</h1><p>汇总支付路由配置的成功变更操作，便于运营统一查询</p></div></div>
           <div class="rp-filter"><div class="rp-field small"><label>操作时间</label><div class="rp-date-range"><input class="rp-input" data-log-start type="datetime-local" value="${escapeHtml(logFilters.start)}" aria-label="开始时间"><span>至</span><input class="rp-input" data-log-end type="datetime-local" value="${escapeHtml(logFilters.end)}" aria-label="结束时间"></div></div><div class="rp-field small"><label>业务类型</label><select class="rp-select" data-log-business><option value="">全部业务</option><option value="代收分流" ${logFilters.business === '代收分流' ? 'selected' : ''}>代收分流</option><option value="代付分流" ${logFilters.business === '代付分流' ? 'selected' : ''}>代付分流</option><option value="商户代收路由" ${logFilters.business === '商户代收路由' ? 'selected' : ''}>商户代收路由</option><option value="商户代付路由" ${logFilters.business === '商户代付路由' ? 'selected' : ''}>商户代付路由</option></select></div><div class="rp-field small"><label>操作类型</label><select class="rp-select" data-log-type><option value="">全部操作</option><option value="新增" ${logFilters.type === '新增' ? 'selected' : ''}>新增</option><option value="编辑" ${logFilters.type === '编辑' ? 'selected' : ''}>编辑</option><option value="启用" ${logFilters.type === '启用' ? 'selected' : ''}>启用</option><option value="停用" ${logFilters.type === '停用' ? 'selected' : ''}>停用</option><option value="删除" ${logFilters.type === '删除' ? 'selected' : ''}>删除</option><option value="废弃" ${logFilters.type === '废弃' ? 'selected' : ''}>废弃</option></select></div><div class="rp-field small"><label>商户</label><select class="rp-select" data-log-merchant><option value="">全部商户</option><option value="india02" ${logFilters.merchant === 'india02' ? 'selected' : ''}>india02</option><option value="RummyX" ${logFilters.merchant === 'RummyX' ? 'selected' : ''}>RummyX</option></select></div><button type="button" class="rp-btn" data-action="query">查询</button><button type="button" class="rp-btn secondary" data-action="reset">重置</button></div>
           <div class="rp-table-wrap"><table class="rp-log-table"><thead><tr><th>操作时间</th><th>操作人</th><th>业务类型</th><th>操作类型</th><th>商户</th><th>调整内容</th></tr></thead><tbody>${visibleLogs.length ? visibleLogs.map(log => `<tr><td>${escapeHtml(log.time)}</td><td>${escapeHtml(log.operator)}</td><td>${escapeHtml(log.business)}</td><td>${escapeHtml(log.type)}</td><td>${escapeHtml(log.merchant)}</td><td>${escapeHtml(log.detail)}</td></tr>`).join('') : '<tr class="rp-empty"><td colspan="6">暂无符合条件的日志</td></tr>'}</tbody></table></div>
           <div class="rp-footer"><span>共 ${visibleLogs.length} 条</span><div class="rp-page"><span>20条/页</span><button type="button">‹</button><button type="button" class="current">1</button><button type="button">›</button></div></div>`;
@@ -293,12 +918,63 @@
         form.querySelector('[data-action="add-channel"]').addEventListener('click', () => { channelEntries.push({name:'', weight:'100', upper:'100'}); renderChannelRows(); });
         form.addEventListener('submit', event => { event.preventDefault(); const fd = new FormData(form); const lower = String(fd.get('lower') || '').trim(); const upper = String(fd.get('upper') || '').trim(); const channels = channelEntries.filter(item => item.name).map(item => ({name:item.name, weight:String(item.weight || '100'), upper:String(item.upper || '100')})); let valid = true; if (!/^\d+(\.\d{1,2})?$/.test(lower) || !/^\d+(\.\d{1,2})?$/.test(upper)) { form.querySelector('[data-error="range"]').classList.add('show'); valid = false; } else { form.querySelector('[data-error="range"]').classList.remove('show'); if (Number(lower) >= Number(upper)) { form.querySelector('[data-error="range2"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="range2"]').classList.remove('show'); } if (!/^\d+$/.test(String(fd.get('minutes') || '')) ) { form.querySelector('[data-error="minutes"]').classList.add('show'); valid = false; } if (!/^\d+$/.test(String(fd.get('records') || '')) ) { form.querySelector('[data-error="records"]').classList.add('show'); valid = false; } if (!channels.length) { form.querySelector('[data-error="channels"]').classList.add('show'); valid = false; } else form.querySelector('[data-error="channels"]').classList.remove('show'); if (!valid) return; const merchant = row ? row.merchant : 'india02'; const action = row ? '编辑' : '新增'; const id = row ? row.id : seq++; const next = {id, enabled:row ? row.enabled : false, merchant, lower, upper, minutes:String(fd.get('minutes')), records:String(fd.get('records')), uplift:String(fd.get('uplift') || '3'), channels}; if (row) { Object.assign(row, next); recordRuleChanges(previous, next); } else { data[current].push(next); recordApi(action, `/api/routing/${current}/create`, next, merchant, '成功', '{"code":0,"message":"success"}', `新增分流规则：${formatRuleConfig(next)}`); } overlay.innerHTML = ''; render(); showToast(`${action}成功`); });
       }
-      function setCurrent(next) { current = next; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button').forEach(btn => btn.classList.toggle('active', btn.dataset.page === current)); const group = current === 'logs' ? 'platform' : current === 'merchantCollection' || current === 'merchantPayout' ? 'merchant' : 'business'; document.querySelectorAll('[data-nav-group]').forEach(title => { title.classList.toggle('active', title.dataset.navGroup === group); const section = title.closest('.rp-nav-section'); if (section) section.classList.toggle('collapsed', title.dataset.navGroup !== group); title.setAttribute('aria-expanded', String(title.dataset.navGroup === group)); }); render(); }
-      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if (action === 'delete-rule' || action === 'deprecate-route') return removeConfiguration(action, target.dataset.id); if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value, merchant:document.querySelector('[data-log-merchant]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:'', merchant:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'route-settings-save') { const previous = {...routeSettings.merchantPayout}; const fields = document.querySelectorAll('[data-route-field]'); fields.forEach(field => { if (field.dataset.routeField in routeSettings.merchantPayout) routeSettings.merchantPayout[field.dataset.routeField] = field.value; }); const changes = Object.keys(routeSettings.merchantPayout).filter(key => previous[key] !== routeSettings.merchantPayout[key]); if (changes.length) recordApi('编辑', '/api/merchant-payout-route/settings', {changes}, '全部商户', '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${routeSettings.merchantPayout[key]}`).join('；')}`); renderMerchantRoute(); return showToast('配置更新成功'); } if (action === 'route-save') { const row = data[current].find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-route-field]').forEach(field => { row[field.dataset.routeField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); render(); return showToast('保存成功'); } if (action === 'route-flag') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; const before = row[field] ? '开' : '关'; row[field] = !row[field]; const after = row[field] ? '开' : '关'; recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, field, enabled:row[field]}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${routeFieldLabels[field]}：${before} → ${after}`); render(); return showToast(`${routeFieldLabels[field]}已${row[field] ? '开启' : '关闭'}`); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; const config = current === 'merchantCollection' || current === 'merchantPayout' ? formatRouteConfig(row) : formatRuleConfig(row); recordApi(actionName, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}${current === 'merchantCollection' || current === 'merchantPayout' ? '路由' : '分流'}规则：${config}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
+      function setCurrent(next) { current = next; document.title = `支付后台管理系统 · ${currentTitle()}`; document.querySelectorAll('[data-tab]').forEach(tab => tab.classList.toggle('active', tab.dataset.tab === current)); document.querySelectorAll('.rp-subnav button, .rp-home-link').forEach(btn => { const selected = btn.dataset.page === current; btn.classList.toggle('active', selected); if (selected) btn.setAttribute('aria-current','page'); else btn.removeAttribute('aria-current'); }); const group = current === 'home' ? null : ['merchant','logs','tgInspection'].includes(current) ? 'platform' : ['merchantCollectionSuccessRate','merchantCollection','merchantPayout','merchantVirtualCollectionRoute','merchantVirtualPayoutRoute'].includes(current) ? 'merchant' : ['orderPayout','orderCollection','orderPayoutCallbackException','orderCollectionCallbackException','orderPayoutMultipleException','uploadReconciliation'].includes(current) ? 'orders' : 'business'; document.querySelectorAll('[data-nav-group]').forEach(title => { title.classList.toggle('active', title.dataset.navGroup === group); const section = title.closest('.rp-nav-section'); if (section) section.classList.toggle('collapsed', title.dataset.navGroup !== group); title.setAttribute('aria-expanded', String(title.dataset.navGroup === group)); }); render(); }
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action], [data-tab]'); if (!target) return; if (target.dataset.tab) return setCurrent(target.dataset.tab); const action = target.dataset.action; if (action === 'delete-rule' || action === 'deprecate-route') return removeConfiguration(action, target.dataset.id); if (action === 'merchant-balance') return openMerchantBalance(Number(target.dataset.id)); if (action === 'merchant-toggle') { const row = merchantRows.find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; row[field] = !row[field]; renderMerchantManagement(); return showToast(`${target.getAttribute('aria-label').replace(/已(开启|关闭)$/, '')}已${row[field] ? '开启' : '关闭'}（演示）`); } if ((action === 'close-modal') && target.classList.contains('rp-mask') && event.target !== target) return; if (action === 'add') return openModal('add'); if (action === 'edit') return openModal('edit', Number(target.dataset.id)); if (action === 'logs') return setCurrent('logs'); if (action === 'close-modal' || action === 'close-drawer') return overlay.innerHTML = ''; if (action === 'query-merchant') { merchantFilters.name = String(document.getElementById('rp-merchant-name').value || ''); renderMerchantManagement(); return showToast('查询已完成'); } if (action === 'query') { if (current === 'logs') { logFilters = {start:document.querySelector('[data-log-start]').value, end:document.querySelector('[data-log-end]').value, business:document.querySelector('[data-log-business]').value, type:document.querySelector('[data-log-type]').value, merchant:document.querySelector('[data-log-merchant]').value}; renderLogs(); } else { ruleFilters[current] = {merchant:document.getElementById('rp-merchant-filter').value, enabled:document.getElementById('rp-status-filter').value}; render(); showToast('查询已完成'); } return; } if (action === 'reset') { if (current === 'logs') { logFilters = {start:'', end:'', business:'', type:'', merchant:''}; renderLogs(); } else { ruleFilters[current] = {merchant:'', enabled:''}; render(); } return showToast('筛选条件已重置'); } if (action === 'route-settings-save') { const previous = {...routeSettings.merchantPayout}; const fields = document.querySelectorAll('[data-route-field]'); fields.forEach(field => { if (field.dataset.routeField in routeSettings.merchantPayout) routeSettings.merchantPayout[field.dataset.routeField] = field.value; }); const changes = Object.keys(routeSettings.merchantPayout).filter(key => previous[key] !== routeSettings.merchantPayout[key]); if (changes.length) recordApi('编辑', '/api/merchant-payout-route/settings', {changes}, '全部商户', '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${routeSettings.merchantPayout[key]}`).join('；')}`); renderMerchantRoute(); return showToast('配置更新成功'); } if (action === 'route-save') { const row = data[current].find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-route-field]').forEach(field => { row[field.dataset.routeField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); render(); return showToast('保存成功'); } if (action === 'route-flag') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; const field = target.dataset.field; const before = row[field] ? '开' : '关'; row[field] = !row[field]; const after = row[field] ? '开' : '关'; recordApi('编辑', `/api/routing/${current}/save`, {id:row.id, field, enabled:row[field]}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置路由规则：${routeFieldLabels[field]}：${before} → ${after}`); render(); return showToast(`${routeFieldLabels[field]}已${row[field] ? '开启' : '关闭'}`); } if (action === 'toggle') { const row = data[current].find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; const config = current === 'merchantCollection' || current === 'merchantPayout' ? formatRouteConfig(row) : formatRuleConfig(row); recordApi(actionName, `/api/routing/${current}/update-status`, {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}${current === 'merchantCollection' || current === 'merchantPayout' ? '路由' : '分流'}规则：${config}`); render(); return showToast(row.enabled ? '规则已启用' : '规则已停用'); } });
       root.addEventListener('click', event => { const toggle = event.target.closest('[data-nav-toggle]'); if (!toggle) return; const section = toggle.closest('.rp-nav-section'); if (!section) return; const willOpen = section.classList.contains('collapsed'); root.querySelectorAll('[data-nav-toggle]').forEach(title => { const open = title === toggle && willOpen; title.closest('.rp-nav-section').classList.toggle('collapsed', !open); title.setAttribute('aria-expanded', String(open)); }); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target) return; if (target.dataset.action === 'order-query' && current === 'orderPayout') { const createStart = orderField('createStart').value; const createEnd = orderField('createEnd').value; const completeStart = orderField('completeStart').value; const completeEnd = orderField('completeEnd').value; if ((createStart && createEnd && createStart > createEnd) || (completeStart && completeEnd && completeStart > completeEnd)) return showToast('开始日期不能晚于结束日期'); orderFilters = {merchant:orderField('merchant').value, merchantOrder:orderField('merchantOrder').value.trim(), paymentOrder:orderField('paymentOrder').value.trim(), phone:orderField('phone').value.trim(), ifsc:orderField('ifsc').value.trim(), card:orderField('card').value.trim(), status:orderField('status').value, createStart, createEnd, completeStart, completeEnd}; orderPage = 1; renderPayoutOrders(); return showToast('查询已完成'); } if (target.dataset.action === 'order-page' && current === 'orderPayout') { orderPage = Number(target.dataset.page); renderPayoutOrders(); } });
+      root.addEventListener('change', event => { if (current !== 'orderPayout' || event.target.dataset.orderField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(filterPayoutOrders().length / 6)); orderPage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderPayoutOrders(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'orderCollection') return; if (target.dataset.action === 'collection-order-query') { const createStart = collectionOrderField('createStart').value; const createEnd = collectionOrderField('createEnd').value; const completeStart = collectionOrderField('completeStart').value; const completeEnd = collectionOrderField('completeEnd').value; if ((createStart && createEnd && createStart > createEnd) || (completeStart && completeEnd && completeStart > completeEnd)) return showToast('开始日期不能晚于结束日期'); collectionOrderFilters = {merchant:collectionOrderField('merchant').value, merchantOrder:collectionOrderField('merchantOrder').value.trim(), paymentOrder:collectionOrderField('paymentOrder').value.trim(), phone:collectionOrderField('phone').value.trim(), status:collectionOrderField('status').value, createStart, createEnd, completeStart, completeEnd}; collectionOrderPage = 1; renderCollectionOrders(); return showToast('查询已完成'); } if (target.dataset.action === 'collection-order-page') { collectionOrderPage = Number(target.dataset.page); renderCollectionOrders(); } });
+      root.addEventListener('change', event => { if (current !== 'orderCollection' || event.target.dataset.collectionOrderField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(filterCollectionOrders().length / 6)); collectionOrderPage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderCollectionOrders(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'orderPayoutCallbackException') return; if (target.dataset.action === 'callback-exception-query') { const updateStart = callbackExceptionField('updateStart').value; const updateEnd = callbackExceptionField('updateEnd').value; const amountMin = callbackExceptionField('amountMin').value; const amountMax = callbackExceptionField('amountMax').value; if (updateStart && updateEnd && updateStart > updateEnd) return showToast('开始日期不能晚于结束日期'); if (amountMin !== '' && amountMax !== '' && Number(amountMin) > Number(amountMax)) return showToast('金额最小值不能大于最大值'); callbackExceptionFilters = {merchant:callbackExceptionField('merchant').value, merchantOrder:callbackExceptionField('merchantOrder').value.trim(), paymentOrder:callbackExceptionField('paymentOrder').value.trim(), phone:callbackExceptionField('phone').value.trim(), ifsc:callbackExceptionField('ifsc').value.trim(), card:callbackExceptionField('card').value.trim(), updateStart, updateEnd, channel:callbackExceptionField('channel').value, amountMin, amountMax}; callbackExceptionPage = 1; renderPayoutCallbackExceptions(); return showToast('查询已完成'); } if (target.dataset.action === 'callback-exception-page') { callbackExceptionPage = Number(target.dataset.page); renderPayoutCallbackExceptions(); } });
+      root.addEventListener('change', event => { if (current !== 'orderPayoutCallbackException' || event.target.dataset.callbackExceptionField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(filterPayoutCallbackExceptions().length / 6)); callbackExceptionPage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderPayoutCallbackExceptions(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'orderCollectionCallbackException') return; if (target.dataset.action === 'collection-callback-exception-query') { const createStart = collectionCallbackExceptionField('createStart').value; const createEnd = collectionCallbackExceptionField('createEnd').value; if (createStart && createEnd && createStart > createEnd) return showToast('开始日期不能晚于结束日期'); collectionCallbackExceptionFilters = {merchant:collectionCallbackExceptionField('merchant').value, merchantOrder:collectionCallbackExceptionField('merchantOrder').value.trim(), paymentOrder:collectionCallbackExceptionField('paymentOrder').value.trim(), phone:collectionCallbackExceptionField('phone').value.trim(), createStart, createEnd}; collectionCallbackExceptionPage = 1; renderCollectionCallbackExceptions(); return showToast('查询已完成'); } if (target.dataset.action === 'collection-callback-exception-page') { collectionCallbackExceptionPage = Number(target.dataset.page); renderCollectionCallbackExceptions(); } });
+      root.addEventListener('change', event => { if (current !== 'orderCollectionCallbackException' || event.target.dataset.collectionCallbackExceptionField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(filterCollectionCallbackExceptions().length / 10)); collectionCallbackExceptionPage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderCollectionCallbackExceptions(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'orderPayoutMultipleException') return; if (target.dataset.action === 'multiple-exception-query') { const start = multipleExceptionField('start').value; const end = multipleExceptionField('end').value; const failureCount = multipleExceptionField('failureCount').value; if (start && end && start > end) return showToast('开始日期不能晚于结束日期'); if (failureCount !== '' && (!/^\d+$/.test(failureCount) || Number(failureCount) < 1)) return showToast('失败次数请输入大于0的整数'); multipleExceptionFilters = {start, end, failureCount}; multipleExceptionPage = 1; renderMultipleExceptions(); return showToast('查询已完成'); } if (target.dataset.action === 'multiple-exception-export') { return showToast(multipleExceptions.length ? '失败回单导出已生成（演示）' : '暂无失败回单可导出'); } if (target.dataset.action === 'multiple-exception-page') { multipleExceptionPage = Number(target.dataset.page); renderMultipleExceptions(); } });
+      root.addEventListener('change', event => { if (current !== 'orderPayoutMultipleException' || event.target.dataset.multipleExceptionField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(filterMultipleExceptions().length / 10)); multipleExceptionPage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderMultipleExceptions(); });
+      root.addEventListener('change', event => { if (current !== 'uploadReconciliation' || event.target.dataset.uploadField !== 'fileType') return; reconciliationUpload.fileType = event.target.value; reconciliationUpload.status = ''; });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'uploadReconciliation') return; if (target.dataset.action === 'reconciliation-upload') { if (!reconciliationUpload.fileType) return showToast('请选择文件类型'); if (!reconciliationUpload.fileName) return showToast('请选择要上传的文件'); reconciliationUpload.status = '上传成功（演示）'; renderUploadReconciliation(); return showToast('上传成功（演示）'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'paymentSuccessRate') return; if (target.dataset.action === 'success-rate-query') { const minutes = successRateField('minutes').value; if (!/^\d+$/.test(minutes) || Number(minutes) < 1) return showToast('最近分钟数请输入大于0的整数'); successRateFilters = {minutes}; successRatePage = 1; renderPaymentSuccessRate(); return showToast('查询已完成'); } if (target.dataset.action === 'success-rate-page') { successRatePage = Number(target.dataset.page); renderPaymentSuccessRate(); } });
+      root.addEventListener('change', event => { if (current !== 'paymentSuccessRate' || event.target.dataset.successRateField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(successRateRows.length / 30)); successRatePage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderPaymentSuccessRate(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'merchantCollectionSuccessRate') return; if (target.dataset.action === 'merchant-success-rate-query') { const minutes = merchantSuccessRateField('minutes').value; if (!/^[0-9]+$/.test(minutes) || Number(minutes) < 1) return showToast('最近分钟数请输入大于0的整数'); merchantSuccessRateFilters = {merchant:merchantSuccessRateField('merchant').value, minutes}; merchantSuccessRatePage = 1; renderMerchantCollectionSuccessRate(); return showToast('查询已完成'); } if (target.dataset.action === 'merchant-success-rate-page') { merchantSuccessRatePage = Number(target.dataset.page); renderMerchantCollectionSuccessRate(); } });
+      root.addEventListener('change', event => { if (current !== 'merchantCollectionSuccessRate' || event.target.dataset.merchantSuccessRateField !== 'goto') return; const totalPages = Math.max(1, Math.ceil(merchantSuccessRateRows.length / 30)); merchantSuccessRatePage = Math.min(Math.max(Number(event.target.value) || 1, 1), totalPages); renderMerchantCollectionSuccessRate(); });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'collectionRoute') return; if (target.dataset.action === 'collection-route-query') { ruleFilters.collectionRoute.enabled = document.getElementById('rp-collection-route-status').value; renderCollectionRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'collection-route-toggle') { const row = data.collectionRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; recordApi('编辑', '/api/routing/collection-route/update-status', {id:row.id, enabled:row.enabled}, '-', '成功', '{"code":0,"message":"success"}', `配置代收路由：是否启用：${row.enabled ? '停用' : '启用'} → ${row.enabled ? '启用' : '停用'}`); renderCollectionRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'collection-route-save') { const row = data.collectionRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-global-route-field]').forEach(field => { row[field.dataset.globalRouteField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/collection-route/save', {id:row.id, changes}, '-', '成功', '{"code":0,"message":"success"}', `配置代收路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderCollectionRoute(); return showToast('保存成功'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'payoutRoute') return; if (target.dataset.action === 'payout-route-query') { ruleFilters.payoutRoute.enabled = document.getElementById('rp-payout-route-status').value; renderPayoutRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'payout-route-toggle') { const row = data.payoutRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; recordApi('编辑', '/api/routing/payout-route/update-status', {id:row.id, enabled:row.enabled}, '-', '成功', '{"code":0,"message":"success"}', `配置代付路由：是否启用：${row.enabled ? '停用' : '启用'} → ${row.enabled ? '启用' : '停用'}`); renderPayoutRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'payout-route-save') { const row = data.payoutRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-payout-route-field]').forEach(field => { row[field.dataset.payoutRouteField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/payout-route/save', {id:row.id, changes}, '-', '成功', '{"code":0,"message":"success"}', `配置代付路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderPayoutRoute(); return showToast('保存成功'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'virtualCollectionRoute') return; if (target.dataset.action === 'virtual-route-query') { ruleFilters.virtualCollectionRoute.enabled = document.getElementById('rp-virtual-collection-route-status').value; renderVirtualCollectionRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'virtual-route-toggle') { const row = data.virtualCollectionRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; recordApi('编辑', '/api/routing/virtual-collection-route/update-status', {id:row.id, enabled:row.enabled}, '-', '成功', '{"code":0,"message":"success"}', `配置虚拟币代收路由：是否启用：${row.enabled ? '停用' : '启用'} → ${row.enabled ? '启用' : '停用'}`); renderVirtualCollectionRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'virtual-route-save') { const row = data.virtualCollectionRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-virtual-route-field]').forEach(field => { row[field.dataset.virtualRouteField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled','deprecated'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/virtual-collection-route/save', {id:row.id, changes}, '-', '成功', '{"code":0,"message":"success"}', `配置虚拟币代收路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderVirtualCollectionRoute(); return showToast('保存成功'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'virtualPayoutRoute') return; if (target.dataset.action === 'virtual-payout-route-query') { ruleFilters.virtualPayoutRoute.enabled = document.getElementById('rp-virtual-payout-route-status').value; renderVirtualPayoutRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'virtual-payout-route-toggle') { const row = data.virtualPayoutRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; recordApi('编辑', '/api/routing/virtual-payout-route/update-status', {id:row.id, enabled:row.enabled}, '-', '成功', '{"code":0,"message":"success"}', `配置虚拟币代付路由：是否启用：${row.enabled ? '停用' : '启用'} → ${row.enabled ? '启用' : '停用'}`); renderVirtualPayoutRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'virtual-payout-route-save') { const row = data.virtualPayoutRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-virtual-payout-route-field]').forEach(field => { row[field.dataset.virtualPayoutRouteField] = field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/virtual-payout-route/save', {id:row.id, changes}, '-', '成功', '{"code":0,"message":"success"}', `配置虚拟币代付路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderVirtualPayoutRoute(); return showToast('保存成功'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'merchantVirtualCollectionRoute') return; if (target.dataset.action === 'merchant-virtual-route-query') { ruleFilters.merchantVirtualCollectionRoute.merchant = document.getElementById('rp-merchant-virtual-route-merchant').value; ruleFilters.merchantVirtualCollectionRoute.enabled = document.getElementById('rp-merchant-virtual-route-status').value; renderMerchantVirtualCollectionRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'merchant-virtual-route-toggle') { const row = data.merchantVirtualCollectionRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; recordApi(actionName, '/api/routing/merchant-virtual-collection-route/update-status', {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}虚拟币代收路由：${formatRouteConfig(row)}`); renderMerchantVirtualCollectionRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'merchant-virtual-route-save') { const row = data.merchantVirtualCollectionRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-merchant-virtual-route-field]').forEach(field => { row[field.dataset.merchantVirtualRouteField] = field.type === 'checkbox' ? field.checked : field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled','deprecated','merchant'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/merchant-virtual-collection-route/save', {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置虚拟币代收路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderMerchantVirtualCollectionRoute(); return showToast('保存成功'); } });
+      root.addEventListener('click', event => { const target = event.target.closest('[data-action]'); if (!target || current !== 'merchantVirtualPayoutRoute') return; if (target.dataset.action === 'merchant-virtual-payout-route-query') { ruleFilters.merchantVirtualPayoutRoute.merchant = document.getElementById('rp-merchant-virtual-payout-route-merchant').value; ruleFilters.merchantVirtualPayoutRoute.enabled = document.getElementById('rp-merchant-virtual-payout-route-status').value; renderMerchantVirtualPayoutRoute(); return showToast('查询已完成'); } if (target.dataset.action === 'merchant-virtual-payout-route-toggle') { const row = data.merchantVirtualPayoutRoute.find(item => item.id === Number(target.dataset.id)); if (!row) return; row.enabled = !row.enabled; const actionName = row.enabled ? '启用' : '停用'; recordApi(actionName, '/api/routing/merchant-virtual-payout-route/update-status', {id:row.id, enabled:row.enabled}, row.merchant, '成功', '{"code":0,"message":"success"}', `${actionName}虚拟币代付路由：${formatRouteConfig(row)}`); renderMerchantVirtualPayoutRoute(); return showToast(row.enabled ? '路由已启用' : '路由已停用'); } if (target.dataset.action === 'merchant-virtual-payout-route-save') { const row = data.merchantVirtualPayoutRoute.find(item => item.id === Number(target.dataset.id)); const tr = target.closest('tr'); if (!row || !tr) return; const previous = {...row}; tr.querySelectorAll('[data-merchant-virtual-payout-route-field]').forEach(field => { row[field.dataset.merchantVirtualPayoutRouteField] = field.value; }); const changes = Object.keys(row).filter(key => !['id','enabled','merchant'].includes(key) && String(previous[key]) !== String(row[key])); if (changes.length) recordApi('编辑', '/api/routing/merchant-virtual-payout-route/save', {id:row.id, changes}, row.merchant, '成功', '{"code":0,"message":"success"}', `配置虚拟币代付路由：${changes.map(key => `${key}：${previous[key]} → ${row[key]}`).join('；')}`); renderMerchantVirtualPayoutRoute(); return showToast('保存成功'); } });
       root.addEventListener('click', event => { const nav = event.target.closest('[data-page]'); if (nav) setCurrent(nav.dataset.page); });
+      root.addEventListener('click', event => {
+        if (current !== 'tgInspection') return;
+        const tab = event.target.closest('[data-tg-tab]');
+        if (tab) { tgDashboardTab = tab.dataset.tgTab; return renderTgInspection(); }
+        const button = event.target.closest('[data-tg-action]');
+        if (!button) return;
+        if (button.dataset.tgAction === 'rules') return openTgRules();
+        if (button.dataset.tgAction === 'query') {
+          tgDashboardFilters = {date:document.getElementById('tg-filter-date').value, staff:document.getElementById('tg-filter-staff').value, keyword:document.getElementById('tg-filter-keyword').value, result:tgDashboardTab==='details' ? document.getElementById('tg-filter-result').value : tgDashboardFilters.result, anomaliesOnly:false};
+          renderTgInspection(); return showToast('查询已完成（演示数据）');
+        }
+        if (button.dataset.tgAction === 'reset') { tgDashboardFilters = {date:tgDemoDate, staff:'', keyword:'', result:'', anomaliesOnly:false}; return renderTgInspection(); }
+        if (button.dataset.tgAction === 'anomalies') { tgDashboardTab='details'; tgDashboardFilters={date:tgDemoDate,staff:'',keyword:'',result:'',anomaliesOnly:true}; return renderTgInspection(); }
+        if (button.dataset.tgAction === 'view-person') { tgDashboardTab='details'; tgDashboardFilters.staff=button.dataset.username; tgDashboardFilters.keyword=''; tgDashboardFilters.result=''; tgDashboardFilters.anomaliesOnly=false; return renderTgInspection(); }
+        if (button.dataset.tgAction === 'export') return exportTgReport();
+      });
+      overlay.addEventListener('click', event => { if (event.target.matches('[data-tg-close]') || event.target.classList.contains('rp-mask')) overlay.innerHTML=''; });
+      overlay.addEventListener('submit', event => {
+        if (event.target.id !== 'tg-rules-form') return;
+        event.preventDefault();
+        const form = new FormData(event.target), commands = String(form.get('commands')||'').split(/\r?\n/).map(value=>value.trim()).filter(Boolean);
+        const interval=Number(form.get('interval')), grace=Number(form.get('grace')), missedLimit=Number(form.get('missed')), responseTimeout=Number(form.get('timeout'));
+        if (!commands.length) return showToast('至少配置一条有效巡检指令');
+        if (interval % 5 !== 0) return showToast('巡检周期须为 5 分钟的倍数');
+        if (grace >= interval) return showToast('宽限时间须小于巡检周期');
+        tgInspectionRules={commands:[...new Set(commands)],interval,grace,missedLimit,responseTimeout};
+        overlay.innerHTML=''; renderTgInspection(); showToast('规则配置已保存（本地原型）');
+      });
       root.addEventListener('keydown', event => { const title = event.target.closest('[data-nav-toggle]'); if (title && (event.key === 'Enter' || event.key === ' ')) { event.preventDefault(); title.click(); } });
-      setCurrent('collection');
+      document.addEventListener('keydown', event => { if (event.key === 'Escape' && overlay.querySelector('[data-tg-close]')) overlay.innerHTML=''; });
+      setCurrent('home');
     })();
   </script>
 </div>
