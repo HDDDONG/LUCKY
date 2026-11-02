@@ -21,7 +21,7 @@ state=configs[active];
 host.onkeydown=null;
 const spins=state.correction.spins.length;
 host.innerHTML=`<section class="ac-page pdd-page"><header class="ac-top"><div><h2>PDD活动配置</h2><p class="ac-hint">活动 ID：${esc(activity.id)} · ${esc(activity.name)}</p></div><button type="button" data-back>返回列表</button></header><div class="pdd-tools" role="tablist" aria-label="活动配置">${configs.map((_,i)=>`<button type="button" role="tab" data-config="${i}" aria-selected="${i===active}" style="${i===active?'background:#e2e8f0;font-weight:600;border-color:#94a3b8':''}">${configName(i)}</button>`).join('')}<button type="button" data-new-config>＋ 新增配置</button></div><form class="ac-form" novalidate>
-${card(configName(active),`<div class="ac-grid"><div class="ac-field" style="width:540px"><label for="pdd-vip-min">VIP等级</label><div style="display:flex;align-items:center;gap:12px">${input('vipMin',state.vipMin,true).replace('type="number"','id="pdd-vip-min" type="number"').replace('aria-label="vipMin"','aria-label="VIP等级下限"')}<span>至</span>${input('vipMax',state.vipMax,true).replace('aria-label="vipMax"','aria-label="VIP等级上限"')}</div></div></div>`)}
+${card(configName(active),`<div class="ac-grid"><div class="ac-field" style="width:540px"><label for="pdd-vip-min">VIP等级</label><div style="display:flex;align-items:center;gap:12px">${input('vipMin',state.vipMin,true).replace('type="number"','id="pdd-vip-min" type="number"').replace('aria-label="vipMin"','aria-label="VIP等级下限"')}<span>至</span>${input('vipMax',state.vipMax,true).replace('aria-label="vipMax"','aria-label="VIP等级上限"')}</div><small class="ac-hint">包含首尾等级，各配置范围不可重叠。例如 VIP0～VIP2 包含 VIP0、VIP1、VIP2，下一范围最低从 VIP3 开始。</small></div></div>`)}
 ${card('参与配置',`<div class="ac-grid">${field('maxRounds','最大参与轮次','领取奖励后即视为参与该轮次，与是否获得奖励无关；0 为不限。',true)}${field('maxRewardRounds','发放奖励最大轮次','0 为不限。',true)}${field('hours','单轮时长（小时）','修改后，新开启的轮次使用新时长。')}${field('freeDaily','每日免费次数','',true)}</div>`)}
 ${card('自动审核 · 自动通过',`<p class="pdd-note">满足以下任意一项，自动审核通过。</p><div class="pdd-rule">1. 本轮直属下级用户的综合充提差之和 &gt; ${input('pass.difference',state.pass.difference)}<small>综合充提差＝综合提现比的分母－分子</small></div><div class="pdd-rule">2. 本轮直属下级复充人数 ≥ ${input('pass.people',state.pass.people,true)} 且本轮直属下级平均打码倍数 ≥ ${input('pass.average',state.pass.average)}</div><div class="pdd-rule">3. 本轮直属下级复充人数 ≥ ${input('pass.people2',state.pass.people2,true)} 且本轮直属下级累计充值 ≥ ${input('pass.deposit',state.pass.deposit)} 且本轮直属下级平均打码倍数 ≥ ${input('pass.average2',state.pass.average2)}</div><div class="pdd-rule">4. 首次领奖金，且本轮下级累计充值 ≥ ${input('pass.firstDeposit',state.pass.firstDeposit)}</div><p class="pdd-note">打码倍数使用资金明细中的已有数据。</p>`)}
 ${card('自动审核 · 自动拒绝',`<p class="pdd-note">触发以下任意一项，自动拒绝。</p><div class="pdd-rule">本轮直属下级总充值 = ${input('rejectZero',state.rejectZero)}</div>${tools([['reject-add','＋ 添加条件']])}${state.reject.map((r,i)=>`<div class="pdd-rule">本轮直属下级总充值 &lt; ${input('reject.'+i+'.deposit',r.deposit)} 且无关联的绑定下级人数 ≤ ${input('reject.'+i+'.people',r.people,true)}<button type="button" data-remove="reject" data-index="${i}">移除</button></div>`).join('')}<p class="pdd-note">无关联的绑定下级人数：下级之间没有任何关联，有关联的不计。</p>`)}
@@ -52,6 +52,11 @@ if(invalid){fail('请完整填写配置，等级和次数须为非负整数，�
 if(state.vipMin>state.vipMax){fail('VIP等级下限不能大于上限。');host.querySelector('#pdd-vip-min').focus();return;}
 for(const [label,list]of [['首次奖励',state.first],['浮动值基础值',state.base]])if(list.some(r=>r.min>r.max)){fail(label+'的最小值不能大于最大值。');return;}
 if(!state.wheel.length){fail('请至少添加一项转盘奖励。');return;}
+}
+for(let i=0;i<configs.length;i++)for(let j=i+1;j<configs.length;j++){
+if(Number(configs[i].vipMin)<=Number(configs[j].vipMax)&&Number(configs[j].vipMin)<=Number(configs[i].vipMax)){
+active=j;render();host.querySelector('[data-error]').textContent=`${configName(i)}与${configName(j)}的VIP等级范围重叠（包含首尾等级），请调整后保存。`;host.querySelector('#pdd-vip-min').focus();return;
+}
 }
 active=selected;render();onSave({configs:clone(configs)});
 };
