@@ -48,14 +48,13 @@ function preview(){
  capture();
  const group=groups[active],dlg=document.createElement('dialog');
  dlg.className='weekly-preview';dlg.setAttribute('aria-label','周卡前台预览');
- host.append(dlg);let plans,index,clock,state,demo=false;
- function restart(){plans=clone(group.plans);if(demo){plans=[{...clone(plans[0]),cycles:1},{...clone(plans[plans.length-1]),cycles:-1}];}index=0;clock=0;state=plans.map(()=>({used:0,start:null,claimed:[]}));paint();}
+ host.append(dlg);let plans,index,clock,state;
+ function restart(){plans=clone(group.plans);index=0;clock=0;state=plans.map(()=>({used:0,start:null,claimed:[]}));paint();}
  function paint(){
  const ids=plans.map((p,i)=>state[i].start!==null||p.cycles===-1||state[i].used<p.cycles?i:-1).filter(i=>i>=0);
  if(!ids.includes(index))index=ids[0];const p=plans[index],st=state[index],day=st?.start==null?-1:clock-st.start;
- dlg.innerHTML=`<div class="wp-head"><b>前台预览</b><button data-close aria-label="关闭预览">×</button></div><div class="wp-phone"><small>🎁 WEEKLY CARD · 周卡</small><h2>周卡礼金</h2><p>领取今日周卡奖励</p>${p?`<span>方案 ${index+1} · ${p.cycles===-1?'不限参与次数':'已参与 '+st.used+' / '+p.cycles+' 次'}</span><div class="wp-days">${p.days.map((d,i)=>`<div class="${i===day?'today':''}"><small>第 ${i+1} 天</small><strong>₹${esc(d.amount??'—')}</strong><small>${st.claimed.includes(i)?'已领取':day>i?'已作废':day===i?'今日可领':''}</small></div>`).join('')}</div><button class="wp-action" data-action ${day>=0&&st.claimed.includes(day)?'disabled':''}>${day<0?esc(p.button)+' · ₹'+esc(p.price):st.claimed.includes(day)?'今日已领取':'领取今日奖励'}</button>${ids.length>1?`<nav><button data-step="-1" aria-label="上一个方案">‹</button> ${ids.map(i=>i===index?'●':'○').join(' ')} <button data-step="1" aria-label="下一个方案">›</button></nav>`:''}`:'<p>本组方案的参与次数已用完。</p>'}</div><div class="wp-controls"><label>演示场景 <select data-scene><option value="actual">当前分组配置</option><option value="demo" ${demo?'selected':''}>两套方案：限一次 / 不限次数</option></select></label><div>预览日：第 ${clock+1} 天 <button data-next>模拟次日 00:00</button> <button data-reset>重置演示</button></div></div>`;
+ dlg.innerHTML=`<div class="wp-head"><b>前台预览</b><button data-close aria-label="关闭预览">×</button></div><div class="wp-phone"><small>🎁 WEEKLY CARD · 周卡</small><h2>周卡礼金</h2><p>领取今日周卡奖励</p>${p?`<div class="wp-days">${p.days.map((d,i)=>`<div class="${i===day?'today':''}"><small>第 ${i+1} 天</small><strong>₹${esc(d.amount??'—')}</strong><small>${st.claimed.includes(i)?'已领取':day>i?'已作废':day===i?'待领取':''}</small></div>`).join('')}</div><button class="wp-action" data-action ${day>=0&&st.claimed.includes(day)?'disabled':''}>${day<0?'待购买':st.claimed.includes(day)?'已领取':'待领取'}</button>${ids.length>1?`<nav><button data-step="-1" aria-label="上一个方案">‹</button> ${ids.map(i=>i===index?'●':'○').join(' ')} <button data-step="1" aria-label="下一个方案">›</button></nav>`:''}`:'<p>本组方案的参与次数已用完。</p>'}</div><div class="wp-controls"><div>预览日：第 ${clock+1} 天 <button data-next>模拟次日 00:00</button> <button data-reset>重置演示</button></div></div>`;
  dlg.querySelector('[data-close]').onclick=()=>dlg.close();
- dlg.querySelector('[data-scene]').onchange=e=>{demo=e.target.value==='demo';restart();};
  dlg.querySelector('[data-next]').onclick=()=>{clock++;state.forEach(s=>{if(s.start!==null&&clock-s.start>=7)s.start=null;});paint();};
  dlg.querySelector('[data-reset]').onclick=restart;
  dlg.querySelectorAll('[data-step]').forEach(b=>b.onclick=()=>{index=ids[(ids.indexOf(index)+Number(b.dataset.step)+ids.length)%ids.length];paint();});
